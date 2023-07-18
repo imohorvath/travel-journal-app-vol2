@@ -3,6 +3,7 @@ package com.codecool.trv.dao;
 import com.codecool.trv.dto.note.Note;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 public class NoteDao {
@@ -13,10 +14,14 @@ public class NoteDao {
         this.notes = new ArrayList<>();
     }
 
-    public List<Note> findAllNotesInJournalById(int id) {
-        //return notes.stream().filter(note -> note.getJournal().getId() == id).toList();
-        return notes;
+    public List<Note> findAllNotesByJournalId(int id) {
+        return notes
+                .stream()
+                .filter(note -> note.getJournal().getId() == id)
+                .sorted(Comparator.comparing(Note::getTimestamp))
+                .toList();
     }
+
 
 
 }
