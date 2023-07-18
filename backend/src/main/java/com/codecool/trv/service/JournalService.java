@@ -1,6 +1,7 @@
 package com.codecool.trv.service;
 
 import com.codecool.trv.dao.JournalDao;
+import com.codecool.trv.dao.NoteDao;
 import com.codecool.trv.dao.UserDao;
 import com.codecool.trv.dto.journal.Journal;
 import com.codecool.trv.dto.journal.NewJournal;
@@ -15,10 +16,12 @@ public class JournalService {
 
     private final JournalDao journalDao;
     private final UserDao userDao;
+    private final NoteDao noteDao;
     @Autowired
-    public JournalService(JournalDao journalDao, UserDao userDao) {
+    public JournalService(JournalDao journalDao, UserDao userDao, NoteDao noteDao) {
         this.journalDao = journalDao;
         this.userDao = userDao;
+        this.noteDao = noteDao;
     }
 
     public List<Journal> findAllJournalsByUserId(int userId) {
@@ -36,10 +39,12 @@ public class JournalService {
     }
 
     public List<Journal> deleteAllJournalsByUserId(int id) {
+        // todo: delete notes
         return journalDao.deleteAllJournalsByUserId(id);
     }
 
     public Journal deleteJournalById(int id) {
+        // todo: delete notes
         return journalDao.deleteJournalById(id);
     }
 }
