@@ -24,20 +24,25 @@ public class JournalController {
         return journalService.findAllJournalsByUserId(userId);
     }
 
-//    @GetMapping("/{id}")
-//    public User findUserById(@PathVariable int id) {
-//        return journalService.findUserById(id);
-//    }
-//
+    @GetMapping("/{journalId}")
+    public Journal findJournalById(@PathVariable int journalId) {
+        return journalService.findJournalById(journalId);
+    }
+
     @PostMapping("/")
     public Journal addNewJournal(@RequestBody NewJournal newJournal) {
         return journalService.addNewJournal(newJournal);
     }
-//
-//    @DeleteMapping("/")
-//    public List<User> deleteAllUsers() {
-//        return journalService.deleteAllUsers();
-//    }
-//
+
+    @DeleteMapping("/{userId}/all")
+    public List<Journal> deleteAllJournalsByUserId(int userId) {
+        return journalService.deleteAllJournalsByUserId(userId);
+    }
+
+    @DeleteMapping("/{journalId}")
+    public Journal deleteJournalById(int journalId) {
+        return journalService.deleteJournalById(journalId);
+    }
+
 
 }

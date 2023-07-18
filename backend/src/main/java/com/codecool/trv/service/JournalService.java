@@ -34,4 +34,12 @@ public class JournalService {
         int id = journalDao.addNewJournal(newJournal, user);
         return findJournalById(id);
     }
+
+    public List<Journal> deleteAllJournalsByUserId(int id) {
+        return journalDao.deleteAllJournalsByUserId(id);
+    }
+
+    public Journal deleteJournalById(int id) {
+        return journalDao.deleteJournalById(id);
+    }
 }

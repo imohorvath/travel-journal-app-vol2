@@ -41,4 +41,15 @@ public class JournalDao {
         journals.add(journal);
         return idCounter;
     }
+
+
+    public Journal deleteJournalById(int id) {
+        Journal deleted = findJournalById(id);
+        journals.remove(deleted);
+        return deleted;
+    }
+
+    public List<Journal> deleteAllJournalsByUserId(int id) {
+        return null;
+    }
 }
