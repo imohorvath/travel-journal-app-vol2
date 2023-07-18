@@ -7,6 +7,7 @@ import com.codecool.trv.dto.user.User;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 public class NoteDao {
 
@@ -30,5 +31,24 @@ public class NoteDao {
         Note note = new Note(idCounter, text, null, journal, creator);
         notes.add(note);
         return note;
+    }
+
+    public List<Note> deleteAllNotesByJournalId(int journalId) {
+        List<Note> deletedNotes = notes
+                .stream()
+                .filter(note -> note.getJournal().getId() == journalId)
+                .toList();
+        notes.removeAll(deletedNotes);
+        return deletedNotes;
+    }
+
+    public Note deleteNoteByIdFromJournalById(int journalId, int noteId) {
+        Note deletedNote = notes
+                .stream()
+                .filter(note -> note.getJournal().getId() == journalId)
+                .filter(note -> note.getId() == noteId)
+                .findFirst()
+                .orElseThrow(()-> new NoSuchElementException());
+        return deletedNote;
     }
 }
