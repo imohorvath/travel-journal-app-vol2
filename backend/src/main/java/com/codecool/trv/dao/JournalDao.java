@@ -50,6 +50,6 @@ public class JournalDao {
     }
 
     public List<Journal> deleteAllJournalsByUserId(int id) {
-
+        return null;
     }
 }
