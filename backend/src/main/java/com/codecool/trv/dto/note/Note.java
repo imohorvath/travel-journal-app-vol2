@@ -1,7 +1,7 @@
 package com.codecool.trv.dto.note;
 
-import com.codecool.trv.dto.Journal;
 import com.codecool.trv.dto.geoip.GeoIP;
+import com.codecool.trv.dto.journal.Journal;
 import com.codecool.trv.dto.user.User;
 
 import java.time.LocalDateTime;
