@@ -21,8 +21,8 @@ public class NoteService {
         this.userDao = userDao;
     }
 
-    public List<Note> findAllNotesInJournalById(int id) {
-        return noteDao.findAllNotesInJournalById(id);
+    public List<Note> findAllNotesByJournalId(int id) {
+        return noteDao.findAllNotesByJournalId(id);
     }
 
 
