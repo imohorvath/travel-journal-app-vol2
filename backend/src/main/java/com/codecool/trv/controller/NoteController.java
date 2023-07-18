@@ -20,8 +20,8 @@ public class NoteController {
     }
 
     @GetMapping("/{journalId}/all")
-    public List<Note> findAllNotesInJournalById(@PathVariable int journalId) {
-        return noteService.findAllNotesInJournalById(journalId);
+    public List<Note> findAllNotesByJournalId(@PathVariable int journalId) {
+        return noteService.findAllNotesByJournalId(journalId);
     }
 
     @PostMapping("/")
