@@ -33,4 +33,12 @@ public class NoteService {
         Journal journal = journalDao.findJournalById(newNote.getJournalId());
         return noteDao.addNewNoteToJournal(newNote.getText(), journal, creator);
     }
+
+    public List<Note> deleteAllNotesByJournalId(int journalId) {
+        return noteDao.deleteAllNotesByJournalId(journalId);
+    }
+
+    public Note deleteNoteByIdFromJournalById(int journalId, int noteId) {
+        return noteDao.deleteNoteByIdFromJournalById(journalId, noteId);
+    }
 }
