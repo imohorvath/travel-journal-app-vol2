@@ -1,8 +1,7 @@
 package com.codecool.trv.controller;
 
-import com.codecool.trv.dto.Journal;
-import com.codecool.trv.dto.user.NewUser;
-import com.codecool.trv.dto.user.User;
+import com.codecool.trv.dto.journal.Journal;
+import com.codecool.trv.dto.journal.NewJournal;
 import com.codecool.trv.service.JournalService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -20,9 +19,9 @@ public class JournalController {
         this.journalService = journalService;
     }
 
-    @GetMapping("/all")
-    public List<Journal> findAllJournals() {
-        return journalService.findAllJournals();
+    @GetMapping("/{userId}/all")
+    public List<Journal> findAllJournals(@PathVariable int userId) {
+        return journalService.findAllJournalsByUserId(userId);
     }
 
 //    @GetMapping("/{id}")
@@ -30,10 +29,10 @@ public class JournalController {
 //        return journalService.findUserById(id);
 //    }
 //
-//    @PostMapping("/")
-//    public User addNewUser(@RequestBody NewUser newUser) {
-//        return journalService.addNewUser(newUser);
-//    }
+    @PostMapping("/")
+    public Journal addNewJournal(@RequestBody NewJournal newJournal) {
+        return journalService.addNewJournal(newJournal);
+    }
 //
 //    @DeleteMapping("/")
 //    public List<User> deleteAllUsers() {
