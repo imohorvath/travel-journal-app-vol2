@@ -29,14 +29,14 @@ public class NoteController {
         return noteService.addNewNoteToJournal(newNote);
     }
 
-    @PutMapping("/")
-    public Note updateNoteById() {
-        return null;
+    @DeleteMapping("/{journalId}/all")
+    public List<Note> deleteAllNotesByJournalId(@PathVariable int journalId) {
+        return noteService.deleteAllNotesByJournalId(journalId);
     }
 
-    @DeleteMapping("")
-    public Note deleteNoteById() {
-        return null;
+    @DeleteMapping("/{journalId}/{noteId}")
+    public Note deleteNoteByIdFromJournalById(@PathVariable int journalId, @PathVariable int noteId) {
+        return noteService.deleteNoteByIdFromJournalById(journalId, noteId);
     }
 
 }
