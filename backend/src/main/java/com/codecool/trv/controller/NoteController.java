@@ -26,7 +26,7 @@ public class NoteController {
 
     @PostMapping("/")
     public Note addNewNoteToJournal(@RequestBody NewNote newNote) {
-        return noteService.addNewNoteToJournal();
+        return noteService.addNewNoteToJournal(newNote);
     }
 
     @PutMapping("/")
