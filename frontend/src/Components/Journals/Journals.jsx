@@ -1,6 +1,17 @@
 import "./Journals.css";
 import {useEffect, useState} from "react";
-import {Button, Card, CardActions, CardContent, CardMedia, Container, Grid, Typography} from "@mui/material";
+import {
+    Box,
+    Button,
+    Card,
+    CardActions,
+    CardContent,
+    CardMedia,
+    Container,
+    Grid,
+    Stack,
+    Typography
+} from "@mui/material";
 
 const Journals = () => {
     const [journalList, setJournalList] = useState([]);
@@ -25,13 +36,32 @@ const Journals = () => {
 
     return (
         <>
-            <div>
-                <h1>Hello Journal!</h1>
-            </div>
+            <Box
+                sx={{
+                    bgcolor: 'background.paper',
+                    pt: 8,
+                    pb: 6,
+                }}
+            >
+                <Container maxWidth="sm">
+                    <Typography
+                        component="h1"
+                        variant="h2"
+                        align="center"
+                        color="text.primary"
+                        gutterBottom
+                    >
+                        Your Journals
+                    </Typography>
+                    <Typography variant="h5" align="center" color="text.secondary" paragraph>
+                        Capture the essence of your travel experiences with our journals. Revisit cherished memories, add vibrant photos, and share your adventures with friends, all in one convenient space.
+                    </Typography>
+                </Container>
+            </Box>
             <Container sx={{py: 8}} maxWidth="md">
                 <Grid container spacing={4}>
-                    {journalList.map((card) => (
-                        <Grid item key={card} xs={12} sm={6} md={4}>
+                    {journalList.map((journal) => (
+                        <Grid item key={journal.id} xs={12} sm={6} md={4}>
                             <Card
                                 sx={{height: '100%', display: 'flex', flexDirection: 'column'}}
                             >
@@ -45,10 +75,10 @@ const Journals = () => {
                                 />
                                 <CardContent sx={{flexGrow: 1}}>
                                     <Typography gutterBottom variant="h5" component="h2">
-                                        Heading
+                                        {journal.title}
                                     </Typography>
                                     {/*<Typography>*/}
-                                    {/*    This is a media card. You can use this section to describe the*/}
+                                    {/*    This is a media journal. You can use this section to describe the*/}
                                     {/*    content.*/}
                                     {/*</Typography>*/}
                                 </CardContent>
