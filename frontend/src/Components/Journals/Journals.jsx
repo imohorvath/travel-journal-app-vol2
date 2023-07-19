@@ -56,6 +56,15 @@ const Journals = () => {
                     <Typography variant="h5" align="center" color="text.secondary" paragraph>
                         Capture the essence of your travel experiences with our journals. Revisit cherished memories, add vibrant photos, and share your adventures with friends, all in one convenient space.
                     </Typography>
+                    <Stack
+                        sx={{ pt: 4 }}
+                        direction="row"
+                        spacing={2}
+                        justifyContent="center"
+                    >
+                        <Button variant="contained">Create new Journal</Button>
+                        {/*TODO after clicking the component for adding new will pop*/}
+                    </Stack>
                 </Container>
             </Box>
             <Container sx={{py: 8}} maxWidth="md">
@@ -71,7 +80,7 @@ const Journals = () => {
                                         // 16:9
                                         pt: '56.25%',
                                     }}
-                                    image="https://source.unsplash.com/random?wallpapers"
+                                    image="https://images.pexels.com/photos/669986/pexels-photo-669986.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
                                 />
                                 <CardContent sx={{flexGrow: 1}}>
                                     <Typography gutterBottom variant="h5" component="h2">
