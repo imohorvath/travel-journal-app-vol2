@@ -77,14 +77,12 @@ const Journals = () => {
                                     <Typography gutterBottom variant="h5" component="h2">
                                         {journal.title}
                                     </Typography>
-                                    {/*<Typography>*/}
-                                    {/*    This is a media journal. You can use this section to describe the*/}
-                                    {/*    content.*/}
-                                    {/*</Typography>*/}
+                                    <Typography>
+                                        {journal.created.split('T')[0]}
+                                    </Typography>
                                 </CardContent>
                                 <CardActions>
-                                    <Button size="small">View</Button>
-                                    <Button size="small">Edit</Button>
+                                    <Button size="small">Open journal</Button>
                                 </CardActions>
                             </Card>
                         </Grid>
