@@ -14,7 +14,7 @@ const LandingPage = () => {
                         component="video"
                         image={"../../video/banner_vid.mp4"}
                         muted
-                        /*autoPlay*/
+                        autoPlay
                         loop
                     />
                 </CardActionArea>
