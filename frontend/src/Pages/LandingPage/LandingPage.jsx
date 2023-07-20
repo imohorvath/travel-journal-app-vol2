@@ -32,7 +32,7 @@ const LandingPage = () => {
             </Card>
             <Container>
                 <Paper
-                    elevation="0"
+                    elevation={0}
                     sx={{
                         mx: {xs: 0.5, sm: 5},
                         my: {xs: 3, sm: 5},
@@ -66,7 +66,7 @@ const LandingPage = () => {
                     </Typography>
                 </Paper>
                 <Paper
-                    elevation="2"
+                    elevation={2}
                     sx={{
                         mx: {xs: 0.5, sm: 5},
                         my: {xs: 3, sm: 5},
