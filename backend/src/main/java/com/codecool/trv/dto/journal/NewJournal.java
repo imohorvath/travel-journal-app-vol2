@@ -15,7 +15,7 @@ public class NewJournal {
     }
 
     // if we want to make a new journal with contributors already in it,
-    // we should add another constructor with Set of users
+    // we should add another constructor with Set of users as a parameter
 
     public String getTitle() {
         return title;
