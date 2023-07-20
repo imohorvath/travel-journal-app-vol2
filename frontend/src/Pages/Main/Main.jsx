@@ -1,11 +1,11 @@
 import "./Main.css";
-import Journals from "../../Components/JournalAlbum";
+import JournalAlbum from "../../Components/JournalAlbum";
 
 const Main = () => {
 
     return (
         <>
-            <Journals />
+            <JournalAlbum />
         </>
     );
 

@@ -12,10 +12,13 @@ import {
     Stack,
     Typography
 } from "@mui/material";
+import {useNavigate} from "react-router-dom";
 
 const JournalAlbum = () => {
     const [journalList, setJournalList] = useState([]);
     const [loading, setLoading] = useState(true);
+
+    const navigate = useNavigate();
 
     useEffect(() => {
         fetch("/api/journal/1/all")
@@ -29,6 +32,10 @@ const JournalAlbum = () => {
                 console.log(`An error occurred at fetching from /api/journal:${error}`)
             );
     }, [])
+
+    const handleRedirection = (id) => {
+        navigate(`/${id}`);
+    }
 
     // if (loading) {
     //     return <Loading />;
@@ -91,7 +98,7 @@ const JournalAlbum = () => {
                                     </Typography>
                                 </CardContent>
                                 <CardActions>
-                                    <Button size="small">Open journal</Button>
+                                    <Button size="small" onClick={() => handleRedirection(journal.id)}>Open journal</Button>
                                 </CardActions>
                             </Card>
                         </Grid>

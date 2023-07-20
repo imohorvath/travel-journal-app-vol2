@@ -1,3 +1,3 @@
-import Journals from "./JournalAlbum";
+import JournalAlbum from "./JournalAlbum";
 
-export default Journals;
+export default JournalAlbum;
