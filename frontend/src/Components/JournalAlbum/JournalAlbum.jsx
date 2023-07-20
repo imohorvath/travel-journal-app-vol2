@@ -1,4 +1,4 @@
-import "./Journals.css";
+import "./JournalAlbum.css";
 import {useEffect, useState} from "react";
 import {
     Box,
@@ -13,7 +13,7 @@ import {
     Typography
 } from "@mui/material";
 
-const Journals = () => {
+const JournalAlbum = () => {
     const [journalList, setJournalList] = useState([]);
     const [loading, setLoading] = useState(true);
 
@@ -45,8 +45,8 @@ const Journals = () => {
             >
                 <Container maxWidth="sm">
                     <Typography
-                        component="h1"
-                        variant="h2"
+                        component="h3"
+                        variant="h3"
                         align="center"
                         color="text.primary"
                         gutterBottom
@@ -103,4 +103,4 @@ const Journals = () => {
 
 }
 
-export default Journals;
+export default JournalAlbum;

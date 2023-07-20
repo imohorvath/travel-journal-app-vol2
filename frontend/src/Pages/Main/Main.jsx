@@ -1,5 +1,5 @@
 import "./Main.css";
-import Journals from "../../Components/Journals";
+import Journals from "../../Components/JournalAlbum";
 
 const Main = () => {
 
