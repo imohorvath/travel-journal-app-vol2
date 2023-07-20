@@ -9,9 +9,7 @@ import org.springframework.context.annotation.AnnotationConfigApplicationContext
 public class TravelJournalApplication {
     public static void main(String[] args) {
 
-        AnnotationConfigApplicationContext ctx = new AnnotationConfigApplicationContext(ApplicationConfig.class);
         SpringApplication.run(TravelJournalApplication.class, args);
-
 
     }
 
