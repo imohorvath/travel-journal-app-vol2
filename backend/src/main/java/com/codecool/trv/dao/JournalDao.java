@@ -13,8 +13,6 @@ public class JournalDao {
 
     private final List<Journal> journals;
 
-    private static int idCounter = 0;
-
     public JournalDao() {
         this.journals = new ArrayList<>();
     }
@@ -31,15 +29,16 @@ public class JournalDao {
                 .orElseThrow(() -> new NoSuchElementException("No journal found."));
     }
 
-    public int addNewJournal(NewJournal newJournal, User user) {
-        idCounter++;
+    public Journal addNewJournal(NewJournal newJournal, User user) {
+        int numberOfJournals = findAllJournalsByUserId(user.getId()).size();
+        numberOfJournals++;
         Journal journal = new Journal(
-                idCounter,
+                numberOfJournals,
                 newJournal.getTitle(),
                 user
         );
         journals.add(journal);
-        return idCounter;
+        return journal;
     }
 
     public Journal deleteJournalById(int id) {
