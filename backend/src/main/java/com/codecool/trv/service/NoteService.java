@@ -7,6 +7,7 @@ import com.codecool.trv.dto.journal.Journal;
 import com.codecool.trv.dto.note.NewNote;
 import com.codecool.trv.dto.note.Note;
 import com.codecool.trv.dto.user.User;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -18,6 +19,7 @@ public class NoteService {
     private final JournalDao journalDao;
     private final UserDao userDao;
 
+    @Autowired
     public NoteService(NoteDao noteDao, JournalDao journalDao, UserDao userDao) {
         this.noteDao = noteDao;
         this.journalDao = journalDao;
