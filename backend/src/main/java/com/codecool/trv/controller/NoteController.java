@@ -4,9 +4,11 @@ import com.codecool.trv.dto.note.NewNote;
 import com.codecool.trv.dto.note.Note;
 import com.codecool.trv.service.NoteService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 
 @RestController
 @RequestMapping("api/note")
@@ -37,6 +39,11 @@ public class NoteController {
     @DeleteMapping("/{journalId}/{noteId}")
     public Note deleteNoteByIdFromJournalById(@PathVariable int journalId, @PathVariable int noteId) {
         return noteService.deleteNoteByIdFromJournalById(journalId, noteId);
+    }
+
+    @ExceptionHandler(NoSuchElementException.class)
+    public ResponseEntity<String> handleElementNotFound(NoSuchElementException exception) {
+        return ResponseEntity.notFound().build();
     }
 
 }
