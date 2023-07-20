@@ -17,6 +17,7 @@ public class JournalService {
     private final JournalDao journalDao;
     private final UserDao userDao;
     private final NoteDao noteDao;
+
     @Autowired
     public JournalService(JournalDao journalDao, UserDao userDao, NoteDao noteDao) {
         this.journalDao = journalDao;
@@ -34,17 +35,25 @@ public class JournalService {
 
     public Journal addNewJournal(NewJournal newJournal) {
         User user = userDao.findUserById(newJournal.getOwnerId());
-        int id = journalDao.addNewJournal(newJournal, user);
-        return findJournalById(id);
+        return journalDao.addNewJournal(newJournal, user);
     }
 
     public List<Journal> deleteAllJournalsByUserId(int id) {
-        // todo: delete notes
+        List<Journal> journals = findAllJournalsByUserId(id);
+        for (Journal journal : journals) {
+            deleteAllNotesByJournalId(journal.getId());
+        }
         return journalDao.deleteAllJournalsByUserId(id);
     }
 
     public Journal deleteJournalById(int id) {
-        // todo: delete notes
+        deleteAllNotesByJournalId(id);
         return journalDao.deleteJournalById(id);
     }
+
+    private void deleteAllNotesByJournalId(int id) {
+        Journal journal = journalDao.findJournalById(id);
+        noteDao.deleteAllNotesByJournalId(journal.getId());
+    }
+
 }

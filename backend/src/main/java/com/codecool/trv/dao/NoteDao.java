@@ -12,7 +12,6 @@ import java.util.NoSuchElementException;
 public class NoteDao {
 
     private final List<Note> notes;
-    private static int idCounter = 0;
 
     public NoteDao() {
         this.notes = new ArrayList<>();
@@ -22,13 +21,14 @@ public class NoteDao {
         return notes
                 .stream()
                 .filter(note -> note.getJournal().getId() == id)
-                .sorted(Comparator.comparing(Note::getTimestamp))
+                .sorted(Comparator.comparing(Note::getTimestamp).reversed())
                 .toList();
     }
 
     public Note addNewNoteToJournal(String text, Journal journal, User creator) {
-        idCounter++;
-        Note note = new Note(idCounter, text, null, journal, creator);
+        int numberOfNotes = findAllNotesByJournalId(journal.getId()).size();
+        numberOfNotes++;
+        Note note = new Note(numberOfNotes, text, null, journal, creator);
         notes.add(note);
         return note;
     }

@@ -22,7 +22,6 @@ public class UserService {
         return userDao.findAllUsers();
     }
 
-
     public User findUserById(int userId) {
         return userDao.findUserById(userId);
     }
