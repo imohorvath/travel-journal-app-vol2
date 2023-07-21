@@ -13,6 +13,7 @@ import {IconButton, Menu, MenuItem, Tooltip} from "@mui/material";
 const Header = () => {
 
     const [auth, setAuth] = useState(false);
+    const [showSignIn, setShowSignIn] = useState(true);
     const [anchorEl, setAnchorEl] = useState(null);
     const open = Boolean(anchorEl);
 
@@ -36,6 +37,7 @@ const Header = () => {
             case "Logout" : {
                 navigate(`/`);
                 setAuth(false);
+                setShowSignIn(true);
                 break;
             }
         }
@@ -43,6 +45,7 @@ const Header = () => {
     };
 
     const handleRedirection = () => {
+        setShowSignIn(false);
         navigate(`/login`);
     }
 
@@ -69,7 +72,7 @@ const Header = () => {
                     }} >
                         Travel Journal
                     </Typography>
-                    {!auth && <Button href="#" variant="contained" sx={{my: 1, mx: 1.5}} onClick={handleRedirection}>
+                    {(!auth && showSignIn) && <Button href="#" variant="contained" sx={{my: 1, mx: 1.5}} onClick={handleRedirection}>
                         Sign in
                     </Button>}
                     {auth && <Box sx={{flexGrow: 0}}>
