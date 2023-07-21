@@ -5,11 +5,9 @@ import {
   Card,
   CardActions,
   CardContent,
-  CardMedia,
   Container,
   Grid,
   Button,
-  Stack,
   Typography,
 } from "@mui/material";
 
@@ -40,10 +38,15 @@ const NoteList = () => {
       <Container sx={{ py: 8 }} maxWidth="md">
         <Grid container spacing={2}>
           {noteList.map((note) => (
-            <Grid item xs={12} sm={6} md={4} key={note.id}>
+            <Grid item xs={12} key={note.id}>
               <Card>
                 <CardContent>
-                  <Typography variant="h6" gutterBottom>
+                  <Typography gutterBottom
+                              sx={{
+                                fontSize: 18,
+                                fontFamily: 'Handlee'
+                              }}
+                  >
                     {note.text}
                   </Typography>
                   <Typography variant="body2" color="textSecondary">
