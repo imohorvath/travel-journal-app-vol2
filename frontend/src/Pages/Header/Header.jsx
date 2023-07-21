@@ -12,7 +12,8 @@ import {IconButton, Menu, MenuItem, Tooltip} from "@mui/material";
 
 const Header = () => {
 
-    const [auth, setAuth] = useState(true);
+    const [auth, setAuth] = useState(false);
+    const [showSignIn, setShowSignIn] = useState(true);
     const [anchorEl, setAnchorEl] = useState(null);
     const open = Boolean(anchorEl);
 
@@ -36,11 +37,21 @@ const Header = () => {
             case "Logout" : {
                 navigate(`/`);
                 setAuth(false);
+                setShowSignIn(true);
                 break;
             }
         }
         setAnchorEl(null);
     };
+
+    const handleRedirection = () => {
+        setShowSignIn(false);
+        navigate(`/login`);
+    }
+
+    const handleLogin = () => {
+        setAuth(true);
+    }
 
     return (
         <>
@@ -48,16 +59,21 @@ const Header = () => {
                 position="static"
                 elevation={0}
                 sx={{
-                    borderBottom: 1,
-                    bgcolor: "#d6a27c"
+                    bgcolor: 'custom.main'
                 }}
             >
                 <Toolbar sx={{flexWrap: 'wrap'}}>
-                    <Typography variant="h5" color="inherit" noWrap sx={{flexGrow: 1}}>
+                    <Typography variant="h4"
+                                color="custom.contrastText"
+                                noWrap
+                                sx={{
+                                    flexGrow: 1,
+                                    fontFamily: 'Satisfy'
+                    }} >
                         Travel Journal
                     </Typography>
-                    {!auth && <Button href="#" variant="outlined" sx={{my: 1, mx: 1.5}}>
-                        Login
+                    {(!auth && showSignIn) && <Button href="#" variant="contained" sx={{my: 1, mx: 1.5}} onClick={handleRedirection}>
+                        Sign in
                     </Button>}
                     {auth && <Box sx={{flexGrow: 0}}>
                         <Tooltip title="Open settings">
@@ -93,7 +109,7 @@ const Header = () => {
                     </Box>}
                 </Toolbar>
             </AppBar>
-            <Outlet/>
+            <Outlet context={handleLogin}/>
         </>
     );
 

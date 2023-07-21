@@ -59,7 +59,7 @@ const theme2 = createTheme({
         },
         custom: {
             light: '#d6a27c', // Light warm pastel brown
-            main: '#b87451', // Main warm pastel brown
+            main: '#988c89', // Main warm pastel brown
             dark: '#865c3a', // Dark warm pastel brown
             contrastText: '#ffffff', // White or off-white for text contrast
         },
