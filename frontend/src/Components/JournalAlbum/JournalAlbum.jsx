@@ -61,10 +61,11 @@ const JournalAlbum = () => {
                         Your Journals
                     </Typography>
                     <Typography variant="h5" align="center" color="text.secondary" paragraph>
-                        Capture the essence of your travel experiences with our journals. Revisit cherished memories, add vibrant photos, and share your adventures with friends, all in one convenient space.
+                        Capture the essence of your travel experiences with our journals. Revisit cherished memories,
+                        add vibrant photos, and share your adventures with friends, all in one convenient space.
                     </Typography>
                     <Stack
-                        sx={{ pt: 4 }}
+                        sx={{pt: 4}}
                         direction="row"
                         spacing={2}
                         justifyContent="center"
@@ -90,7 +91,9 @@ const JournalAlbum = () => {
                                     image="https://images.pexels.com/photos/669986/pexels-photo-669986.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
                                 />
                                 <CardContent sx={{flexGrow: 1}}>
-                                    <Typography gutterBottom variant="h5" component="h2">
+                                    <Typography gutterBottom variant="h5" component="h2" sx={{
+                                        fontFamily: 'Satisfy'
+                                    }}>
                                         {journal.title}
                                     </Typography>
                                     <Typography>
@@ -98,7 +101,8 @@ const JournalAlbum = () => {
                                     </Typography>
                                 </CardContent>
                                 <CardActions>
-                                    <Button size="small" onClick={() => handleRedirection(journal.id)}>Open journal</Button>
+                                    <Button size="small" onClick={() => handleRedirection(journal.id)}>Open
+                                        journal</Button>
                                 </CardActions>
                             </Card>
                         </Grid>
