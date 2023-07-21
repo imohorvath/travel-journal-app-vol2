@@ -19,11 +19,13 @@ const LandingPage = () => {
 
     return (
         <>
-            <Card raised={true}>
+            <Card raised={true}
+                  sx={{borderRadius: '0'}}
+            >
                 <CardActionArea>
                     <CardMedia
                         component="video"
-                        image={"../../video/banner_vid.mp4"}
+                        image={"../../video/banner.mp4"}
                         muted
                         autoPlay
                         loop
@@ -66,28 +68,32 @@ const LandingPage = () => {
                     </Typography>
                 </Paper>
                 <Paper
-                    elevation={2}
+                    elevation={0}
                     sx={{
                         mx: {xs: 0.5, sm: 5},
                         my: {xs: 3, sm: 5},
                         display: 'flex',
-                        flexDirection: 'column'
-                        /*typography: {
-                            fontSize: {xs: 10, sm: 10}
-                        }*/
+                        flexDirection: 'column',
+                        justifyContent: "center",
+                        alignItems: "center",
                     }}
                 >
                     <Typography
-                        variant="h5"
+                        variant="h4"
                         textAlign="center"
                         sx={{
                             px: {xs: 1, sm: 3},
-                            py: {xs: 2, sm: 3}
+                            py: {xs: 2, sm: 3},
+                            fontFamily: 'Satisfy'
                         }}
                     >
                         Are you ready for your next adventure?
                     </Typography>
                     <Button
+                        variant="contained"
+                        sx={{
+                            width: 150
+                        }}
                         onClick={handleRedirection}
                     >
                         <Typography>
