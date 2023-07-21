@@ -11,14 +11,15 @@ import Box from '@mui/material/Box';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
-import {createTheme, ThemeProvider} from '@mui/material/styles';
 import Copyright from "../../Components/Copyright/Copyright";
+import {useNavigate, useOutletContext} from "react-router-dom";
 
 import "./Login.css";
 
-const defaultTheme = createTheme();
-
 const Login = () => {
+
+    const onLogin = useOutletContext();
+    const navigate = useNavigate();
 
     const handleSubmit = (event) => {
         event.preventDefault();
@@ -27,6 +28,8 @@ const Login = () => {
             email: data.get('email'),
             password: data.get('password'),
         });
+        onLogin();
+        navigate('/main');
     };
 
     return (
