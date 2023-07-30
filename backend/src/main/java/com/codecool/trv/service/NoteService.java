@@ -2,7 +2,6 @@ package com.codecool.trv.service;
 
 import com.codecool.trv.dao.JournalDao;
 import com.codecool.trv.dao.NoteDao;
-import com.codecool.trv.dao.UserDao;
 import com.codecool.trv.model.Journal;
 import com.codecool.trv.dto.note.NewNote;
 import com.codecool.trv.model.Note;
@@ -17,14 +16,10 @@ import java.util.List;
 public class NoteService {
 
     private final NoteRepository noteRepository;
-    private final JournalService journalService;
-    private final UserService userService;
 
     @Autowired
-    public NoteService(NoteRepository noteRepository, JournalService journalService, UserService userService) {
+    public NoteService(NoteRepository noteRepository) {
         this.noteRepository = noteRepository;
-        this.journalService = journalService;
-        this.userService = userService;
     }
 
     public List<Note> findAllNotesByJournalId(int id) {
