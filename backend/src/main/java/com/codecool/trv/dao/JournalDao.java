@@ -1,16 +1,16 @@
 package com.codecool.trv.dao;
 
 
-import com.codecool.trv.dto.journal.Journal;
+import com.codecool.trv.model.Journal;
 import com.codecool.trv.dto.journal.NewJournal;
-import com.codecool.trv.dto.user.User;
+import com.codecool.trv.model.User;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 
 public class JournalDao {
-
+/*
     private final List<Journal> journals;
 
     public JournalDao() {
@@ -51,5 +51,5 @@ public class JournalDao {
         List<Journal> deletedJournals = findAllJournalsByUserId(id);
         journals.removeAll(deletedJournals);
         return deletedJournals;
-    }
+    }*/
 }

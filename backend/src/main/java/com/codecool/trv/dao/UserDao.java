@@ -1,14 +1,14 @@
 package com.codecool.trv.dao;
 
 import com.codecool.trv.dto.user.NewUser;
-import com.codecool.trv.dto.user.User;
+import com.codecool.trv.model.User;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 
 public class UserDao {
-
+/*
     private final List<User> users;
 
     private static int idCounter = 0;
@@ -42,6 +42,6 @@ public class UserDao {
     public List<User> deleteAllUsers() {
         users.clear();
         return users;
-    }
+    }*/
 
 }
