@@ -1,9 +1,5 @@
 package com.codecool.trv.dto.journal;
 
-import com.codecool.trv.dto.user.User;
-
-import java.time.LocalDateTime;
-
 public class NewJournal {
 
     private final String title;

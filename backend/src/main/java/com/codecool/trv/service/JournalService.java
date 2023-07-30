@@ -1,11 +1,7 @@
 package com.codecool.trv.service;
 
-import com.codecool.trv.dao.JournalDao;
-import com.codecool.trv.dao.NoteDao;
-import com.codecool.trv.dao.UserDao;
 import com.codecool.trv.model.Journal;
 import com.codecool.trv.dto.journal.NewJournal;
-import com.codecool.trv.model.User;
 import com.codecool.trv.repository.JournalRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
