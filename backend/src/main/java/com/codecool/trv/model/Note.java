@@ -32,7 +32,7 @@ public class Note {
     private User createdBy;
 
     @OneToOne
-    @Column(name="geoip_id")
+    @Column(name="geo_ip_id")
     private GeoIP geoIP;
 
     @ManyToOne
