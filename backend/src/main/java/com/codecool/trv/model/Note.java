@@ -1,8 +1,5 @@
 package com.codecool.trv.model;
 
-import com.codecool.trv.dto.geoip.GeoIP;
-import com.codecool.trv.dto.journal.Journal;
-import com.codecool.trv.model.User;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
@@ -38,7 +35,7 @@ public class Note {
     @Column(name="geoip_id")
     private GeoIP geoIP;
 
-    ManyToOne
+    @ManyToOne
     @JoinColumn(name="journal_id", referencedColumnName = "id")
     private Journal journal;
 
