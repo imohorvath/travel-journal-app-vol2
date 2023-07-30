@@ -3,6 +3,9 @@ package com.codecool.trv.model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDateTime;
 
@@ -13,6 +16,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @Entity
 @Table(name="notes")
+@EntityListeners(AuditingEntityListener.class)
 public class Note {
 
     @JsonIgnore
@@ -25,10 +29,12 @@ public class Note {
     private String text;
 
     @Column(name="created_at")
+    @CreatedDate
     private LocalDateTime createdAt;
 
     @ManyToOne
     @JoinColumn(name="created_by_user_id", referencedColumnName = "id")
+    //@CreatedBy --- first check how it works
     private User createdBy;
 
     @OneToOne
@@ -39,11 +45,13 @@ public class Note {
     @JoinColumn(name="journal_id", referencedColumnName = "id")
     private Journal journal;
 
-    @Column(name="modified_at")
-    private LocalDateTime modifiedAt;
+    @Column(name="updated_at")
+    @LastModifiedDate
+    private LocalDateTime updatedAt;
 
     @ManyToOne
-    @JoinColumn(name="modified_by_user_id", referencedColumnName = "id")
-    private User modifiedBy;
+    @JoinColumn(name="updated_by_user_id", referencedColumnName = "id")
+    //@LastModifiedBy --- first check how it works
+    private User updatedBy;
 
 }
