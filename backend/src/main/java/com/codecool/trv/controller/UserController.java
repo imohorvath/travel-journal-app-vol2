@@ -32,9 +32,8 @@ public class UserController {
         return userService.findUserById(id);
     }
 
-
     @PostMapping("/")
-    public User addNewUser(@RequestBody NewUserRequest newUserRequest) {
+    public UserResponse addNewUser(@RequestBody NewUserRequest newUserRequest) {
         return userService.addNewUser(newUserRequest);
     }
 
