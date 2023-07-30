@@ -19,6 +19,6 @@ public class GlobalExceptionHandler {
     public ResponseEntity<?> handleElementNotFound(ResourceNotFoundException exception) {
         //ErrorDetails errorDetails = new ErrorDetails(new Date(), ex.getMessage());
         //return new ResponseEntity<>(errorDetails, HttpStatus.NOT_FOUND);
-        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>(exception.getMessage(), HttpStatus.NOT_FOUND);
     }
 }
