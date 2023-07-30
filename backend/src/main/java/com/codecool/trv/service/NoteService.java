@@ -3,10 +3,11 @@ package com.codecool.trv.service;
 import com.codecool.trv.dao.JournalDao;
 import com.codecool.trv.dao.NoteDao;
 import com.codecool.trv.dao.UserDao;
-import com.codecool.trv.dto.journal.Journal;
+import com.codecool.trv.model.Journal;
 import com.codecool.trv.dto.note.NewNote;
-import com.codecool.trv.dto.note.Note;
-import com.codecool.trv.dto.user.User;
+import com.codecool.trv.model.Note;
+import com.codecool.trv.model.User;
+import com.codecool.trv.repository.NoteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,32 +16,40 @@ import java.util.List;
 @Service
 public class NoteService {
 
-    private final NoteDao noteDao;
-    private final JournalDao journalDao;
-    private final UserDao userDao;
+    private final NoteRepository noteRepository;
+    private final JournalService journalService;
+    private final UserService userService;
 
     @Autowired
-    public NoteService(NoteDao noteDao, JournalDao journalDao, UserDao userDao) {
-        this.noteDao = noteDao;
-        this.journalDao = journalDao;
-        this.userDao = userDao;
+    public NoteService(NoteRepository noteRepository, JournalService journalService, UserService userService) {
+        this.noteRepository = noteRepository;
+        this.journalService = journalService;
+        this.userService = userService;
     }
 
     public List<Note> findAllNotesByJournalId(int id) {
-        return noteDao.findAllNotesByJournalId(id);
+        //TODO
+        return null;
+        //return noteDao.findAllNotesByJournalId(id);
     }
 
     public Note addNewNoteToJournal(NewNote newNote) {
-        User creator = userDao.findUserById(newNote.getUserId());
+        //TODO
+        return null;
+        /*User creator = userDao.findUserById(newNote.getUserId());
         Journal journal = journalDao.findJournalById(newNote.getJournalId());
-        return noteDao.addNewNoteToJournal(newNote.getText(), journal, creator);
+        return noteDao.addNewNoteToJournal(newNote.getText(), journal, creator);*/
     }
 
     public List<Note> deleteAllNotesByJournalId(int journalId) {
-        return noteDao.deleteAllNotesByJournalId(journalId);
+        //TODO
+        return null;
+        //return noteDao.deleteAllNotesByJournalId(journalId);
     }
 
     public Note deleteNoteByIdFromJournalById(int journalId, int noteId) {
-        return noteDao.deleteNoteByIdFromJournalById(journalId, noteId);
+        //TODO
+        return null;
+        //return noteDao.deleteNoteByIdFromJournalById(journalId, noteId);
     }
 }
