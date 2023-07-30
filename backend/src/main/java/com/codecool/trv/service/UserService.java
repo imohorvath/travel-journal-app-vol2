@@ -30,11 +30,19 @@ public class UserService {
         return new UserResponse(user.getId(), user.getUsername());
     }
 
-    public User addNewUser(NewUserRequest newUserRequest) {
-        //TODO
-        return null;
-        /*int id = userDao.addNewUser(newUser);
-        return findUserById(id);*/
+    public UserResponse addNewUser(NewUserRequest newUserRequest) {
+        //TODO validation!!! - unique username, unique email
+        User userToSave = User
+                .builder()
+                .username(newUserRequest.username())
+                .firstName(newUserRequest.firstName())
+                .lastName(newUserRequest.lastName())
+                .email(newUserRequest.email())
+                .password(newUserRequest.password())
+                .build();
+
+        User user = userRepository.save(userToSave);
+        return new UserResponse(user.getId(), user.getUsername());
     }
 
     public List<User> deleteAllUsers() {
