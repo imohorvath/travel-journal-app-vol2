@@ -1,7 +1,8 @@
 package com.codecool.trv.service;
 
-import com.codecool.trv.dao.UserDao;
-import com.codecool.trv.dto.user.NewUser;
+import com.codecool.trv.dto.user.NewUserRequest;
+import com.codecool.trv.dto.user.UserResponse;
+import com.codecool.trv.exception.ResourceNotFoundException;
 import com.codecool.trv.model.User;
 import com.codecool.trv.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,19 +20,17 @@ public class UserService {
         this.userRepository = userRepository;
     }
 
-    public List<User> findAllUsers() {
-        //TODO
-        return null;
-        //return userDao.findAllUsers();
+    public List<UserResponse> findAllUsers() {
+        List<User> users = userRepository.findAll();
+        return users.stream().map(user -> new UserResponse(user.getId(), user.getUsername())).toList();
     }
 
-    public User findUserById(int userId) {
-        //TODO
-        return null;
-        //return userDao.findUserById(userId);
+    public UserResponse findUserById(Long userId) {
+        User user = userRepository.findById(userId).orElseThrow(()->new ResourceNotFoundException("User not found with id: " + userId));
+        return new UserResponse(user.getId(), user.getUsername());
     }
 
-    public User addNewUser(NewUser newUser) {
+    public User addNewUser(NewUserRequest newUserRequest) {
         //TODO
         return null;
         /*int id = userDao.addNewUser(newUser);
