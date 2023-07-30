@@ -9,7 +9,7 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class ApplicationConfig {
 
-    @Bean
+    /*@Bean
     public UserDao getUserDao() {
         return new UserDao();
     }
@@ -22,6 +22,6 @@ public class ApplicationConfig {
     @Bean
     public NoteDao getNoteDao() {
         return new NoteDao();
-    }
+    }*/
 
 }
