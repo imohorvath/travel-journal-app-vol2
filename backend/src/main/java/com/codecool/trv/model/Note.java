@@ -38,7 +38,7 @@ public class Note {
     private User createdBy;
 
     @OneToOne
-    @Column(name="geo_ip_id")
+    @JoinColumn(name = "geo_ip_id", referencedColumnName = "id")
     private GeoIP geoIP;
 
     @ManyToOne
