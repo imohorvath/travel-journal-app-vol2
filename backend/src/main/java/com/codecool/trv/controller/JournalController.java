@@ -1,6 +1,6 @@
 package com.codecool.trv.controller;
 
-import com.codecool.trv.dto.journal.Journal;
+import com.codecool.trv.model.Journal;
 import com.codecool.trv.dto.journal.NewJournal;
 import com.codecool.trv.service.JournalService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("api/journal")
+@RequestMapping("api/v1/journals")
 public class JournalController {
 
     private final JournalService journalService;
