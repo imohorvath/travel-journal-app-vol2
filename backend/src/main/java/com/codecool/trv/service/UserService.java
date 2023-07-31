@@ -72,11 +72,17 @@ public class UserService {
         userRepository.save(userToUpdate);
         return new UserResponse(userToUpdate.getId(), userToUpdate.getUsername());
     }
+    public void deleteUserById(Long id) {
+        //TODO maybe not delete the whole entity, just set username to anonymous and set null for all the other fields?
+        //TODO do we want to delete all journals and notes owned by the user also?
+        // - or just the ones of which he is the owner and there are no contributors.
+        // and the notes which where left as contributor will be marked as anonymous...
+        userRepository.deleteById(id);
+    }
 
-    public List<User> deleteAllUsers() {
-        //TODO
-        return null;
-        //return userDao.deleteAllUsers();
+    //FIXME: This is only for testing purposes
+    public void deleteAllUsers() {
+        userRepository.deleteAll();
     }
 
 
