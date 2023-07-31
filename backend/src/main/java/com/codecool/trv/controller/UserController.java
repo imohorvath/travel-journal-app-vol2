@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("api/v1/users")
+@RequestMapping("api/v1")
 public class UserController {
 
     private final UserService userService;
@@ -25,48 +25,48 @@ public class UserController {
     }
 
     //FIXME: This might be unnecessary, or admin privilage --- or return UserResponse instead at least
-    @GetMapping("/")
+    @GetMapping("/users")
     public List<UserResponse> findAllUsers() {
         return userService.findAllUsers();
     }
 
     //FIXME: This might be unnecessary, in userservice is enough to have a findUserById() --- or return UserResponse instead
-    @GetMapping("/{id}")
+    @GetMapping("/users/{id}")
     public UserResponse findUserById(@PathVariable Long id) {
         return userService.findUserById(id);
     }
 
-    @PostMapping("/")
+    @PostMapping("/users")
     public UserResponse addUser(@RequestBody NewUserRequest newUserRequest) {
         return userService.addUser(newUserRequest);
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity updateUserById(@PathVariable Long id, @RequestBody UpdateUserRequest updateUserRequest) {
+    @PutMapping("/users/{id}")
+    public ResponseEntity<?> updateUserById(@PathVariable Long id, @RequestBody UpdateUserRequest updateUserRequest) {
         try {
             UserResponse userResponse = userService.updateUserById(id, updateUserRequest);
-            return new ResponseEntity(userResponse, HttpStatus.CREATED);
+            return new ResponseEntity<>(userResponse, HttpStatus.CREATED);
         } catch(ResourceNotFoundException exception) {
-            return new ResponseEntity(exception.getMessage(), HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(exception.getMessage(), HttpStatus.NOT_FOUND);
         } catch(Exception exception) {
-            return new ResponseEntity(exception.getMessage(), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(exception.getMessage(), HttpStatus.BAD_REQUEST);
         }
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity deleteUserById(@PathVariable Long id) {
+    @DeleteMapping("/users/{id}")
+    public ResponseEntity<?> deleteUserById(@PathVariable Long id) {
         try {
             userService.deleteUserById(id);
-            return new ResponseEntity(HttpStatus.OK);
+            return new ResponseEntity<>(HttpStatus.OK);
         } catch(ResourceNotFoundException exception) {
-            return new ResponseEntity(exception.getMessage(), HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(exception.getMessage(), HttpStatus.NOT_FOUND);
         } catch(Exception exception) {
-            return new ResponseEntity(exception.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>(exception.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
     //FIXME: This is only for testing purposes
-    @DeleteMapping("/")
+    @DeleteMapping("/users")
     public void deleteAllUsers() {
         userService.deleteAllUsers();
     }
