@@ -52,7 +52,14 @@ public class Journal {
     private final Set<Note> notes = new HashSet<>();
 
     public void addContributors(Set<User> contributorsToAdd){
-        contributors.addAll(contributorsToAdd);
+        for (User contributorToAdd : contributorsToAdd) {
+            boolean contributorExists = contributors.stream()
+                    .anyMatch(existingContributor -> existingContributor.getId().equals(contributorToAdd.getId()));
+
+            if (!contributorExists) {
+                contributors.add(contributorToAdd);
+            }
+        }
     };
 
 }
