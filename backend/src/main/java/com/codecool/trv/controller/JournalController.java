@@ -52,9 +52,14 @@ public class JournalController {
         return journalService.getContributorsById(journalId);
     }
 
-    @PutMapping("/journals/{journalId}/contributors/{userId}")
-    public UserResponse addContributorToJournal(@PathVariable Long journalId,Long userId) {
-        return journalService.addContributorToJournal(journalId, userId);
+    @PutMapping("/journals/contributors/{userId}")
+    public List<Journal> findAllJournalsByContributorId(@PathVariable Long userId) {
+        return journalService.findAllJournalsByContributorId(userId);
+    }
+
+    @DeleteMapping("/journals/{journalId}/contributors/{userId}")
+    public UserResponse deleteContributorFromJournal(@PathVariable Long journalId, @PathVariable Long userId) {
+        return journalService.deleteContributorFromJournal(journalId, userId);
     }
 
 }

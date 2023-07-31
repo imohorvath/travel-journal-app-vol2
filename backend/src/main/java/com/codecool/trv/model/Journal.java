@@ -67,4 +67,11 @@ public class Journal {
         contributors.add(contributor);
     }
 
+    public void deleteContributor(User contributor) {
+        if (!contributors.contains(contributor)) {
+            throw new IllegalArgumentException("User with ID " + contributor.getId() + " is not a contributor to this journal.");
+        }
+        contributors.remove(contributor);
+    }
+
 }

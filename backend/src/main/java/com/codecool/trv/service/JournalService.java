@@ -73,15 +73,18 @@ public class JournalService {
         return journalDao.deleteAllJournalsByUserId(id);*/
     }
 
-    public Journal deleteJournalById(int id) {
+    public Journal deleteJournalById(Long id) {
         //TODO
-        return null;
-        /*deleteAllNotesByJournalId(id);
-        return journalDao.deleteJournalById(id);*/
+        //??what happens when there are contributors....
+        Journal journalToDelete = findJournalById(id);
+        noteService.deleteAllNotesByJournalId(id);
+        journalRepository.delete(journalToDelete);
+        return journalToDelete;
     }
 
     private void deleteAllNotesByJournalId(int id) {
         //TODO
+
         /*Journal journal = journalDao.findJournalById(id);
         noteDao.deleteAllNotesByJournalId(journal.getId());*/
     }
@@ -105,5 +108,24 @@ public class JournalService {
 
         return new UserResponse(userToAdd.getId(), userToAdd.getUsername());
 
+    }
+
+    public UserResponse deleteContributorFromJournal(Long journalId, Long userId) {
+        Journal journal = findJournalById(journalId);
+        User userToRemove = userService.findUserById(userId);
+
+        try {
+            journal.deleteContributor(userToRemove);
+            journalRepository.save(journal);
+        } catch (IllegalArgumentException e) {
+            throw new IllegalStateException("User with ID " + userId + " is not a contributor to this journal.");
+        }
+
+        return new UserResponse(userToRemove.getId(), userToRemove.getUsername());
+    }
+
+    public List<Journal> findAllJournalsByContributorId(Long userId) {
+        //TODO return JournalResponse
+        return journalRepository.findAllByContributors_Id(userId);
     }
 }
