@@ -25,7 +25,7 @@ public class UserController {
     }
 
     //FIXME: This might be unnecessary, or admin privilage --- or return UserResponse instead at least
-    @GetMapping("/users")
+    @GetMapping("/users/")
     public List<UserResponse> findAllUsers() {
         return userService.findAllUsers();
     }
@@ -33,10 +33,10 @@ public class UserController {
     //FIXME: This might be unnecessary, in userservice is enough to have a findUserById() --- or return UserResponse instead
     @GetMapping("/users/{id}")
     public UserResponse findUserById(@PathVariable Long id) {
-        return userService.findUserById(id);
+        return userService.findUserResponseById(id);
     }
 
-    @PostMapping("/users")
+    @PostMapping("/users/")
     public UserResponse addUser(@RequestBody NewUserRequest newUserRequest) {
         return userService.addUser(newUserRequest);
     }
