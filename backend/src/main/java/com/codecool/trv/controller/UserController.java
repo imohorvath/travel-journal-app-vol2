@@ -1,10 +1,14 @@
 package com.codecool.trv.controller;
 
 import com.codecool.trv.dto.user.NewUserRequest;
+import com.codecool.trv.dto.user.UpdateUserRequest;
 import com.codecool.trv.dto.user.UserResponse;
+import com.codecool.trv.exception.ResourceNotFoundException;
 import com.codecool.trv.model.User;
 import com.codecool.trv.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -33,8 +37,20 @@ public class UserController {
     }
 
     @PostMapping("/")
-    public UserResponse addNewUser(@RequestBody NewUserRequest newUserRequest) {
-        return userService.addNewUser(newUserRequest);
+    public UserResponse addUser(@RequestBody NewUserRequest newUserRequest) {
+        return userService.addUser(newUserRequest);
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity updateUserById(@PathVariable Long id, @RequestBody UpdateUserRequest updateUserRequest) {
+        try {
+            UserResponse userResponse = userService.updateUserById(id, updateUserRequest);
+            return new ResponseEntity(userResponse, HttpStatus.CREATED);
+        } catch(ResourceNotFoundException exception) {
+            return new ResponseEntity(exception.getMessage(), HttpStatus.NOT_FOUND);
+        } catch(Exception exception) {
+            return new ResponseEntity(exception.getMessage(), HttpStatus.BAD_REQUEST);
+        }
     }
 
     //FIXME: This is only for testing purposes
