@@ -53,10 +53,22 @@ public class UserController {
         }
     }
 
+    @DeleteMapping("/{id}")
+    public ResponseEntity deleteUserById(@PathVariable Long id) {
+        try {
+            userService.deleteUserById(id);
+            return new ResponseEntity(HttpStatus.OK);
+        } catch(ResourceNotFoundException exception) {
+            return new ResponseEntity(exception.getMessage(), HttpStatus.NOT_FOUND);
+        } catch(Exception exception) {
+            return new ResponseEntity(exception.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
     //FIXME: This is only for testing purposes
     @DeleteMapping("/")
-    public List<User> deleteAllUsers() {
-        return userService.deleteAllUsers();
+    public void deleteAllUsers() {
+        userService.deleteAllUsers();
     }
 
 }
