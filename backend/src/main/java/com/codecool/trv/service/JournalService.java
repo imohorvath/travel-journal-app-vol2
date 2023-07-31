@@ -47,7 +47,7 @@ public class JournalService {
 
         if (newJournal.contributorIds().size() != 0) {
             Set<User> contributors = userService.findUsersByIds(newJournal.contributorIds());
-            journal.addContributors(contributors);
+            journal.addContributorSet(contributors);
         }
 
         Journal savedJournal = journalRepository.save(journal);
@@ -86,4 +86,24 @@ public class JournalService {
         noteDao.deleteAllNotesByJournalId(journal.getId());*/
     }
 
+    public Set<UserResponse> getContributorsById(Long journalId) {
+        return findJournalById(journalId).getContributors()
+                .stream()
+                .map(contributor -> new UserResponse(contributor.getId(), contributor.getUsername())).collect(Collectors.toSet());
+    }
+
+    public UserResponse addContributorToJournal(Long journalId, Long userId) {
+        Journal journal = findJournalById(journalId);
+        User userToAdd = userService.findUserById(userId);
+
+        try {
+            journal.addContributor(userToAdd);
+            journalRepository.save(journal);
+        } catch (IllegalArgumentException e) {
+            throw new IllegalStateException("User with ID " + userId + " is already a contributor to this journal.");
+        }
+
+        return new UserResponse(userToAdd.getId(), userToAdd.getUsername());
+
+    }
 }

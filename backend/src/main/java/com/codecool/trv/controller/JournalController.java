@@ -1,6 +1,7 @@
 package com.codecool.trv.controller;
 
 import com.codecool.trv.dto.journal.NewJournalResponse;
+import com.codecool.trv.dto.user.UserResponse;
 import com.codecool.trv.model.Journal;
 import com.codecool.trv.dto.journal.NewJournal;
 import com.codecool.trv.service.JournalService;
@@ -8,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Set;
 
 @RestController
 @RequestMapping("api/v1")
@@ -26,7 +28,7 @@ public class JournalController {
     }
 
     @GetMapping("/journals/{journalId}")
-    public Journal findJournalById(@PathVariable int journalId) {
+    public Journal findJournalById(@PathVariable Long journalId) {
         return journalService.findJournalById(journalId);
     }
 
@@ -45,5 +47,14 @@ public class JournalController {
         return journalService.deleteJournalById(journalId);
     }
 
+    @GetMapping("/journals/{journalId}/contributors")
+    public Set<UserResponse> getContributorsById(@PathVariable Long journalId) {
+        return journalService.getContributorsById(journalId);
+    }
+
+    @PutMapping("/journals/{journalId}/contributors/{userId}")
+    public UserResponse addContributorToJournal(@PathVariable Long journalId,Long userId) {
+        return journalService.addContributorToJournal(journalId, userId);
+    }
 
 }
