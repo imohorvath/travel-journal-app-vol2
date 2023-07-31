@@ -5,6 +5,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.Set;
+
 @Getter
 @Setter
 @Builder
@@ -38,5 +40,8 @@ public class User {
 
     @Column(name="password")
     private String password;
+
+    @OneToMany
+    private Set<Journal> journals;
 
 }
