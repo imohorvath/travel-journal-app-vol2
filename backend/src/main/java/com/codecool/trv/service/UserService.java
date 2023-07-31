@@ -9,7 +9,9 @@ import com.codecool.trv.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Service
 public class UserService {
@@ -26,9 +28,13 @@ public class UserService {
         return users.stream().map(user -> new UserResponse(user.getId(), user.getUsername())).toList();
     }
 
-    public UserResponse findUserById(Long id) {
-        User user = userRepository.findById(id).orElseThrow(()-> new ResourceNotFoundException("User not found with id: " + id));
+    public UserResponse findUserResponseById(Long id) {
+        User user = userRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("User not found with id: " + id));
         return new UserResponse(user.getId(), user.getUsername());
+    }
+
+    User findUserById(Long id) {
+        return userRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("User not found with id: " + id));
     }
 
     public UserResponse addUser(NewUserRequest newUserRequest) {
@@ -61,7 +67,7 @@ public class UserService {
             throw new ResourceNotFoundException("User not found with id: " + id);
         }*/
 
-        User userToUpdate = userRepository.findById(id).orElseThrow(()-> new ResourceNotFoundException("User not found with id: " + id));
+        User userToUpdate = userRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("User not found with id: " + id));
 
         userToUpdate.setUsername(updateUserRequest.username());
         userToUpdate.setFirstName(updateUserRequest.firstName());
@@ -72,6 +78,7 @@ public class UserService {
         userRepository.save(userToUpdate);
         return new UserResponse(userToUpdate.getId(), userToUpdate.getUsername());
     }
+
     public void deleteUserById(Long id) {
         //TODO maybe not delete the whole entity, just set username to anonymous and set null for all the other fields?
         //TODO do we want to delete all journals and notes owned by the user also?
@@ -86,4 +93,7 @@ public class UserService {
     }
 
 
+    public Set<User> findUsersByIds(Set<Long> userIds) {
+        return new HashSet<>(userRepository.findAllById(userIds));
+    }
 }

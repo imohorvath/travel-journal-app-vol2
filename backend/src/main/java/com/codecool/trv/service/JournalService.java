@@ -1,12 +1,17 @@
 package com.codecool.trv.service;
 
+import com.codecool.trv.dto.journal.NewJournalResponse;
+import com.codecool.trv.dto.user.UserResponse;
 import com.codecool.trv.model.Journal;
 import com.codecool.trv.dto.journal.NewJournal;
+import com.codecool.trv.model.User;
 import com.codecool.trv.repository.JournalRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 public class JournalService {
@@ -23,10 +28,8 @@ public class JournalService {
         this.noteService = noteService;
     }
 
-    public List<Journal> findAllJournalsByUserId(int userId) {
-        //TODO
-        return null;
-        //return journalDao.findAllJournalsByUserId(userId);
+    public List<Journal> findAllJournalsByUserId(Long userId) {
+        return journalRepository.findAllByOwner_IdIs(userId);
     }
 
     public Journal findJournalById(int id) {
@@ -35,11 +38,30 @@ public class JournalService {
         //return journalDao.findJournalById(id);
     }
 
-    public Journal addNewJournal(NewJournal newJournal) {
-        //TODO
-        return null;
-        //User user = userDao.findUserById(newJournal.getOwnerId());
-        //return journalDao.addNewJournal(newJournal, user);
+    public NewJournalResponse addNewJournal(Long userId, NewJournal newJournal) {
+        User user = userService.findUserById(userId);
+
+        Journal journal = Journal.builder()
+                .title(newJournal.title())
+                .owner(user)
+                .build();
+
+        if (newJournal.contributorIds().size() != 0) {
+            Set<User> contributors = userService.findUsersByIds(newJournal.contributorIds());
+            journal.addContributors(contributors);
+        }
+
+        Journal savedJournal = journalRepository.save(journal);
+
+        return NewJournalResponse.builder()
+                .id(savedJournal.getId())
+                .title(savedJournal.getTitle())
+                .createdAt(savedJournal.getCreatedAt())
+                .contributors(savedJournal.getContributors()
+                        .stream()
+                        .map(contributor -> new UserResponse(contributor.getId(), contributor.getUsername())).collect(Collectors.toSet()))
+                .build();
+
     }
 
     public List<Journal> deleteAllJournalsByUserId(int id) {
