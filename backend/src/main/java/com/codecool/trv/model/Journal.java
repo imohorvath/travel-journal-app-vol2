@@ -45,15 +45,14 @@ public class Journal {
     @LastModifiedDate
     private LocalDateTime updatedAt;
 
-    @ManyToOne
-    @JoinColumn(name="updated_by_user_id", referencedColumnName = "id")
-    //@LastModifiedBy --- first check how it works
-    private User updatedBy;
-
     @OneToMany(cascade=CascadeType.PERSIST)
     private final Set<User> contributors = new HashSet<>();
 
     @OneToMany(cascade=CascadeType.PERSIST)
     private final Set<Note> notes = new HashSet<>();
+
+    public void addContributors(Set<User> contributorsToAdd){
+        contributors.addAll(contributorsToAdd);
+    };
 
 }
