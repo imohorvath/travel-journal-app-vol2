@@ -2,6 +2,7 @@ package com.codecool.trv.service;
 
 import com.codecool.trv.dto.journal.NewJournalResponse;
 import com.codecool.trv.dto.user.UserResponse;
+import com.codecool.trv.exception.ResourceNotFoundException;
 import com.codecool.trv.model.Journal;
 import com.codecool.trv.dto.journal.NewJournal;
 import com.codecool.trv.model.User;
@@ -32,10 +33,8 @@ public class JournalService {
         return journalRepository.findAllByOwner_IdIs(userId);
     }
 
-    public Journal findJournalById(int id) {
-        //TODO
-        return null;
-        //return journalDao.findJournalById(id);
+    public Journal findJournalById(Long id) {
+        return journalRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("User not found with id: " + id));
     }
 
     public NewJournalResponse addNewJournal(Long userId, NewJournal newJournal) {
