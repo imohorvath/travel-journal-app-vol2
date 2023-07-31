@@ -1,7 +1,7 @@
 package com.codecool.trv.controller;
 
 import com.codecool.trv.dto.note.NewNote;
-import com.codecool.trv.dto.note.Note;
+import com.codecool.trv.model.Note;
 import com.codecool.trv.service.NoteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.NoSuchElementException;
 
 @RestController
-@RequestMapping("api/note")
+@RequestMapping("api/v1/notes")
 public class NoteController {
 
     private final NoteService noteService;

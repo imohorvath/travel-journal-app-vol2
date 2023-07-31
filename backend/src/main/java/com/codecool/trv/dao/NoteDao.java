@@ -1,8 +1,8 @@
 package com.codecool.trv.dao;
 
-import com.codecool.trv.dto.journal.Journal;
-import com.codecool.trv.dto.note.Note;
-import com.codecool.trv.dto.user.User;
+import com.codecool.trv.model.Journal;
+import com.codecool.trv.model.Note;
+import com.codecool.trv.model.User;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.NoSuchElementException;
 
 public class NoteDao {
-
+/*
     private final List<Note> notes;
 
     public NoteDao() {
@@ -50,5 +50,5 @@ public class NoteDao {
                 .findFirst()
                 .orElseThrow(()-> new NoSuchElementException());
         return deletedNote;
-    }
+    }*/
 }
