@@ -10,11 +10,6 @@ import java.util.NoSuchElementException;
 @ControllerAdvice
 public class GlobalExceptionHandler {
 
-    /*@ExceptionHandler(NoSuchElementException.class)
-    public ResponseEntity<String> handleElementNotFound(NoSuchElementException exception) {
-        return ResponseEntity.notFound().build();
-    }*/
-
     @ExceptionHandler(ResourceNotFoundException.class)
     public ResponseEntity<?> handleElementNotFound(ResourceNotFoundException exception) {
         //ErrorDetails errorDetails = new ErrorDetails(new Date(), ex.getMessage());
