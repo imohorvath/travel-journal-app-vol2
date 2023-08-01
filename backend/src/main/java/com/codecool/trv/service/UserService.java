@@ -4,6 +4,7 @@ import com.codecool.trv.dto.user.NewUserRequest;
 import com.codecool.trv.dto.user.UpdateUserRequest;
 import com.codecool.trv.dto.user.UserResponse;
 import com.codecool.trv.exception.ResourceNotFoundException;
+import com.codecool.trv.model.Note;
 import com.codecool.trv.model.User;
 import com.codecool.trv.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -71,10 +72,11 @@ public class UserService {
     public void deleteUserById(Long id) throws EmptyResultDataAccessException {
         //TODO maybe not delete the whole entity,
         // let's create a field boolean active, which marks whether the user is active or not
-        //TODO do we want to delete all journals and notes owned by the user also?
+        // TODO do we want to delete all journals and notes owned by the user also?
         // - or just the ones of which he is the owner and there are no contributors.
         // and the notes which where left as contributor will be marked as anonymous...
-            userRepository.deleteById(id);
+        // cascadeType check!!!
+        userRepository.deleteById(id);
     }
 
     //FIXME: This is only for testing purposes
@@ -86,4 +88,5 @@ public class UserService {
     public Set<User> findUsersByIds(Set<Long> userIds) {
         return new HashSet<>(userRepository.findAllById(userIds));
     }
+
 }
