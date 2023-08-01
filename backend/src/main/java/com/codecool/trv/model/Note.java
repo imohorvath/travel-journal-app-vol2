@@ -42,7 +42,7 @@ public class Note {
     @JoinColumn(name = "geo_ip_id", referencedColumnName = "id")
     private GeoIP geoIP;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="journal_id", referencedColumnName = "id")
     private Journal journal;
 
