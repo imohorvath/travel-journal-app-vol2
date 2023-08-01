@@ -2,6 +2,7 @@ package com.codecool.trv.controller;
 
 import com.codecool.trv.dto.journal.NewJournalResponse;
 import com.codecool.trv.dto.note.NewNoteRequest;
+import com.codecool.trv.dto.note.NewNoteResponse;
 import com.codecool.trv.dto.user.UserResponse;
 import com.codecool.trv.model.Journal;
 import com.codecool.trv.dto.journal.NewJournal;
@@ -56,7 +57,7 @@ public class JournalController {
     }
 
     @PostMapping("/journals/{journalId}/notes/{userId}")
-    public Note postNoteToJournalById(@PathVariable Long journalId, @PathVariable Long userId, @RequestBody NewNoteRequest newNoteRequest) {
+    public NewNoteResponse postNoteToJournalById(@PathVariable Long journalId, @PathVariable Long userId, @RequestBody NewNoteRequest newNoteRequest) {
         return journalService.postNoteToJournalById(journalId, userId, newNoteRequest);
     }
 
@@ -70,7 +71,7 @@ public class JournalController {
         return journalService.getContributorsById(journalId);
     }
 
-    @PutMapping("/journals/contributors/{userId}")
+    @GetMapping("/journals/contributors/{userId}")
     public List<Journal> findAllJournalsByContributorId(@PathVariable Long userId) {
         return journalService.findAllJournalsByContributorId(userId);
     }
