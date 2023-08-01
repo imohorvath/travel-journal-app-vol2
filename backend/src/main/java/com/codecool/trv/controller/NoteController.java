@@ -1,15 +1,12 @@
 package com.codecool.trv.controller;
 
-import com.codecool.trv.dto.note.NewNote;
+import com.codecool.trv.dto.note.NewNoteRequest;
 import com.codecool.trv.dto.note.NoteResponse;
 import com.codecool.trv.dto.note.UpdateNoteResponse;
 import com.codecool.trv.dto.note.UpdateNoteRequest;
-import com.codecool.trv.exception.ResourceNotFoundException;
 import com.codecool.trv.model.Note;
 import com.codecool.trv.service.NoteService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -38,26 +35,6 @@ public class NoteController {
     @DeleteMapping("/notes/{noteId}")
     public void deleteNoteById(@PathVariable Long noteId) {
         noteService.deleteNoteById(noteId);
-    }
-
-    @GetMapping("/notes/{journalId}")
-    public List<Note> findAllNotesByJournalId(@PathVariable int journalId) {
-        return noteService.findAllNotesByJournalId(journalId);
-    }
-
-    @PostMapping("/notes")
-    public Note addNewNoteToJournal(@RequestBody NewNote newNote) {
-        return noteService.addNewNoteToJournal(newNote);
-    }
-
-    @DeleteMapping("/notes/{journalId}/all")
-    public List<Note> deleteAllNotesByJournalId(@PathVariable int journalId) {
-        return noteService.deleteAllNotesByJournalId(journalId);
-    }
-
-    @DeleteMapping("/notes/{journalId}/{noteId}")
-    public Note deleteNoteByIdFromJournalById(@PathVariable int journalId, @PathVariable int noteId) {
-        return noteService.deleteNoteByIdFromJournalById(journalId, noteId);
     }
 
 }
