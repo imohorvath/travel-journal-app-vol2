@@ -11,7 +11,7 @@ const Journal = () => {
     const {journalId} = useParams();
 
     useEffect(() => {
-        fetch(`/api/journal/${journalId}`)
+        fetch(`/api/v1/journals/${journalId}`)
             .then((res) => res.json())
             .then((result) => {
                 console.log(result);
