@@ -3,6 +3,7 @@ package com.codecool.trv.model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.Length;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -25,7 +26,7 @@ public class Note {
     @Column(name="id")
     private Long id;
 
-    @Column(name="text")
+    @Column(name="text", length = Length.LONG32)
     private String text;
 
     @Column(name="created_at")
