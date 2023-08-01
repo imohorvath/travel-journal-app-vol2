@@ -1,16 +1,17 @@
 package com.codecool.trv.service;
 
 import com.codecool.trv.dto.journal.NewJournalResponse;
+import com.codecool.trv.dto.note.NewNoteRequest;
 import com.codecool.trv.dto.user.UserResponse;
 import com.codecool.trv.exception.ResourceNotFoundException;
 import com.codecool.trv.model.Journal;
 import com.codecool.trv.dto.journal.NewJournal;
+import com.codecool.trv.model.Note;
 import com.codecool.trv.model.User;
 import com.codecool.trv.repository.JournalRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -70,24 +71,27 @@ public class JournalService {
     public List<Journal> deleteAllJournalsByUserId(int id) {
         //TODO
         return null;
-        /*List<Journal> journals = findAllJournalsByUserId(id);
-        for (Journal journal : journals) {
-            deleteAllNotesByJournalId(journal.getId());
-        }
-        return journalDao.deleteAllJournalsByUserId(id);*/
     }
 
     public Journal deleteJournalById(int id) {
         //TODO
         return null;
-        /*deleteAllNotesByJournalId(id);
-        return journalDao.deleteJournalById(id);*/
     }
 
     private void deleteAllNotesByJournalId(int id) {
         //TODO
-        /*Journal journal = journalDao.findJournalById(id);
-        noteDao.deleteAllNotesByJournalId(journal.getId());*/
     }
 
+    public List<Note> findAllNotesByJournalId(Long journalId) {
+        return noteService.findAllNotesByJournalId(journalId);
+    }
+
+    public Note postNoteToJournalById(Long journalId, Long userId, NewNoteRequest newNoteRequest) {
+        Journal journal = findJournalById(journalId);
+        User creator = userService.findUserById(userId);
+
+        Note note = noteService.addNote(journal, creator, newNoteRequest);
+        journal.addNote(note);
+        return note;
+    }
 }
