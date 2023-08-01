@@ -54,6 +54,7 @@ public class UserController {
 
     @DeleteMapping("/users/{id}")
     public void deleteUserById(@PathVariable Long id) {
+        //FIXME question why it does not throw EmptyResultDataAccessException if not found???
         userService.deleteUserById(id);
     }
 
