@@ -1,10 +1,12 @@
 package com.codecool.trv.service;
 
+import com.codecool.trv.dto.note.NewNoteRequest;
 import com.codecool.trv.dto.note.NoteResponse;
 import com.codecool.trv.dto.note.UpdateNoteResponse;
 import com.codecool.trv.exception.ResourceNotFoundException;
-import com.codecool.trv.dto.note.NewNote;
+import com.codecool.trv.model.Journal;
 import com.codecool.trv.model.Note;
+import com.codecool.trv.model.User;
 import com.codecool.trv.repository.NoteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -51,30 +53,28 @@ public class NoteService {
         noteRepository.deleteById(noteId);
     }
 
-    public List<Note> findAllNotesByJournalId(int id) {
-        //TODO
-        return null;
-    }
-
-    public Note addNewNoteToJournal(NewNote newNote) {
-        //TODO
-        return null;
-        /*User creator = userDao.findUserById(newNote.getUserId());
-        Journal journal = journalDao.findJournalById(newNote.getJournalId());
-        return noteDao.addNewNoteToJournal(newNote.getText(), journal, creator);*/
+    public List<Note> findAllNotesByJournalId(Long journalId) {
+        return noteRepository.findAllByJournal_Id(journalId);
     }
 
     public List<Note> deleteAllNotesByJournalId(int journalId) {
         //TODO
         return null;
-        //return noteDao.deleteAllNotesByJournalId(journalId);
     }
 
     public Note deleteNoteByIdFromJournalById(int journalId, int noteId) {
         //TODO
         return null;
-        //return noteDao.deleteNoteByIdFromJournalById(journalId, noteId);
     }
 
 
+    public Note addNote(Journal journal, User creator, NewNoteRequest newNoteRequest) {
+        Note noteToSave =  Note.builder()
+                .text(newNoteRequest.text())
+                .createdBy(creator)
+                .updatedBy(creator)
+                .journal(journal)
+                .build();
+        return noteRepository.save(noteToSave);
+    }
 }
