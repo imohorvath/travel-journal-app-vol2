@@ -1,10 +1,12 @@
 package com.codecool.trv.service;
 
 import com.codecool.trv.dto.journal.NewJournalResponse;
+import com.codecool.trv.dto.note.NewNoteRequest;
 import com.codecool.trv.dto.user.UserResponse;
 import com.codecool.trv.exception.ResourceNotFoundException;
 import com.codecool.trv.model.Journal;
 import com.codecool.trv.dto.journal.NewJournal;
+import com.codecool.trv.model.Note;
 import com.codecool.trv.model.User;
 import com.codecool.trv.repository.JournalRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,8 +35,12 @@ public class JournalService {
         return journalRepository.findAllByOwner_IdIs(userId);
     }
 
+    public Journal findJournalResponse(Long id) {
+        return journalRepository.findById(id).orElseThrow(()->new ResourceNotFoundException(""));
+    }
+      
     public Journal findJournalById(Long id) {
-        return journalRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("User not found with id: " + id));
+        return journalRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException(""));
     }
 
     public NewJournalResponse addNewJournal(Long userId, NewJournal newJournal) {
@@ -44,7 +50,7 @@ public class JournalService {
                 .title(newJournal.title())
                 .owner(user)
                 .build();
-// TODO the owner could not add to own journal itself as contributor
+        // TODO the owner could not add to own journal itself as contributor
         if (newJournal.contributorIds().size() != 0) {
             Set<User> contributors = userService.findUsersByIds(newJournal.contributorIds());
             journal.addContributorSet(contributors);
@@ -60,17 +66,11 @@ public class JournalService {
                         .stream()
                         .map(contributor -> new UserResponse(contributor.getId(), contributor.getUsername())).collect(Collectors.toSet()))
                 .build();
-
     }
 
     public List<Journal> deleteAllJournalsByUserId(Long id) {
         //TODO
         return null;
-        /*List<Journal> journals = findAllJournalsByUserId(id);
-        for (Journal journal : journals) {
-            deleteAllNotesByJournalId(journal.getId());
-        }
-        return journalDao.deleteAllJournalsByUserId(id);*/
     }
 
     public Journal deleteJournalById(Long id) {
@@ -84,9 +84,19 @@ public class JournalService {
 
     private void deleteAllNotesByJournalId(Long id) {
         //TODO
+    }
 
-        /*Journal journal = journalDao.findJournalById(id);
-        noteDao.deleteAllNotesByJournalId(journal.getId());*/
+    public List<Note> findAllNotesByJournalId(Long journalId) {
+        return noteService.findAllNotesByJournalId(journalId);
+    }
+
+    public Note postNoteToJournalById(Long journalId, Long userId, NewNoteRequest newNoteRequest) {
+        Journal journal = findJournalById(journalId);
+        User creator = userService.findUserById(userId);
+
+        Note note = noteService.addNote(journal, creator, newNoteRequest);
+        journal.addNote(note);
+        return note;
     }
 
     public Set<UserResponse> getContributorsById(Long journalId) {

@@ -4,7 +4,6 @@ import com.codecool.trv.dto.user.NewUserRequest;
 import com.codecool.trv.dto.user.UpdateUserRequest;
 import com.codecool.trv.dto.user.UserResponse;
 import com.codecool.trv.exception.ResourceNotFoundException;
-import com.codecool.trv.model.User;
 import com.codecool.trv.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -43,26 +42,19 @@ public class UserController {
 
     @PutMapping("/users/{id}")
     public ResponseEntity<?> updateUserById(@PathVariable Long id, @RequestBody UpdateUserRequest updateUserRequest) {
+        UserResponse userResponse;
         try {
-            UserResponse userResponse = userService.updateUserById(id, updateUserRequest);
-            return new ResponseEntity<>(userResponse, HttpStatus.CREATED);
+            userResponse = userService.updateUserById(id, updateUserRequest);
         } catch(ResourceNotFoundException exception) {
             return new ResponseEntity<>(exception.getMessage(), HttpStatus.NOT_FOUND);
-        } catch(Exception exception) {
-            return new ResponseEntity<>(exception.getMessage(), HttpStatus.BAD_REQUEST);
         }
+        return new ResponseEntity<>(userResponse, HttpStatus.CREATED);
     }
 
     @DeleteMapping("/users/{id}")
-    public ResponseEntity<?> deleteUserById(@PathVariable Long id) {
-        try {
-            userService.deleteUserById(id);
-            return new ResponseEntity<>(HttpStatus.OK);
-        } catch(ResourceNotFoundException exception) {
-            return new ResponseEntity<>(exception.getMessage(), HttpStatus.NOT_FOUND);
-        } catch(Exception exception) {
-            return new ResponseEntity<>(exception.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+    public void deleteUserById(@PathVariable Long id) {
+        //FIXME check cascadeType
+        userService.deleteUserById(id);
     }
 
     //FIXME: This is only for testing purposes

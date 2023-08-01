@@ -1,9 +1,10 @@
 package com.codecool.trv.service;
 
-import com.codecool.trv.dao.JournalDao;
-import com.codecool.trv.dao.NoteDao;
+import com.codecool.trv.dto.note.NewNoteRequest;
+import com.codecool.trv.dto.note.NoteResponse;
+import com.codecool.trv.dto.note.UpdateNoteResponse;
+import com.codecool.trv.exception.ResourceNotFoundException;
 import com.codecool.trv.model.Journal;
-import com.codecool.trv.dto.note.NewNote;
 import com.codecool.trv.model.Note;
 import com.codecool.trv.model.User;
 import com.codecool.trv.repository.NoteRepository;
@@ -17,34 +18,63 @@ public class NoteService {
 
     private final NoteRepository noteRepository;
 
+    private final UserService userService;
+
     @Autowired
-    public NoteService(NoteRepository noteRepository) {
+    public NoteService(NoteRepository noteRepository, UserService userService) {
         this.noteRepository = noteRepository;
+        this.userService = userService;
     }
 
-    public List<Note> findAllNotesByJournalId(int id) {
-        //TODO
-        return null;
-        //return noteDao.findAllNotesByJournalId(id);
+    Note findNoteById(Long noteId) {
+        return noteRepository.findById(noteId).orElseThrow(()-> new ResourceNotFoundException("Note is not found with id: " + noteId));
     }
 
-    public Note addNewNoteToJournal(NewNote newNote) {
+    public NoteResponse findNoteResponseById(Long noteId) {
+        Note note = findNoteById(noteId);
+        return NoteResponse.builder()
+                .id(note.getId())
+                .text(note.getText())
+                .createdAt(note.getCreatedAt())
+                .createdBy(note.getCreatedBy())
+                .geoIP(note.getGeoIP())
+                .journal(note.getJournal())
+                .updatedAt(note.getUpdatedAt())
+                .updatedBy(note.getUpdatedBy())
+                .build();
+    }
+
+    public UpdateNoteResponse updateNoteById(Long noteId) {
         //TODO
         return null;
-        /*User creator = userDao.findUserById(newNote.getUserId());
-        Journal journal = journalDao.findJournalById(newNote.getJournalId());
-        return noteDao.addNewNoteToJournal(newNote.getText(), journal, creator);*/
+    }
+
+    public void deleteNoteById(Long noteId) {
+        noteRepository.deleteById(noteId);
+    }
+
+    public List<Note> findAllNotesByJournalId(Long journalId) {
+        return noteRepository.findAllByJournal_Id(journalId);
     }
 
     public List<Note> deleteAllNotesByJournalId(Long journalId) {
         //TODO
         return null;
-        //return noteDao.deleteAllNotesByJournalId(journalId);
     }
 
     public Note deleteNoteByIdFromJournalById(int journalId, int noteId) {
         //TODO
         return null;
-        //return noteDao.deleteNoteByIdFromJournalById(journalId, noteId);
+    }
+
+
+    public Note addNote(Journal journal, User creator, NewNoteRequest newNoteRequest) {
+        Note noteToSave =  Note.builder()
+                .text(newNoteRequest.text())
+                .createdBy(creator)
+                .updatedBy(creator)
+                .journal(journal)
+                .build();
+        return noteRepository.save(noteToSave);
     }
 }

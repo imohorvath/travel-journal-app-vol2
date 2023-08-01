@@ -81,4 +81,8 @@ public class Journal {
         contributors.remove(contributor);
     }
 
+    public void addNote(Note note) {
+        notes.add(note);
+    }
+
 }
