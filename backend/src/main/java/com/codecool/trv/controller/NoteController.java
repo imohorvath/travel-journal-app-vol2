@@ -36,16 +36,8 @@ public class NoteController {
     }
 
     @DeleteMapping("/notes/{noteId}")
-    public ResponseEntity<?> deleteNoteById(@PathVariable Long noteId) {
-        try {
-            noteService.deleteNoteById(noteId);
-            return new ResponseEntity(HttpStatus.OK);
-        } catch(ResourceNotFoundException exception) {
-            return new ResponseEntity(exception.getMessage(), HttpStatus.NOT_FOUND);
-        } catch(Exception exception) {
-            return new ResponseEntity(exception.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-
+    public void deleteNoteById(@PathVariable Long noteId) {
+        noteService.deleteNoteById(noteId);
     }
 
     @GetMapping("/notes/{journalId}")
