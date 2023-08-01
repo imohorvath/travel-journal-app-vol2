@@ -90,17 +90,4 @@ public class JournalService {
         noteDao.deleteAllNotesByJournalId(journal.getId());*/
     }
 
-    public List<Journal> findAllJournalsWhereUserIsContributor(Long userId) {
-        User user = userService.findUserById(userId);
-        Set<User> users = new HashSet<>();
-        users.add(user);
-        return journalRepository.findAllByContributorsContains(users);
-    }
-
-    public List<UserResponse> findAllContributorsOfAJournal(Long journalId) {
-        Journal journal = findJournalById(journalId);
-        Set<User> contributors = journal.getContributors();
-        return contributors.stream().map(contributor -> new UserResponse(contributor.getId(), contributor.getUsername())).toList();
-    }
-
 }
