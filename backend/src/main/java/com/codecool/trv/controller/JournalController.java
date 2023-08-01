@@ -1,6 +1,7 @@
 package com.codecool.trv.controller;
 
 import com.codecool.trv.dto.journal.NewJournalResponse;
+import com.codecool.trv.dto.user.UserResponse;
 import com.codecool.trv.model.Journal;
 import com.codecool.trv.dto.journal.NewJournal;
 import com.codecool.trv.service.JournalService;
@@ -26,8 +27,8 @@ public class JournalController {
     }
 
     @GetMapping("/journals/{journalId}")
-    public Journal findJournalById(@PathVariable int journalId) {
-        return journalService.findJournalById(journalId);
+    public Journal findJournalById(@PathVariable Long journalId) {
+        return journalService.findJournalResponse(journalId);
     }
 
     @PostMapping("/users/{userId}/journals/")
@@ -43,6 +44,11 @@ public class JournalController {
     @DeleteMapping("/journals/{journalId}")
     public Journal deleteJournalById(@PathVariable int journalId) {
         return journalService.deleteJournalById(journalId);
+    }
+
+    @GetMapping("/journals/{journalId}/contributors")
+    public List<UserResponse> findAllContributorsOfAJournal(@PathVariable Long journalId) {
+        return journalService.findAllContributorsOfAJournal(journalId);
     }
 
 
