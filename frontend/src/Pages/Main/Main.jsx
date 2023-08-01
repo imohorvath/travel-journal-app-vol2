@@ -21,12 +21,14 @@ const Main = () => {
     setShowJournalCreate(false);
   };
 
+  //TODO userId
+
   return (
     <>
       <JournalAlbumIntro onShowCreate={handleShowJournalCreate} />
       <Container sx={{ py: 8 }} maxWidth="md">
         {showJournalCreate && (
-          <JournalCreate onCancel={handleCloseJournalCreate} onSubmit={handleSubmit}/>
+          <JournalCreate onCancel={handleCloseJournalCreate} onSubmit={handleSubmit} userId={1}/>
         )}
       </Container>
       <JournalAlbum />
