@@ -10,6 +10,7 @@ import com.codecool.trv.repository.JournalRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -89,12 +90,17 @@ public class JournalService {
         noteDao.deleteAllNotesByJournalId(journal.getId());*/
     }
 
+    public List<Journal> findAllJournalsWhereUserIsContributor(Long userId) {
+        User user = userService.findUserById(userId);
+        Set<User> users = new HashSet<>();
+        users.add(user);
+        return journalRepository.findAllByContributorsContains(users);
+    }
+
     public List<UserResponse> findAllContributorsOfAJournal(Long journalId) {
         Journal journal = findJournalById(journalId);
         Set<User> contributors = journal.getContributors();
         return contributors.stream().map(contributor -> new UserResponse(contributor.getId(), contributor.getUsername())).toList();
     }
-
-
 
 }
