@@ -2,18 +2,18 @@ import "./JournalCreate.css";
 import { useEffect, useState } from "react";
 import {
   Autocomplete,
-  Button,
-  Card,
-  CardActions,
-  CardContent,
-  Container,
   FormControl,
   Typography,
   TextField,
+  Container,
+  CardContent,
+  Card,
+  CardActions,
+  Button
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 
-const JournalCreate = ( { onCancel } ) => {
+const JournalCreate = ( { onCancel, onSubmit, userId } ) => {
   const [allUsers, setAllUsers] = useState([]);
   const [title, setTitle] = useState("");
   const [contributors, setContributors] = useState([]);
@@ -34,16 +34,35 @@ const JournalCreate = ( { onCancel } ) => {
       );
   }, []);
 
-  const handleSave = () => {
+  const handleSave = (e) => {
+    e.preventDefault();
+
     const newJournal = {
-      //   title: title,
-      //   contributorIds: contributors.map((contributor) => contributor.id),
-      // };
+      title: title,
+      contributorIds: contributors.map((contributor) => contributor.id),
+      };
+
+      fetch(`/api/v1/users/${userId}/journals`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(newJournal),
+      })
+        .then((response) => response.json())
+        .then((response) => {
+          console.log(response);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+  
+      onSubmit();
     };
 
     // if (loading) {
     //     return <Loading />;
- }
+ //}
 
     return (
       <>

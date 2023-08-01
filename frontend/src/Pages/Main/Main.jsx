@@ -17,12 +17,16 @@ const Main = () => {
     setShowJournalCreate(false);
   };
 
+  const handleSubmit = () => {
+    setShowJournalCreate(false);
+  };
+
   return (
     <>
       <JournalAlbumIntro onShowCreate={handleShowJournalCreate} />
       <Container sx={{ py: 8 }} maxWidth="md">
         {showJournalCreate && (
-          <JournalCreate onCancel={handleCloseJournalCreate} />
+          <JournalCreate onCancel={handleCloseJournalCreate} onSubmit={handleSubmit}/>
         )}
       </Container>
       <JournalAlbum />
