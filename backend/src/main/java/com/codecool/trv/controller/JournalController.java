@@ -46,6 +46,11 @@ public class JournalController {
         return journalService.deleteJournalById(journalId);
     }
 
+    @GetMapping("/journals/contributors/{userId}")
+    public List<Journal> findAllJournalsWhereUserIsContributor(@PathVariable Long userId) {
+        return journalService.findAllJournalsWhereUserIsContributor(userId);
+    }
+
     @GetMapping("/journals/{journalId}/contributors")
     public List<UserResponse> findAllContributorsOfAJournal(@PathVariable Long journalId) {
         return journalService.findAllContributorsOfAJournal(journalId);
