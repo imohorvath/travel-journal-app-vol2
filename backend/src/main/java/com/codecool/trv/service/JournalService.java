@@ -2,6 +2,7 @@ package com.codecool.trv.service;
 
 import com.codecool.trv.dto.journal.NewJournalResponse;
 import com.codecool.trv.dto.user.UserResponse;
+import com.codecool.trv.exception.ResourceNotFoundException;
 import com.codecool.trv.model.Journal;
 import com.codecool.trv.dto.journal.NewJournal;
 import com.codecool.trv.model.User;
@@ -32,10 +33,12 @@ public class JournalService {
         return journalRepository.findAllByOwner_IdIs(userId);
     }
 
-    public Journal findJournalById(int id) {
-        //TODO
-        return null;
-        //return journalDao.findJournalById(id);
+    Journal findJournalById(Long id) {
+        return journalRepository.findById(id).orElseThrow(()->new ResourceNotFoundException(""));
+    }
+
+    public Journal findJournalResponse(Long id) {
+        return journalRepository.findById(id).orElseThrow(()->new ResourceNotFoundException(""));
     }
 
     public NewJournalResponse addNewJournal(Long userId, NewJournal newJournal) {
@@ -61,7 +64,6 @@ public class JournalService {
                         .stream()
                         .map(contributor -> new UserResponse(contributor.getId(), contributor.getUsername())).collect(Collectors.toSet()))
                 .build();
-
     }
 
     public List<Journal> deleteAllJournalsByUserId(int id) {
@@ -86,5 +88,13 @@ public class JournalService {
         /*Journal journal = journalDao.findJournalById(id);
         noteDao.deleteAllNotesByJournalId(journal.getId());*/
     }
+
+    public List<UserResponse> findAllContributorsOfAJournal(Long journalId) {
+        Journal journal = findJournalById(journalId);
+        Set<User> contributors = journal.getContributors();
+        return contributors.stream().map(contributor -> new UserResponse(contributor.getId(), contributor.getUsername())).toList();
+    }
+
+
 
 }
