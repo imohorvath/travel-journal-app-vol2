@@ -1,7 +1,6 @@
 import "./JournalAlbum.css";
 import { useEffect, useState } from "react";
 import {
-  Box,
   Button,
   Card,
   CardActions,
@@ -9,14 +8,13 @@ import {
   CardMedia,
   Container,
   Grid,
-  Stack,
   Typography,
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 
 const JournalAlbum = () => {
   const [journalList, setJournalList] = useState([]);
-  const [loading, setLoading] = useState(true);
+ // const [loading, setLoading] = useState(true);
 
   const navigate = useNavigate();
 
@@ -26,7 +24,7 @@ const JournalAlbum = () => {
       .then((result) => {
         console.log(result);
         setJournalList(result);
-        setLoading(false);
+      //  setLoading(false);
       })
       .catch((error) =>
         console.log(`An error occurred at fetching from /api/journal:${error}`)

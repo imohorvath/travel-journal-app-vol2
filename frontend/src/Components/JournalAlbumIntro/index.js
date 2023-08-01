@@ -1,3 +1,3 @@
 import JournalAlbumIntro from "./JournalAlbumIntro";
 
-export default JournalAlbum;
+export default JournalAlbumIntro;
