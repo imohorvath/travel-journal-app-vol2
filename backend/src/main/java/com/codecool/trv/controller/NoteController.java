@@ -31,10 +31,11 @@ public class NoteController {
     public UpdateNoteResponse updateNoteById(@PathVariable Long noteId, @RequestBody UpdateNoteRequest updateNoteRequest) {
         return noteService.updateNoteById(noteId);
     }
-
+  
     @DeleteMapping("/notes/{noteId}")
     public void deleteNoteById(@PathVariable Long noteId) {
         noteService.deleteNoteById(noteId);
+
     }
 
 }

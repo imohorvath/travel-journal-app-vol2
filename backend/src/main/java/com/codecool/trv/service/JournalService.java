@@ -35,12 +35,12 @@ public class JournalService {
         return journalRepository.findAllByOwner_IdIs(userId);
     }
 
-    Journal findJournalById(Long id) {
-        return journalRepository.findById(id).orElseThrow(()->new ResourceNotFoundException(""));
-    }
-
     public Journal findJournalResponse(Long id) {
         return journalRepository.findById(id).orElseThrow(()->new ResourceNotFoundException(""));
+    }
+      
+    public Journal findJournalById(Long id) {
+        return journalRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException(""));
     }
 
     public NewJournalResponse addNewJournal(Long userId, NewJournal newJournal) {
@@ -50,10 +50,10 @@ public class JournalService {
                 .title(newJournal.title())
                 .owner(user)
                 .build();
-
+        // TODO the owner could not add to own journal itself as contributor
         if (newJournal.contributorIds().size() != 0) {
             Set<User> contributors = userService.findUsersByIds(newJournal.contributorIds());
-            journal.addContributors(contributors);
+            journal.addContributorSet(contributors);
         }
 
         Journal savedJournal = journalRepository.save(journal);
@@ -68,17 +68,21 @@ public class JournalService {
                 .build();
     }
 
-    public List<Journal> deleteAllJournalsByUserId(int id) {
+    public List<Journal> deleteAllJournalsByUserId(Long id) {
         //TODO
         return null;
     }
 
-    public Journal deleteJournalById(int id) {
+    public Journal deleteJournalById(Long id) {
         //TODO
-        return null;
+        //??what happens when there are contributors....
+        Journal journalToDelete = findJournalById(id);
+        noteService.deleteAllNotesByJournalId(id);
+        journalRepository.delete(journalToDelete);
+        return journalToDelete;
     }
 
-    private void deleteAllNotesByJournalId(int id) {
+    private void deleteAllNotesByJournalId(Long id) {
         //TODO
     }
 
@@ -93,5 +97,45 @@ public class JournalService {
         Note note = noteService.addNote(journal, creator, newNoteRequest);
         journal.addNote(note);
         return note;
+    }
+
+    public Set<UserResponse> getContributorsById(Long journalId) {
+        return findJournalById(journalId).getContributors()
+                .stream()
+                .map(contributor -> new UserResponse(contributor.getId(), contributor.getUsername())).collect(Collectors.toSet());
+    }
+
+    public UserResponse addContributorToJournal(Long journalId, Long userId) {
+        Journal journal = findJournalById(journalId);
+        User userToAdd = userService.findUserById(userId);
+
+        try {
+            journal.addContributor(userToAdd);
+            journalRepository.save(journal);
+        } catch (IllegalArgumentException e) {
+            throw new IllegalStateException("User with ID " + userId + " is already a contributor to this journal.");
+        }
+
+        return new UserResponse(userToAdd.getId(), userToAdd.getUsername());
+
+    }
+
+    public UserResponse deleteContributorFromJournal(Long journalId, Long userId) {
+        Journal journal = findJournalById(journalId);
+        User userToRemove = userService.findUserById(userId);
+
+        try {
+            journal.deleteContributor(userToRemove);
+            journalRepository.save(journal);
+        } catch (IllegalArgumentException e) {
+            throw new IllegalStateException("User with ID " + userId + " is not a contributor to this journal.");
+        }
+
+        return new UserResponse(userToRemove.getId(), userToRemove.getUsername());
+    }
+
+    public List<Journal> findAllJournalsByContributorId(Long userId) {
+        //TODO return JournalResponse
+        return journalRepository.findAllByContributors_Id(userId);
     }
 }

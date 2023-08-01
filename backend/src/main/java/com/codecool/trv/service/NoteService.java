@@ -57,7 +57,7 @@ public class NoteService {
         return noteRepository.findAllByJournal_Id(journalId);
     }
 
-    public List<Note> deleteAllNotesByJournalId(int journalId) {
+    public List<Note> deleteAllNotesByJournalId(Long journalId) {
         //TODO
         return null;
     }

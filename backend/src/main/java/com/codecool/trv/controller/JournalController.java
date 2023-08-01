@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Set;
 
 @RestController
 @RequestMapping("api/v1")
@@ -23,7 +24,7 @@ public class JournalController {
         this.journalService = journalService;
     }
 
-    @GetMapping("/api/v1/users/{userId}/journals")
+    @GetMapping("/users/{userId}/journals")
     public List<Journal> findAllJournals(@PathVariable Long userId) {
         return journalService.findAllJournalsByUserId(userId);
     }
@@ -38,15 +39,16 @@ public class JournalController {
         return journalService.addNewJournal(userId, newJournal);
     }
 
-    @DeleteMapping("/journals/{userId}/all")
-    public List<Journal> deleteAllJournalsByUserId(@PathVariable int userId) {
+    /*@DeleteMapping("/journals/{userId}/all")
+    public List<Journal> deleteAllJournalsByUserId(@PathVariable Long userId) {
         return journalService.deleteAllJournalsByUserId(userId);
-    }
+    }*/
 
     @DeleteMapping("/journals/{journalId}")
-    public Journal deleteJournalById(@PathVariable int journalId) {
+    public Journal deleteJournalById(@PathVariable Long journalId) {
         return journalService.deleteJournalById(journalId);
     }
+
 
     @GetMapping("/journals/{journalId}/notes/")
     public List<Note> findAllNotesByJournalId(@PathVariable Long journalId) {
@@ -61,6 +63,21 @@ public class JournalController {
     @DeleteMapping("/journals/{journalId}/notes/")
     public void deleteAllNotesFromJournalById() {
         //TODO
+    } 
+
+    @GetMapping("/journals/{journalId}/contributors")
+    public Set<UserResponse> getContributorsById(@PathVariable Long journalId) {
+        return journalService.getContributorsById(journalId);
+    }
+
+    @PutMapping("/journals/contributors/{userId}")
+    public List<Journal> findAllJournalsByContributorId(@PathVariable Long userId) {
+        return journalService.findAllJournalsByContributorId(userId);
+    }
+
+    @DeleteMapping("/journals/{journalId}/contributors/{userId}")
+    public UserResponse deleteContributorFromJournal(@PathVariable Long journalId, @PathVariable Long userId) {
+        return journalService.deleteContributorFromJournal(journalId, userId);
     }
 
 }
