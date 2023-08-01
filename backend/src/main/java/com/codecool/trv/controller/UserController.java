@@ -4,7 +4,6 @@ import com.codecool.trv.dto.user.NewUserRequest;
 import com.codecool.trv.dto.user.UpdateUserRequest;
 import com.codecool.trv.dto.user.UserResponse;
 import com.codecool.trv.exception.ResourceNotFoundException;
-import com.codecool.trv.model.User;
 import com.codecool.trv.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -54,7 +53,7 @@ public class UserController {
 
     @DeleteMapping("/users/{id}")
     public void deleteUserById(@PathVariable Long id) {
-        //FIXME question why it does not throw EmptyResultDataAccessException if not found???
+        //FIXME check cascadeType
         userService.deleteUserById(id);
     }
 
