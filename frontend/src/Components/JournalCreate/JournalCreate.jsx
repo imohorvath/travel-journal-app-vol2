@@ -2,22 +2,18 @@ import "./JournalCreate.css";
 import { useEffect, useState } from "react";
 import {
   Autocomplete,
-  Box,
   Button,
   Card,
   CardActions,
   CardContent,
-  CardMedia,
   Container,
   FormControl,
-  Grid,
-  Stack,
   Typography,
   TextField,
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 
-const JournalCreate = () => {
+const JournalCreate = ( { onCancel } ) => {
   const [allUsers, setAllUsers] = useState([]);
   const [title, setTitle] = useState("");
   const [contributors, setContributors] = useState([]);
@@ -84,6 +80,9 @@ const JournalCreate = () => {
             <CardActions>
               <Button onClick={handleSave} variant="contained" color="primary">
                 Save
+              </Button>
+              <Button onClick={onCancel} variant="contained" color="secondary">
+                Cancel
               </Button>
             </CardActions>
           </Card>
