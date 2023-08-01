@@ -2,6 +2,7 @@ package com.codecool.trv.service;
 
 import com.codecool.trv.dto.journal.NewJournalResponse;
 import com.codecool.trv.dto.note.NewNoteRequest;
+import com.codecool.trv.dto.note.NewNoteResponse;
 import com.codecool.trv.dto.user.UserResponse;
 import com.codecool.trv.exception.ResourceNotFoundException;
 import com.codecool.trv.model.Journal;
@@ -90,13 +91,22 @@ public class JournalService {
         return noteService.findAllNotesByJournalId(journalId);
     }
 
-    public Note postNoteToJournalById(Long journalId, Long userId, NewNoteRequest newNoteRequest) {
+    public NewNoteResponse postNoteToJournalById(Long journalId, Long userId, NewNoteRequest newNoteRequest) {
         Journal journal = findJournalById(journalId);
         User creator = userService.findUserById(userId);
 
         Note note = noteService.addNote(journal, creator, newNoteRequest);
         journal.addNote(note);
-        return note;
+
+        return NewNoteResponse.builder()
+                .id(note.getId())
+                .text(note.getText())
+                .createdAt(note.getCreatedAt())
+                .createdByUser(note.getCreatedBy().getUsername())
+                .journalTitle(note.getJournal().getTitle())
+                .updatedByUser(note.getUpdatedBy().getUsername())
+                .updatedAt(note.getUpdatedAt())
+                .build();
     }
 
     public Set<UserResponse> getContributorsById(Long journalId) {
