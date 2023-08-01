@@ -17,7 +17,7 @@ const NoteList = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch(`/api/note/${journalId}/all`)
+    fetch(`/api/v1/journals/${journalId}/notes`)
       .then((res) => res.json())
       .then((result) => {
         console.log(result);
@@ -50,7 +50,7 @@ const NoteList = () => {
                     {note.text}
                   </Typography>
                   <Typography variant="body2" color="textSecondary">
-                    {note.timestamp.split("T")[0]}
+                    {note.createdAt.split("T")[0]}
                   </Typography>
                 </CardContent>
                 <CardActions>
