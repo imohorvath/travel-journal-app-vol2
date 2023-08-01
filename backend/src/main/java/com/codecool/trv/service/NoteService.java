@@ -16,9 +16,12 @@ public class NoteService {
 
     private final NoteRepository noteRepository;
 
+    private final UserService userService;
+
     @Autowired
-    public NoteService(NoteRepository noteRepository) {
+    public NoteService(NoteRepository noteRepository, UserService userService) {
         this.noteRepository = noteRepository;
+        this.userService = userService;
     }
 
     Note findNoteById(Long noteId) {
@@ -40,11 +43,12 @@ public class NoteService {
     }
 
     public UpdateNoteResponse updateNoteById(Long noteId) {
+        //TODO
         return null;
     }
 
     public void deleteNoteById(Long noteId) {
-
+        noteRepository.deleteById(noteId);
     }
 
     public List<Note> findAllNotesByJournalId(int id) {
