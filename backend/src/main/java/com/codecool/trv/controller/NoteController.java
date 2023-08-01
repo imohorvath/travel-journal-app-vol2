@@ -32,7 +32,7 @@ public class NoteController {
     }
 
     @DeleteMapping("/{journalId}/all")
-    public List<Note> deleteAllNotesByJournalId(@PathVariable int journalId) {
+    public List<Note> deleteAllNotesByJournalId(@PathVariable Long journalId) {
         return noteService.deleteAllNotesByJournalId(journalId);
     }
 
