@@ -55,4 +55,8 @@ public class Journal {
         contributors.addAll(contributorsToAdd);
     };
 
+    public void addNote(Note note) {
+        notes.add(note);
+    }
+
 }
