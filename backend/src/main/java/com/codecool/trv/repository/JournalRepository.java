@@ -13,6 +13,4 @@ public interface JournalRepository extends JpaRepository<Journal, Long> {
 
     List<Journal> findAllByOwner_IdIs(Long owner_id);
 
-    List<Journal> findAllByContributorsContains(Set<User> users);
-
 }
