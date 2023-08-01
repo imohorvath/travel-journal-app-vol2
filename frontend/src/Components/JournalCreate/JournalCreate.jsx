@@ -47,7 +47,7 @@ const JournalCreate = () => {
 
     // if (loading) {
     //     return <Loading />;
-    // }
+ }
 
     return (
       <>
@@ -89,8 +89,7 @@ const JournalCreate = () => {
           </Card>
         </Container>
       </>
-    );
-  };
-};
+    )
+  }
 
 export default JournalCreate;
