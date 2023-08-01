@@ -1,9 +1,11 @@
 package com.codecool.trv.controller;
 
 import com.codecool.trv.dto.journal.NewJournalResponse;
+import com.codecool.trv.dto.note.NewNoteRequest;
 import com.codecool.trv.dto.user.UserResponse;
 import com.codecool.trv.model.Journal;
 import com.codecool.trv.dto.journal.NewJournal;
+import com.codecool.trv.model.Note;
 import com.codecool.trv.service.JournalService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -44,6 +46,21 @@ public class JournalController {
     @DeleteMapping("/journals/{journalId}")
     public Journal deleteJournalById(@PathVariable int journalId) {
         return journalService.deleteJournalById(journalId);
+    }
+
+    @GetMapping("/journals/{journalId}/notes/")
+    public List<Note> findAllNotesByJournalId(@PathVariable Long journalId) {
+        return journalService.findAllNotesByJournalId(journalId);
+    }
+
+    @PostMapping("/journals/{journalId}/notes/{userId}")
+    public Note postNoteToJournalById(@PathVariable Long journalId, @PathVariable Long userId, @RequestBody NewNoteRequest newNoteRequest) {
+        return journalService.postNoteToJournalById(journalId, userId, newNoteRequest);
+    }
+
+    @DeleteMapping("/journals/{journalId}/notes/")
+    public void deleteAllNotesFromJournalById() {
+        //TODO
     }
 
 }
