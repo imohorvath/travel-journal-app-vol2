@@ -38,12 +38,12 @@ public class JournalController {
     }
 
     @DeleteMapping("/journals/{userId}/all")
-    public List<Journal> deleteAllJournalsByUserId(@PathVariable int userId) {
+    public List<Journal> deleteAllJournalsByUserId(@PathVariable Long userId) {
         return journalService.deleteAllJournalsByUserId(userId);
     }
 
     @DeleteMapping("/journals/{journalId}")
-    public Journal deleteJournalById(@PathVariable int journalId) {
+    public Journal deleteJournalById(@PathVariable Long journalId) {
         return journalService.deleteJournalById(journalId);
     }
 

@@ -1,6 +1,7 @@
 package com.codecool.trv.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
@@ -43,21 +44,27 @@ public class Journal {
     @LastModifiedDate
     private LocalDateTime updatedAt;
 
-    @OneToMany(cascade = CascadeType.PERSIST)
+    @ManyToMany(cascade = CascadeType.PERSIST)
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+    @JoinTable(name = "journals_contributors",
+            joinColumns = {@JoinColumn(name = "journal_id", unique = false)},
+            inverseJoinColumns = {@JoinColumn(name = "contributor_id", unique = false)})
     private final Set<User> contributors = new HashSet<>();
 
     @OneToMany(cascade = CascadeType.PERSIST)
     private final Set<Note> notes = new HashSet<>();
 
     public void addContributorSet(Set<User> contributorsToAdd) {
-        for (User contributorToAdd : contributorsToAdd) {
-            boolean contributorExists = contributors.stream()
-                    .anyMatch(existingContributor -> existingContributor.getId().equals(contributorToAdd.getId()));
+//        for (User contributorToAdd : contributorsToAdd) {
+//            boolean contributorExists = contributors.stream()
+//                    .anyMatch(existingContributor -> existingContributor.getId().equals(contributorToAdd.getId()));
+//            System.out.println(contributorExists);
+//            if (!contributorExists) {
+//                contributors.add(contributorToAdd);
+//            }
+//        }
 
-            if (!contributorExists) {
-                contributors.add(contributorToAdd);
-            }
-        }
+        contributors.addAll(contributorsToAdd);
     }
 
     public void addContributor(User contributor) {

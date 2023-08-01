@@ -44,7 +44,7 @@ public class JournalService {
                 .title(newJournal.title())
                 .owner(user)
                 .build();
-
+// TODO the owner could not add to own journal itself as contributor
         if (newJournal.contributorIds().size() != 0) {
             Set<User> contributors = userService.findUsersByIds(newJournal.contributorIds());
             journal.addContributorSet(contributors);
@@ -63,7 +63,7 @@ public class JournalService {
 
     }
 
-    public List<Journal> deleteAllJournalsByUserId(int id) {
+    public List<Journal> deleteAllJournalsByUserId(Long id) {
         //TODO
         return null;
         /*List<Journal> journals = findAllJournalsByUserId(id);
@@ -82,7 +82,7 @@ public class JournalService {
         return journalToDelete;
     }
 
-    private void deleteAllNotesByJournalId(int id) {
+    private void deleteAllNotesByJournalId(Long id) {
         //TODO
 
         /*Journal journal = journalDao.findJournalById(id);
