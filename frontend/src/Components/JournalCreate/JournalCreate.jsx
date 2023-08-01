@@ -25,14 +25,14 @@ const JournalCreate = ( { onCancel, onSubmit, userId } ) => {
     fetch("/api/v1/users/")
       .then((res) => res.json())
       .then((result) => {
-        console.log(result);
-        setAllUsers(result);
+        const filtered = result.filter((user) => user.id !== userId);
+        setAllUsers(filtered);
         setLoading(false);
       })
       .catch((error) =>
         console.log(`An error occurred at fetching from /api/v1/users:${error}`)
       );
-  }, []);
+  }, [userId]);
 
   const handleSave = (e) => {
     e.preventDefault();
@@ -42,7 +42,7 @@ const JournalCreate = ( { onCancel, onSubmit, userId } ) => {
       contributorIds: contributors.map((contributor) => contributor.id),
       };
 
-      fetch(`/api/v1/users/${userId}/journals`, {
+      fetch(`/api/v1/users/${userId}/journals/`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -85,7 +85,7 @@ const JournalCreate = ( { onCancel, onSubmit, userId } ) => {
                   options={allUsers}
                   getOptionLabel={(user) => user.username}
                   value={contributors}
-                  onChange={(event, value) => setContributors(value)}
+                  onChange={(e, value) => setContributors(value)}
                   renderInput={(params) => (
                     <TextField
                       {...params}
