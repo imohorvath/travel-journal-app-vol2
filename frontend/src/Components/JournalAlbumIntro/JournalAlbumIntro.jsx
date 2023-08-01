@@ -7,7 +7,7 @@ import {
   Typography,
 } from "@mui/material";
 
-const JournalAlbumIntro = () => {
+const JournalAlbumIntro = ({ onShowCreate }) => {
  
   return (
     <>
@@ -44,8 +44,7 @@ const JournalAlbumIntro = () => {
             spacing={2}
             justifyContent="center"
           >
-            <Button variant="contained">Create new Journal</Button>
-            {/*TODO after clicking the component for adding new will pop*/}
+            <Button variant="contained" onClick={onShowCreate}>Create new Journal</Button>
           </Stack>
         </Container>
       </Box>

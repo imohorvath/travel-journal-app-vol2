@@ -4,13 +4,26 @@ import JournalAlbumIntro from "../../Components/JournalAlbumIntro/JournalAlbumIn
 import JournalCreate from "../../Components//JournalCreate/JournalCreate";
 
 import { Container } from "@mui/material";
+import { useState } from "react";
 
 const Main = () => {
+  const [showJournalCreate, setShowJournalCreate] = useState(false);
+
+  const handleShowJournalCreate = () => {
+    setShowJournalCreate(true);
+  };
+
+  const handleCloseJournalCreate = () => {
+    setShowJournalCreate(false);
+  };
+
   return (
     <>
-      <JournalAlbumIntro />
+      <JournalAlbumIntro onShowCreate={handleShowJournalCreate} />
       <Container sx={{ py: 8 }} maxWidth="md">
-        <JournalCreate />
+        {showJournalCreate && (
+          <JournalCreate onCancel={handleCloseJournalCreate} />
+        )}
       </Container>
       <JournalAlbum />
     </>
