@@ -72,9 +72,8 @@ public class JournalService {
         return JournalMapper.mapToNewJournalResponse(savedJournal, getContributorsById(savedJournal.getId()));
     }
 
-    public List<Journal> deleteAllJournalsByUserId(Long id) {
+    public void deleteAllJournalsByUserId(Long id) {
         //TODO
-        return null;
     }
 
     public void deleteJournalById(Long id) throws ResourceNotFoundException {
@@ -130,7 +129,6 @@ public class JournalService {
         }
 
         return new UserResponse(userToAdd.getId(), userToAdd.getUsername());
-
     }
 
     public UserResponse deleteContributorFromJournal(Long journalId, Long userId) {
@@ -147,8 +145,11 @@ public class JournalService {
         return new UserResponse(userToRemove.getId(), userToRemove.getUsername());
     }
 
-    public List<Journal> findAllJournalsByContributorId(Long userId) {
-        //TODO return JournalResponse
-        return journalRepository.findAllByContributors_Id(userId);
+    public List<JournalResponse> findAllJournalsByContributorId(Long userId) {
+        List<Journal> journals = journalRepository.findAllByContributors_Id(userId);
+        return journals
+                .stream()
+                .map(journal -> JournalMapper.mapToJournalResponse(journal, getContributorsById(journal.getId())))
+                .toList();
     }
 }
