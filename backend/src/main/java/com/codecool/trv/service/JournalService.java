@@ -79,13 +79,13 @@ public class JournalService {
         //TODO
     }
 
-    public void deleteJournalById(Long id) throws ResourceNotFoundException {
-        //TODO check if the user who sends the request,
-        // is the owner of the journal,
+    public void deleteJournalById(Long id) {
+        //TODO check if the user who sends the request, is the owner of the journal,
         // otherwise don't execute that.
-        Journal journalToDelete = findJournalById(id);
-        //noteService.deleteAllNotesByJournalId(id);
-        journalRepository.delete(journalToDelete);
+        if(!journalRepository.existsById(id)) {
+            throw new ResourceNotFoundException("Journal not found.");
+        }
+        journalRepository.deleteById(id);
     }
 
     public void deleteAllNotesByJournalId(Long id) {
