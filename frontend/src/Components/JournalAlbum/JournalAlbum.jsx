@@ -14,9 +14,12 @@ import {
 } from "@mui/material";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import { useNavigate } from "react-router-dom";
+import ConfirmationDialog from "../ConfirmationDialog";
 
 const JournalAlbum = () => {
   const [journalList, setJournalList] = useState([]);
+  const [dialogOpen, setDialogOpen] = useState(false);
+  const [journal, setJournal] = useState("");
   // const [loading, setLoading] = useState(true);
 
   const navigate = useNavigate();
@@ -37,6 +40,27 @@ const JournalAlbum = () => {
   const handleRedirection = (id) => {
     navigate(`/${id}`);
   };
+
+  const handleDeleteClicked = (journal) => {
+    console.log("handleDeleteClicked activated")
+    setJournal(journal);
+    console.log(journal)
+    setDialogOpen(true);
+  };
+
+  const handleDialogClose = () => {
+    setJournal("");
+    console.log(journal);
+    setDialogOpen(false);
+  }
+
+  const handleDeleteConfirmed = () => {
+    console.log(journal);
+    deleteJournal(journal.id);
+    setJournal("");
+    setDialogOpen(false);
+    console.log(journal);
+  }
 
   const deleteJournal = (journalId) => {
     console.log(journalId);
@@ -109,7 +133,7 @@ const JournalAlbum = () => {
                   </Button>
                   <IconButton aria-label="Delete">
                     <DeleteForeverIcon
-                      onClick={() => deleteJournal(journal.id)}
+                      onClick={() => handleDeleteClicked(journal)}
                     />
                   </IconButton>
                 </CardActions>
@@ -117,6 +141,7 @@ const JournalAlbum = () => {
             </Grid>
           ))}
         </Grid>
+        <ConfirmationDialog open={dialogOpen} onClose={handleDialogClose} itemTitle={journal.title} onSubmit={handleDeleteConfirmed}/>
       </Container>
     </>
   );
