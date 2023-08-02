@@ -44,6 +44,14 @@ public class UserService {
         return UserMapper.mapToUserResponse(user);
     }
 
+    public UserResponse findUserResponseByName(String name) {
+        User user = userRepository.findUserByUsername(name);
+        if(user == null) {
+            throw new ResourceNotFoundException("User not found");
+        }
+        return UserMapper.mapToUserResponse(user);
+    }
+
     public UserResponse addUser(NewUserRequest newUserRequest) {
         //TODO request validation!!! - unique username, unique email
         User user = userRepository.save(UserMapper.mapToUser(newUserRequest));
@@ -66,18 +74,8 @@ public class UserService {
     }
 
     public void deleteUserById(Long id) throws EmptyResultDataAccessException {
-        //TODO maybe not delete the whole entity,
-        // let's create a field boolean active, which marks whether the user is active or not
-        // TODO do we want to delete all journals and notes owned by the user also?
-        // - or just the ones of which he is the owner and there are no contributors.
-        // and the notes which where left as contributor will be marked as anonymous...
-        // cascadeType check!!!
+        //FIXME handle delete invalid user
         userRepository.deleteById(id);
-    }
-
-    //FIXME: This is only for testing purposes
-    public void deleteAllUsers() {
-        userRepository.deleteAll();
     }
 
 }
