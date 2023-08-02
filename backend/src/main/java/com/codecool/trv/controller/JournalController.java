@@ -75,7 +75,7 @@ public class JournalController {
     }
 
     @GetMapping("/journals/contributors/{userId}")
-    public List<Journal> findAllJournalsByContributorId(@PathVariable Long userId) {
+    public List<JournalResponse> findAllJournalsByContributorId(@PathVariable Long userId) {
         return journalService.findAllJournalsByContributorId(userId);
     }
 
