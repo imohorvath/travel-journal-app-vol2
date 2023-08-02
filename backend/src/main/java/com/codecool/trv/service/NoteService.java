@@ -57,16 +57,9 @@ public class NoteService {
         return noteRepository.findAllByJournal_Id(journalId);
     }
 
-    public List<Note> deleteAllNotesByJournalId(Long journalId) {
-        //TODO
-        return null;
+    public void deleteAllNotesByJournalId(Long journalId) {
+        noteRepository.deleteAllByJournal_Id(journalId);
     }
-
-    public Note deleteNoteByIdFromJournalById(int journalId, int noteId) {
-        //TODO
-        return null;
-    }
-
 
     public Note addNote(Journal journal, User creator, NewNoteRequest newNoteRequest) {
         Note noteToSave =  Note.builder()

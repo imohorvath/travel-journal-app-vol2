@@ -6,5 +6,5 @@ import lombok.Builder;
 import java.time.LocalDateTime;
 
 @Builder
-public record UpdateNoteResponse(LocalDateTime updatedAt, UserResponse updatedBy, String text) {
+public record UpdateNoteResponse(String text, LocalDateTime updatedAt, UserResponse updatedBy) {
 }
