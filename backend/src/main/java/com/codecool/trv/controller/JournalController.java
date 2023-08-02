@@ -65,8 +65,8 @@ public class JournalController {
     }
 
     @DeleteMapping("/journals/{journalId}/notes/")
-    public void deleteAllNotesFromJournalById() {
-        //TODO
+    public void deleteAllNotesFromJournalById(@PathVariable Long journalId) {
+        journalService.deleteAllNotesByJournalId(journalId);
     } 
 
     @GetMapping("/journals/{journalId}/contributors")
