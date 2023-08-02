@@ -7,16 +7,16 @@ import {Container, Typography} from "@mui/material";
 
 const Journal = () => {
     const [journal, setJournal] = useState({});
-    const [loading, setLoading] = useState(true);
+    //const [loading, setLoading] = useState(true);
     const {journalId} = useParams();
 
     useEffect(() => {
-        fetch(`/api/journal/${journalId}`)
+        fetch(`/api/v1/journals/${journalId}`)
             .then((res) => res.json())
             .then((result) => {
                 console.log(result);
                 setJournal(result);
-                setLoading(false);
+             //  setLoading(false);
             })
             .catch((error) =>
                 console.log(`An error occurred at fetching from /api/journal:${error}`)
