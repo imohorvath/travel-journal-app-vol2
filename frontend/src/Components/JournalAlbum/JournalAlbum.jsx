@@ -9,12 +9,15 @@ import {
   Container,
   Grid,
   Typography,
+  Icon,
+  IconButton,
 } from "@mui/material";
+import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import { useNavigate } from "react-router-dom";
 
 const JournalAlbum = () => {
   const [journalList, setJournalList] = useState([]);
- // const [loading, setLoading] = useState(true);
+  // const [loading, setLoading] = useState(true);
 
   const navigate = useNavigate();
 
@@ -24,7 +27,7 @@ const JournalAlbum = () => {
       .then((result) => {
         console.log(result);
         setJournalList(result);
-      //  setLoading(false);
+        //  setLoading(false);
       })
       .catch((error) =>
         console.log(`An error occurred at fetching from /api/journal:${error}`)
@@ -33,6 +36,24 @@ const JournalAlbum = () => {
 
   const handleRedirection = (id) => {
     navigate(`/${id}`);
+  };
+
+  const deleteJournal = (journalId) => {
+    console.log(journalId);
+    fetch(`/api/v1/journals/${journalId}`, {
+      method: "DELETE",
+    })
+      .then((res) => {
+        res.json();
+        if (res.ok) {
+          setJournalList((journalList) => {
+            return journalList.filter((journal) => journal.id !== journalId);
+          });
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
 
   // if (loading) {
@@ -80,6 +101,11 @@ const JournalAlbum = () => {
                   >
                     Open journal
                   </Button>
+                  <IconButton aria-label="Delete">
+                    <DeleteForeverIcon
+                      onClick={() => deleteJournal(journal.id)}
+                    />
+                  </IconButton>
                 </CardActions>
               </Card>
             </Grid>
