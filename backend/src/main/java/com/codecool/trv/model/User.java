@@ -27,7 +27,7 @@ public class User {
     @Column(name = "id")
     private Long id;
 
-    @Column(name = "username")
+    @Column(name = "username", unique = true, nullable = false)
     private String username;
 
     @Column(name = "firstname")
@@ -36,10 +36,10 @@ public class User {
     @Column(name = "lastname")
     private String lastName;
 
-    @Column(name = "email")
+    @Column(name = "email", unique = true, nullable = false)
     private String email;
 
-    @Column(name = "password")
+    @Column(name = "password", nullable = false)
     private String password;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "owner")
@@ -49,8 +49,4 @@ public class User {
     @JsonIgnore
     private final Set<Journal> contributedJournals = new HashSet<>();
 
-    @Override
-    public String toString() {
-        return username + id;
-    }
 }
