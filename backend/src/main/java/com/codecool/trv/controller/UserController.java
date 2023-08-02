@@ -23,16 +23,19 @@ public class UserController {
         this.userService = userService;
     }
 
-    //FIXME: This might be unnecessary, or admin privilage --- or return UserResponse instead at least
     @GetMapping("/users/")
     public List<UserResponse> findAllUsers() {
         return userService.findAllUsers();
     }
 
-    //FIXME: This might be unnecessary, in userservice is enough to have a findUserById() --- or return UserResponse instead
     @GetMapping("/users/{id}")
     public UserResponse findUserById(@PathVariable Long id) {
         return userService.findUserResponseById(id);
+    }
+
+    @GetMapping("/users/username")
+    public UserResponse findUserByName(@RequestParam String name) {
+        return userService.findUserResponseByName(name);
     }
 
     @PostMapping("/users/")
@@ -51,16 +54,16 @@ public class UserController {
         return new ResponseEntity<>(userResponse, HttpStatus.CREATED);
     }
 
-    @DeleteMapping("/users/{id}")
-    public void deleteUserById(@PathVariable Long id) {
+    @DeleteMapping("/users/{id}/soft")
+    public void deleteUserByIdSoft(@PathVariable Long id) {
         //FIXME check cascadeType
+        //TODO
         userService.deleteUserById(id);
     }
 
-    //FIXME: This is only for testing purposes
-    @DeleteMapping("/users")
-    public void deleteAllUsers() {
-        userService.deleteAllUsers();
+    @DeleteMapping("/users/{id}/hard")
+    public void deleteUserByIdHard(@PathVariable Long id) {
+        userService.deleteUserById(id);
     }
 
 }
