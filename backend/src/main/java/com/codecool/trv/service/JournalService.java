@@ -4,9 +4,11 @@ import com.codecool.trv.dto.journal.JournalResponse;
 import com.codecool.trv.dto.journal.NewJournalResponse;
 import com.codecool.trv.dto.note.NewNoteRequest;
 import com.codecool.trv.dto.note.NewNoteResponse;
+import com.codecool.trv.dto.note.NoteResponse;
 import com.codecool.trv.dto.user.UserResponse;
 import com.codecool.trv.exception.ResourceNotFoundException;
 import com.codecool.trv.mapper.JournalMapper;
+import com.codecool.trv.mapper.NoteMapper;
 import com.codecool.trv.mapper.UserMapper;
 import com.codecool.trv.model.Journal;
 import com.codecool.trv.dto.journal.NewJournal;
@@ -16,7 +18,6 @@ import com.codecool.trv.repository.JournalRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -91,7 +92,7 @@ public class JournalService {
         noteService.deleteAllNotesByJournalId(id);
     }
 
-    public List<Note> findAllNotesByJournalId(Long journalId) {
+    public List<NoteResponse> findAllNotesByJournalId(Long journalId) {
         return noteService.findAllNotesByJournalId(journalId);
     }
 
@@ -99,18 +100,10 @@ public class JournalService {
         Journal journal = findJournalById(journalId);
         User creator = userService.findUserById(userId);
 
-        Note note = noteService.addNote(journal, creator, newNoteRequest);
-        journal.addNote(note);
+        Note savedNote = noteService.addNote(journal, creator, newNoteRequest);
+        journal.addNote(savedNote);
 
-        return NewNoteResponse.builder()
-                .id(note.getId())
-                .text(note.getText())
-                .createdAt(note.getCreatedAt())
-                .createdBy(note.getCreatedBy().getUsername())
-                .journalTitle(note.getJournal().getTitle())
-                .updatedBy(note.getUpdatedBy().getUsername())
-                .updatedAt(note.getUpdatedAt())
-                .build();
+        return NoteMapper.mapToNewNoteResponse(savedNote);
     }
 
     public Set<UserResponse> getContributorsById(Long journalId) {
