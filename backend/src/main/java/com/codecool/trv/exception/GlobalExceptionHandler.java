@@ -5,6 +5,7 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
@@ -17,17 +18,17 @@ public class GlobalExceptionHandler {
     //TODO implement custom ApiError object in order to implement proper error handling towards the client
 
     @ExceptionHandler(ResourceNotFoundException.class)
-    public ResponseEntity<?> handleElementNotFound(ResourceNotFoundException exception) {
+    public ResponseEntity<Object> handleElementNotFound(ResourceNotFoundException exception) {
         return new ResponseEntity<>(exception.getMessage(), HttpStatus.NOT_FOUND);
     }
 
     @ExceptionHandler(EmptyResultDataAccessException.class)
-    public ResponseEntity<?> handleRecordNotFound(EmptyResultDataAccessException exception) {
+    public ResponseEntity<Object> handleRecordNotFound(EmptyResultDataAccessException exception) {
         return new ResponseEntity<>(exception.getMessage(), HttpStatus.NOT_FOUND);
     }
 
     @ExceptionHandler(IllegalArgumentException.class)
-    public ResponseEntity<?> handleIllegalArgument(IllegalArgumentException exception) {
+    public ResponseEntity<Object> handleIllegalArgument(IllegalArgumentException exception) {
         return new ResponseEntity<>(exception.getMessage(), HttpStatus.BAD_REQUEST);
     }
 
@@ -37,6 +38,11 @@ public class GlobalExceptionHandler {
             return new ResponseEntity<>("Database conflict", HttpStatus.CONFLICT);
         }
         return new ResponseEntity<>("Server issue", HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
+    public ResponseEntity<Object> handleHttpRequestMethodNotSupportedException(HttpRequestMethodNotSupportedException exception) {
+        return new ResponseEntity<>(exception.getMessage(), HttpStatus.BAD_REQUEST);
     }
 
 }
