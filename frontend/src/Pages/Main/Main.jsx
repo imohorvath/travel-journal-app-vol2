@@ -4,10 +4,25 @@ import JournalAlbumIntro from "../../Components/JournalAlbumIntro/JournalAlbumIn
 import JournalCreate from "../../Components//JournalCreate/JournalCreate";
 
 import { Container } from "@mui/material";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 const Main = () => {
   const [showJournalCreate, setShowJournalCreate] = useState(false);
+  const [journalList, setJournalList] = useState([]);
+
+  useEffect(() => {
+    fetch("/api/v1/users/1/journals")
+      .then((res) => res.json())
+      .then((result) => {
+        console.log(result);
+        setJournalList(result);
+        //  setLoading(false);
+      })
+      .catch((error) =>
+        console.log(`An error occurred at fetching from /api/journal:${error}`)
+      );
+  }, []);
+
 
   const handleShowJournalCreate = () => {
     setShowJournalCreate(true);
@@ -21,6 +36,12 @@ const Main = () => {
     setShowJournalCreate(false);
   };
 
+  const refreshJournalListAfterDelete = (journalId) => {
+    setJournalList((journalList) => {
+      return journalList.filter((journal) => journal.id !== journalId);
+    });
+  }
+
   //TODO userId
 
   return (
@@ -31,7 +52,7 @@ const Main = () => {
           <JournalCreate onCancel={handleCloseJournalCreate} onSubmit={handleSubmit} userId={1}/>
         )}
       </Container>
-      <JournalAlbum />
+      <JournalAlbum journalList={journalList} refreshJournalList={refreshJournalListAfterDelete}/>
     </>
   );
 };
