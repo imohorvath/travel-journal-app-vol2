@@ -85,8 +85,8 @@ public class JournalService {
         journalRepository.delete(journalToDelete);
     }
 
-    private void deleteAllNotesByJournalId(Long id) {
-        //TODO
+    public void deleteAllNotesByJournalId(Long id) {
+        noteService.deleteAllNotesByJournalId(id);
     }
 
     public List<Note> findAllNotesByJournalId(Long journalId) {
@@ -104,9 +104,9 @@ public class JournalService {
                 .id(note.getId())
                 .text(note.getText())
                 .createdAt(note.getCreatedAt())
-                .createdByUser(note.getCreatedBy().getUsername())
+                .createdBy(note.getCreatedBy().getUsername())
                 .journalTitle(note.getJournal().getTitle())
-                .updatedByUser(note.getUpdatedBy().getUsername())
+                .updatedBy(note.getUpdatedBy().getUsername())
                 .updatedAt(note.getUpdatedAt())
                 .build();
     }
@@ -150,4 +150,5 @@ public class JournalService {
                 .map(journal -> JournalMapper.mapToJournalResponse(journal, getContributorsById(journal.getId())))
                 .toList();
     }
+
 }
