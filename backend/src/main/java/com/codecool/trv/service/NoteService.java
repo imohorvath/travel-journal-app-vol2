@@ -4,6 +4,7 @@ import com.codecool.trv.dto.note.NewNoteRequest;
 import com.codecool.trv.dto.note.NoteResponse;
 import com.codecool.trv.dto.note.UpdateNoteResponse;
 import com.codecool.trv.exception.ResourceNotFoundException;
+import com.codecool.trv.mapper.NoteMapper;
 import com.codecool.trv.model.Journal;
 import com.codecool.trv.model.Note;
 import com.codecool.trv.model.User;
@@ -31,17 +32,7 @@ public class NoteService {
     }
 
     public NoteResponse findNoteResponseById(Long noteId) {
-        Note note = findNoteById(noteId);
-        return NoteResponse.builder()
-                .id(note.getId())
-                .text(note.getText())
-                .createdAt(note.getCreatedAt())
-                .createdBy(note.getCreatedBy())
-                .geoIP(note.getGeoIP())
-                .journal(note.getJournal())
-                .updatedAt(note.getUpdatedAt())
-                .updatedBy(note.getUpdatedBy())
-                .build();
+        return NoteMapper.mapToNoteResponse(findNoteById(noteId));
     }
 
     public UpdateNoteResponse updateNoteById(Long noteId) {
@@ -53,8 +44,8 @@ public class NoteService {
         noteRepository.deleteById(noteId);
     }
 
-    public List<Note> findAllNotesByJournalId(Long journalId) {
-        return noteRepository.findAllByJournal_Id(journalId);
+    public List<NoteResponse> findAllNotesByJournalId(Long journalId) {
+        return noteRepository.findAllByJournal_Id(journalId).stream().map(NoteMapper::mapToNoteResponse).toList();
     }
 
     public void deleteAllNotesByJournalId(Long journalId) {
@@ -62,12 +53,6 @@ public class NoteService {
     }
 
     public Note addNote(Journal journal, User creator, NewNoteRequest newNoteRequest) {
-        Note noteToSave =  Note.builder()
-                .text(newNoteRequest.text())
-                .createdBy(creator)
-                .updatedBy(creator)
-                .journal(journal)
-                .build();
-        return noteRepository.save(noteToSave);
+        return noteRepository.save(NoteMapper.mapToNote(journal, creator, newNoteRequest));
     }
 }
