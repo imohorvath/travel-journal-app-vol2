@@ -57,22 +57,19 @@ public class JournalService {
                 .title(newJournal.title())
                 .owner(user)
                 .build();
-        // TODO the owner could not add to own journal itself as contributor
+
         if (newJournal.contributorIds().size() != 0) {
-            Set<User> contributors = userService.findUsersByIds(newJournal.contributorIds());
+            Set<Long> contributorIds = newJournal.contributorIds()
+                    .stream()
+                    .filter(id -> id != userId)
+                    .collect(Collectors.toSet());
+            Set<User> contributors = userService.findUsersByIds(contributorIds);
             journal.addContributorSet(contributors);
         }
 
         Journal savedJournal = journalRepository.save(journal);
 
-        return NewJournalResponse.builder()
-                .id(savedJournal.getId())
-                .title(savedJournal.getTitle())
-                .createdAt(savedJournal.getCreatedAt())
-                .contributors(savedJournal.getContributors()
-                        .stream()
-                        .map(contributor -> new UserResponse(contributor.getId(), contributor.getUsername())).collect(Collectors.toSet()))
-                .build();
+        return JournalMapper.mapToNewJournalResponse(savedJournal, getContributorsById(savedJournal.getId()));
     }
 
     public List<Journal> deleteAllJournalsByUserId(Long id) {
