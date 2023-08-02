@@ -11,6 +11,7 @@ import {
 } from "@mui/material";
 
 const ConfirmationDialog = ({ open, onClose, itemTitle, onSubmit }) => {
+
   return (
     <>
       <Dialog onClose={onClose} open={open} onSubmit={onSubmit}>

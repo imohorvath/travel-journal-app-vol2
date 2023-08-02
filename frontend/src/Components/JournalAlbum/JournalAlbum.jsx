@@ -16,51 +16,40 @@ import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import { useNavigate } from "react-router-dom";
 import ConfirmationDialog from "../ConfirmationDialog";
 
-const JournalAlbum = () => {
-  const [journalList, setJournalList] = useState([]);
+const JournalAlbum = ({ journalList, refreshJournalList }) => {
   const [dialogOpen, setDialogOpen] = useState(false);
-  const [journal, setJournal] = useState("");
+  const [currentJournal, setCurrentJournal] = useState("");
   // const [loading, setLoading] = useState(true);
 
   const navigate = useNavigate();
 
-  useEffect(() => {
-    fetch("/api/v1/users/1/journals")
-      .then((res) => res.json())
-      .then((result) => {
-        console.log(result);
-        setJournalList(result);
-        //  setLoading(false);
-      })
-      .catch((error) =>
-        console.log(`An error occurred at fetching from /api/journal:${error}`)
-      );
-  }, []);
-
+ 
   const handleRedirection = (id) => {
     navigate(`/${id}`);
   };
 
   const handleDeleteClicked = (journal) => {
-    console.log("handleDeleteClicked activated")
-    setJournal(journal);
-    console.log(journal)
+    console.log("handleDeleteClicked activated");
+    setCurrentJournal(journal);
+    console.log(journal);
     setDialogOpen(true);
   };
 
   const handleDialogClose = () => {
-    setJournal("");
-    console.log(journal);
+    console.log("handleDialogClose activated");
+    setCurrentJournal("");
+    console.log(currentJournal);
     setDialogOpen(false);
-  }
+  };
 
   const handleDeleteConfirmed = () => {
-    console.log(journal);
-    deleteJournal(journal.id);
-    setJournal("");
+    console.log("handleDeleteConfirmed activated");
+    console.log(currentJournal);
+    deleteJournal(currentJournal.id);
+    setCurrentJournal("");
     setDialogOpen(false);
-    console.log(journal);
-  }
+    console.log(currentJournal);
+  };
 
   const deleteJournal = (journalId) => {
     console.log(journalId);
@@ -70,9 +59,7 @@ const JournalAlbum = () => {
       .then((res) => {
         res.json();
         if (res.ok) {
-          setJournalList((journalList) => {
-            return journalList.filter((journal) => journal.id !== journalId);
-          });
+          refreshJournalList(journalId)
         }
       })
       .catch((error) => {
@@ -131,17 +118,25 @@ const JournalAlbum = () => {
                   >
                     Open
                   </Button>
-                  <IconButton aria-label="Delete">
-                    <DeleteForeverIcon
-                      onClick={() => handleDeleteClicked(journal)}
-                    />
+                  <IconButton
+                    aria-label="Delete"
+                    onClick={() => handleDeleteClicked(journal)}
+                  >
+                    <DeleteForeverIcon />
                   </IconButton>
                 </CardActions>
               </Card>
             </Grid>
           ))}
         </Grid>
-        <ConfirmationDialog open={dialogOpen} onClose={handleDialogClose} itemTitle={journal.title} onSubmit={handleDeleteConfirmed}/>
+        {dialogOpen && (
+          <ConfirmationDialog
+            open={dialogOpen}
+            onClose={handleDialogClose}
+            itemTitle={currentJournal.title}
+            onSubmit={handleDeleteConfirmed}
+          />
+        )}
       </Container>
     </>
   );
