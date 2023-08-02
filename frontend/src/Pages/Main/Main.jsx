@@ -26,7 +26,7 @@ const Main = () => {
   return (
     <>
       <JournalAlbumIntro onShowCreate={handleShowJournalCreate} />
-      <Container sx={{ py: 8 }} maxWidth="md">
+      <Container maxWidth="md">
         {showJournalCreate && (
           <JournalCreate onCancel={handleCloseJournalCreate} onSubmit={handleSubmit} userId={1}/>
         )}
