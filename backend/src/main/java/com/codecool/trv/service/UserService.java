@@ -73,8 +73,10 @@ public class UserService {
         return UserMapper.mapToUserResponse(user);
     }
 
-    public void deleteUserById(Long id) throws EmptyResultDataAccessException {
-        //FIXME handle delete invalid user
+    public void deleteUserById(Long id) {
+        if(!userRepository.existsById(id)) {
+            throw new ResourceNotFoundException("User not found");
+        }
         userRepository.deleteById(id);
     }
 
