@@ -35,7 +35,7 @@ public class Journal {
     @CreatedDate
     private LocalDateTime createdAt;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "owner_user_id", referencedColumnName = "id")
     //@CreatedBy --- first check how it works
     private User owner;
@@ -51,19 +51,10 @@ public class Journal {
             inverseJoinColumns = {@JoinColumn(name = "contributor_id", unique = false)})
     private final Set<User> contributors = new HashSet<>();
 
-    @OneToMany(cascade = CascadeType.PERSIST)
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "journal", cascade = CascadeType.REMOVE)
     private final Set<Note> notes = new HashSet<>();
 
     public void addContributorSet(Set<User> contributorsToAdd) {
-//        for (User contributorToAdd : contributorsToAdd) {
-//            boolean contributorExists = contributors.stream()
-//                    .anyMatch(existingContributor -> existingContributor.getId().equals(contributorToAdd.getId()));
-//            System.out.println(contributorExists);
-//            if (!contributorExists) {
-//                contributors.add(contributorToAdd);
-//            }
-//        }
-
         contributors.addAll(contributorsToAdd);
     }
 

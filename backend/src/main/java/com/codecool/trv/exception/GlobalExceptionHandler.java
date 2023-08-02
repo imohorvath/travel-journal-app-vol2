@@ -20,9 +20,15 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(EmptyResultDataAccessException.class)
     public ResponseEntity<?> handleRecordNotFound(EmptyResultDataAccessException exception) {
-        //LOG.trace("Record not found: {}", ex.getMessage());
         //RestApiError error = new RestApiError(HttpStatus.BAD_REQUEST, Map.of("message", "Record not found"), request.getRequestURI());
         //return new ResponseEntity<>(error, error.getHttpStatus());
+        return new ResponseEntity<>(exception.getMessage(), HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(IllegalArgumentException.class)
+    public ResponseEntity<?> handleIllegalArgument(IllegalArgumentException exception) {
         return new ResponseEntity<>(exception.getMessage(), HttpStatus.BAD_REQUEST);
     }
+
+
 }

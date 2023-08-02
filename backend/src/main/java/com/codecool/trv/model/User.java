@@ -42,8 +42,8 @@ public class User {
     @Column(name = "password")
     private String password;
 
-    @OneToMany
-    private Set<Journal> journals;
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "owner")
+    private final Set<Journal> journals = new HashSet<>();;
 
     @ManyToMany(mappedBy = "contributors")
     @JsonIgnore
