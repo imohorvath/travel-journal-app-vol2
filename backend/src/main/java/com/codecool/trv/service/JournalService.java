@@ -34,6 +34,10 @@ public class JournalService {
         this.noteService = noteService;
     }
 
+    Journal findJournalById(Long id) throws ResourceNotFoundException {
+        return journalRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Journal not found."));
+    }
+
     public List<JournalResponse> findAllJournalsByUserId(Long userId) {
         List<Journal> journals = journalRepository.findAllByOwner_IdIs(userId);
         return journals
@@ -44,11 +48,6 @@ public class JournalService {
 
     public JournalResponse findJournalResponse(Long id) {
         return JournalMapper.mapToJournalResponse(findJournalById(id), getContributorsById(id));
-    }
-
-    //TODO package private
-    public Journal findJournalById(Long id) throws ResourceNotFoundException {
-        return journalRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Journal not found."));
     }
 
     public NewJournalResponse addNewJournal(Long userId, NewJournal newJournal) {
