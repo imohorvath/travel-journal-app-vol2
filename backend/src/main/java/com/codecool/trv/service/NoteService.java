@@ -19,12 +19,9 @@ public class NoteService {
 
     private final NoteRepository noteRepository;
 
-    private final UserService userService;
-
     @Autowired
-    public NoteService(NoteRepository noteRepository, UserService userService) {
+    public NoteService(NoteRepository noteRepository) {
         this.noteRepository = noteRepository;
-        this.userService = userService;
     }
 
     Note findNoteById(Long noteId) {
