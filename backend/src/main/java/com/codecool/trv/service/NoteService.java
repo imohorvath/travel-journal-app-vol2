@@ -41,6 +41,9 @@ public class NoteService {
     }
 
     public void deleteNoteById(Long noteId) {
+        if(!noteRepository.existsById(noteId)) {
+            throw new ResourceNotFoundException("Note not found");
+        }
         noteRepository.deleteById(noteId);
     }
 
