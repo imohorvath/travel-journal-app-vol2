@@ -7,6 +7,7 @@ import com.codecool.trv.dto.note.NewNoteResponse;
 import com.codecool.trv.dto.user.UserResponse;
 import com.codecool.trv.exception.ResourceNotFoundException;
 import com.codecool.trv.mapper.JournalMapper;
+import com.codecool.trv.mapper.UserMapper;
 import com.codecool.trv.model.Journal;
 import com.codecool.trv.dto.journal.NewJournal;
 import com.codecool.trv.model.Note;
@@ -15,6 +16,7 @@ import com.codecool.trv.repository.JournalRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -114,7 +116,7 @@ public class JournalService {
     public Set<UserResponse> getContributorsById(Long journalId) {
         return findJournalById(journalId).getContributors()
                 .stream()
-                .map(contributor -> new UserResponse(contributor.getId(), contributor.getUsername())).collect(Collectors.toSet());
+                .map(UserMapper::mapToUserResponse).collect(Collectors.toSet());
     }
 
     public UserResponse addContributorToJournal(Long journalId, Long userId) {
@@ -128,7 +130,7 @@ public class JournalService {
             throw new IllegalStateException("User with ID " + userId + " is already a contributor to this journal.");
         }
 
-        return new UserResponse(userToAdd.getId(), userToAdd.getUsername());
+        return UserMapper.mapToUserResponse(userToAdd);
     }
 
     public void deleteContributorFromJournal(Long journalId, Long userId) {
