@@ -94,12 +94,18 @@ const JournalAlbum = () => {
                   </Typography>
                   <Typography>{journal.createdAt.split("T")[0]}</Typography>
                 </CardContent>
-                <CardActions>
+                <CardActions
+                  sx={{
+                    display: "flex",
+                    flexDirection: "row",
+                    justifyContent: "space-between",
+                  }}
+                >
                   <Button
                     size="small"
                     onClick={() => handleRedirection(journal.id)}
                   >
-                    Open journal
+                    Open
                   </Button>
                   <IconButton aria-label="Delete">
                     <DeleteForeverIcon
