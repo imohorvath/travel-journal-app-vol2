@@ -12,4 +12,6 @@ public interface NoteRepository extends JpaRepository<Note, Long> {
 
     List<Note> findAllByJournal_Id(Long journalId);
 
+    void deleteAllByJournal_Id(Long journalId);
+
 }
