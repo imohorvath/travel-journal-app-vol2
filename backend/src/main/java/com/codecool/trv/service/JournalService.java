@@ -75,8 +75,6 @@ public class JournalService {
     }
 
     public Journal deleteJournalById(Long id) {
-        //TODO
-        //??what happens when there are contributors....
         Journal journalToDelete = findJournalById(id);
         noteService.deleteAllNotesByJournalId(id);
         journalRepository.delete(journalToDelete);
