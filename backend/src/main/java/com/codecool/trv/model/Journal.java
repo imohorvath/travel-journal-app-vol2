@@ -51,7 +51,7 @@ public class Journal {
             inverseJoinColumns = {@JoinColumn(name = "contributor_id", unique = false)})
     private final Set<User> contributors = new HashSet<>();
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "journal", cascade = CascadeType.PERSIST)
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "journal", cascade = CascadeType.REMOVE)
     private final Set<Note> notes = new HashSet<>();
 
     public void addContributorSet(Set<User> contributorsToAdd) {
