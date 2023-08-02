@@ -131,7 +131,7 @@ public class JournalService {
         return new UserResponse(userToAdd.getId(), userToAdd.getUsername());
     }
 
-    public UserResponse deleteContributorFromJournal(Long journalId, Long userId) {
+    public void deleteContributorFromJournal(Long journalId, Long userId) {
         Journal journal = findJournalById(journalId);
         User userToRemove = userService.findUserById(userId);
 
@@ -141,8 +141,6 @@ public class JournalService {
         } catch (IllegalArgumentException e) {
             throw new IllegalStateException("User with ID " + userId + " is not a contributor to this journal.");
         }
-
-        return new UserResponse(userToRemove.getId(), userToRemove.getUsername());
     }
 
     public List<JournalResponse> findAllJournalsByContributorId(Long userId) {
