@@ -34,6 +34,10 @@ public class JournalService {
         this.noteService = noteService;
     }
 
+    Journal findJournalById(Long id) throws ResourceNotFoundException {
+        return journalRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Journal not found."));
+    }
+
     public List<JournalResponse> findAllJournalsByUserId(Long userId) {
         List<Journal> journals = journalRepository.findAllByOwner_IdIs(userId);
         return journals
@@ -46,11 +50,6 @@ public class JournalService {
         return JournalMapper.mapToJournalResponse(findJournalById(id), getContributorsById(id));
     }
 
-    //TODO package private
-    public Journal findJournalById(Long id) throws ResourceNotFoundException {
-        return journalRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Journal not found."));
-    }
-
     public NewJournalResponse addNewJournal(Long userId, NewJournal newJournal) {
         User user = userService.findUserById(userId);
 
@@ -58,27 +57,23 @@ public class JournalService {
                 .title(newJournal.title())
                 .owner(user)
                 .build();
-        // TODO the owner could not add to own journal itself as contributor
+
         if (newJournal.contributorIds().size() != 0) {
-            Set<User> contributors = userService.findUsersByIds(newJournal.contributorIds());
+            Set<Long> contributorIds = newJournal.contributorIds()
+                    .stream()
+                    .filter(id -> id != userId)
+                    .collect(Collectors.toSet());
+            Set<User> contributors = userService.findUsersByIds(contributorIds);
             journal.addContributorSet(contributors);
         }
 
         Journal savedJournal = journalRepository.save(journal);
 
-        return NewJournalResponse.builder()
-                .id(savedJournal.getId())
-                .title(savedJournal.getTitle())
-                .createdAt(savedJournal.getCreatedAt())
-                .contributors(savedJournal.getContributors()
-                        .stream()
-                        .map(contributor -> new UserResponse(contributor.getId(), contributor.getUsername())).collect(Collectors.toSet()))
-                .build();
+        return JournalMapper.mapToNewJournalResponse(savedJournal, getContributorsById(savedJournal.getId()));
     }
 
-    public List<Journal> deleteAllJournalsByUserId(Long id) {
+    public void deleteAllJournalsByUserId(Long id) {
         //TODO
-        return null;
     }
 
     public void deleteJournalById(Long id) throws ResourceNotFoundException {
@@ -90,8 +85,8 @@ public class JournalService {
         journalRepository.delete(journalToDelete);
     }
 
-    private void deleteAllNotesByJournalId(Long id) {
-        //TODO
+    public void deleteAllNotesByJournalId(Long id) {
+        noteService.deleteAllNotesByJournalId(id);
     }
 
     public List<Note> findAllNotesByJournalId(Long journalId) {
@@ -109,9 +104,9 @@ public class JournalService {
                 .id(note.getId())
                 .text(note.getText())
                 .createdAt(note.getCreatedAt())
-                .createdByUser(note.getCreatedBy().getUsername())
+                .createdBy(note.getCreatedBy().getUsername())
                 .journalTitle(note.getJournal().getTitle())
-                .updatedByUser(note.getUpdatedBy().getUsername())
+                .updatedBy(note.getUpdatedBy().getUsername())
                 .updatedAt(note.getUpdatedAt())
                 .build();
     }
@@ -134,10 +129,9 @@ public class JournalService {
         }
 
         return new UserResponse(userToAdd.getId(), userToAdd.getUsername());
-
     }
 
-    public UserResponse deleteContributorFromJournal(Long journalId, Long userId) {
+    public void deleteContributorFromJournal(Long journalId, Long userId) {
         Journal journal = findJournalById(journalId);
         User userToRemove = userService.findUserById(userId);
 
@@ -147,12 +141,14 @@ public class JournalService {
         } catch (IllegalArgumentException e) {
             throw new IllegalStateException("User with ID " + userId + " is not a contributor to this journal.");
         }
-
-        return new UserResponse(userToRemove.getId(), userToRemove.getUsername());
     }
 
-    public List<Journal> findAllJournalsByContributorId(Long userId) {
-        //TODO return JournalResponse
-        return journalRepository.findAllByContributors_Id(userId);
+    public List<JournalResponse> findAllJournalsByContributorId(Long userId) {
+        List<Journal> journals = journalRepository.findAllByContributors_Id(userId);
+        return journals
+                .stream()
+                .map(journal -> JournalMapper.mapToJournalResponse(journal, getContributorsById(journal.getId())))
+                .toList();
     }
+
 }

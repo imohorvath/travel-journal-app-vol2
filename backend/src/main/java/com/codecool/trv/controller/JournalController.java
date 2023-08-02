@@ -65,8 +65,8 @@ public class JournalController {
     }
 
     @DeleteMapping("/journals/{journalId}/notes/")
-    public void deleteAllNotesFromJournalById() {
-        //TODO
+    public void deleteAllNotesFromJournalById(@PathVariable Long journalId) {
+        journalService.deleteAllNotesByJournalId(journalId);
     } 
 
     @GetMapping("/journals/{journalId}/contributors")
@@ -75,13 +75,19 @@ public class JournalController {
     }
 
     @GetMapping("/journals/contributors/{userId}")
-    public List<Journal> findAllJournalsByContributorId(@PathVariable Long userId) {
+    public List<JournalResponse> findAllJournalsByContributorId(@PathVariable Long userId) {
         return journalService.findAllJournalsByContributorId(userId);
     }
 
     @DeleteMapping("/journals/{journalId}/contributors/{userId}")
-    public UserResponse deleteContributorFromJournal(@PathVariable Long journalId, @PathVariable Long userId) {
-        return journalService.deleteContributorFromJournal(journalId, userId);
+    public ResponseEntity<?> deleteContributorFromJournal(@PathVariable Long journalId, @PathVariable Long userId) {
+        try{
+            journalService.deleteContributorFromJournal(journalId, userId);
+        } catch(IllegalArgumentException exception) {
+            System.out.println(exception.getMessage());
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
 }
