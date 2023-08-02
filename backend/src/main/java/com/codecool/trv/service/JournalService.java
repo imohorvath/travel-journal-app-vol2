@@ -1,10 +1,12 @@
 package com.codecool.trv.service;
 
+import com.codecool.trv.dto.journal.JournalResponse;
 import com.codecool.trv.dto.journal.NewJournalResponse;
 import com.codecool.trv.dto.note.NewNoteRequest;
 import com.codecool.trv.dto.note.NewNoteResponse;
 import com.codecool.trv.dto.user.UserResponse;
 import com.codecool.trv.exception.ResourceNotFoundException;
+import com.codecool.trv.mapper.JournalMapper;
 import com.codecool.trv.model.Journal;
 import com.codecool.trv.dto.journal.NewJournal;
 import com.codecool.trv.model.Note;
@@ -32,16 +34,21 @@ public class JournalService {
         this.noteService = noteService;
     }
 
-    public List<Journal> findAllJournalsByUserId(Long userId) {
-        return journalRepository.findAllByOwner_IdIs(userId);
+    public List<JournalResponse> findAllJournalsByUserId(Long userId) {
+        List<Journal> journals = journalRepository.findAllByOwner_IdIs(userId);
+        return journals
+                .stream()
+                .map(journal -> JournalMapper.mapToJournalResponse(journal, getContributorsById(journal.getId())))
+                .toList();
     }
 
-    public Journal findJournalResponse(Long id) {
-        return journalRepository.findById(id).orElseThrow(()->new ResourceNotFoundException(""));
+    public JournalResponse findJournalResponse(Long id) {
+        return JournalMapper.mapToJournalResponse(findJournalById(id), getContributorsById(id));
     }
-      
-    public Journal findJournalById(Long id) {
-        return journalRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException(""));
+
+    //TODO package private
+    public Journal findJournalById(Long id) throws ResourceNotFoundException {
+        return journalRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Journal not found."));
     }
 
     public NewJournalResponse addNewJournal(Long userId, NewJournal newJournal) {
@@ -74,11 +81,13 @@ public class JournalService {
         return null;
     }
 
-    public Journal deleteJournalById(Long id) {
+    public void deleteJournalById(Long id) throws ResourceNotFoundException {
+        //TODO check if the user who sends the request,
+        // is the owner of the journal,
+        // otherwise don't execute that.
         Journal journalToDelete = findJournalById(id);
-        noteService.deleteAllNotesByJournalId(id);
+        //noteService.deleteAllNotesByJournalId(id);
         journalRepository.delete(journalToDelete);
-        return journalToDelete;
     }
 
     private void deleteAllNotesByJournalId(Long id) {
