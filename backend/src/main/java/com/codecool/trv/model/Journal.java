@@ -10,6 +10,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDateTime;
 import java.util.HashSet;
+import java.util.Optional;
 import java.util.Set;
 
 @Getter
@@ -76,4 +77,8 @@ public class Journal {
         notes.add(note);
     }
 
+    public void deleteContributorById(Long userId) {
+        Optional<User> contributorToRemove = contributors.stream().filter(user -> user.getId().equals(userId)).findFirst();
+        contributorToRemove.ifPresent(this::deleteContributor);
+    }
 }
