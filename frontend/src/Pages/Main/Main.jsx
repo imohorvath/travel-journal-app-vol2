@@ -9,22 +9,37 @@ import { useState, useEffect } from "react";
 const Main = () => {
   const [showJournalCreate, setShowJournalCreate] = useState(false);
   const [journalList, setJournalList] = useState([]);
+  const [contributedJounals, setContributedJounals] = useState([]);
 
   useEffect(() => {
-    fetchJournals();
+    fetchJournals(1);
+    fetchContributedJournals(1);
   }, []);
 
-  const fetchJournals = () => {
-    fetch("/api/v1/users/1/journals")
+  const fetchJournals = (userId) => {
+    fetch(`/api/v1/users/${userId}/journals`)
       .then((res) => res.json())
       .then((result) => {
         setJournalList(result);
         //  setLoading(false);
       })
       .catch((error) =>
-        console.log(`An error occurred at fetching from /api/journal:${error}`)
+        console.log(`An error occurred at fetching from /api/v1/users/${userId}/journals:${error}`)
       );
   };
+
+  const fetchContributedJournals = (userId) => {
+    fetch(`/api/v1/journals/contributors/${userId}`)
+      .then((res) => res.json())
+      .then((result) => {
+        setContributedJounals(result);
+        //  setLoading(false);
+      })
+      .catch((error) =>
+        console.log(`An error occurred at fetching from /api/v1/journals/contributors/${userId}:${error}`)
+      );
+  };
+
 
   const handleShowJournalCreate = () => {
     setShowJournalCreate(true);
@@ -75,6 +90,7 @@ const Main = () => {
       </Container>
       <JournalAlbum
         journalList={journalList}
+        contributedJournals={contributedJounals}
         refreshJournalList={refreshJournalListAfterDelete}
       />
     </>
