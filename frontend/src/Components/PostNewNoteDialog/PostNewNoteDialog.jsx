@@ -27,21 +27,23 @@ const PostNewNoteDialog = ({ open, onClose, onSubmit }) => {
         };
 
         onSubmit(newNote);
+        setText("");
     };
 
   return (
     <>
       <Dialog onClose={onClose} open={open} onSubmit={onSubmit} fullWidth>
         <DialogTitle>Let's preserve your precious memories</DialogTitle>
+        <DialogContent></DialogContent>
         <DialogContent>
           <TextField
             autoFocus
             id="outlined-multiline-flexible"
-            label="Multiline"
+            label="Your thoughts"
             type="text"
             multiline
             fullWidth
-            rows={4}
+            rows={5}
             value={text}
             onChange={(e) => setText(e.target.value)}
           />
