@@ -10,7 +10,11 @@ import {
   Button,
   Typography,
   Box,
+  IconButton,
+  Fab,
 } from "@mui/material";
+import AddIcon from '@mui/icons-material/Add';
+
 import NoteCard from "../NoteCard";
 
 const NoteList = () => {
@@ -27,7 +31,9 @@ const NoteList = () => {
         setLoading(false);
       })
       .catch((error) =>
-        console.log(`An error occurred at fetching from /api/journal:${error}`)
+        console.log(
+          `An error occurred at fetching from /api/v1/journals/${journalId}/notes/:${error}`
+        )
       );
   }, [journalId]);
 
@@ -43,7 +49,7 @@ const NoteList = () => {
     console.log("This is handlePostNewNote");
   };
 
-  const handleUpdateNote = () => {
+  const handleEditNote = () => {
     console.log("This is handlePostNewNote");
   };
 
@@ -53,17 +59,23 @@ const NoteList = () => {
         <Grid container spacing={2}>
           {noteList.map((note) => (
             <NoteCard
+              key={note.id}
               note={note}
-              onSave={handlePostNewNote}
               onDelete={handleDeleteNote}
-              onUpdate={handleUpdateNote}
+              onEdit={handleEditNote}
             />
           ))}
         </Grid>
+        <Fab color="primary" 
+              aria-label="add"
+              onClick={handlePostNewNote}
+              sx={{ position: "fixed", bottom: 30, right: 30, zIndex: 2000 }}
+        >
+          <AddIcon />
+        </Fab>
       </Container>
     </>
   );
-
 };
 
 export default NoteList;
