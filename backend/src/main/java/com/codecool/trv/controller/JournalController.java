@@ -6,14 +6,9 @@ import com.codecool.trv.dto.note.NewNoteRequest;
 import com.codecool.trv.dto.note.NewNoteResponse;
 import com.codecool.trv.dto.note.NoteResponse;
 import com.codecool.trv.dto.user.UserResponse;
-import com.codecool.trv.exception.ResourceNotFoundException;
-import com.codecool.trv.model.Journal;
 import com.codecool.trv.dto.journal.NewJournal;
-import com.codecool.trv.model.Note;
 import com.codecool.trv.service.JournalService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -45,14 +40,19 @@ public class JournalController {
         return journalService.addNewJournal(userId, newJournal);
     }
 
+    @DeleteMapping("/users/{id}/soft")
+    public void deleteUserByIdSoft(@PathVariable Long id) {
+        journalService.deleteUserByIdSoft(id);
+    }
+
+    @DeleteMapping("/users/{id}/hard")
+    public void deleteUserByIdHard(@PathVariable Long id) {
+        journalService.deleteUserByIdHard(id);
+    }
+
     @DeleteMapping("/journals/{journalId}")
-    public ResponseEntity<?> deleteJournalById(@PathVariable Long journalId) {
-        try{
-            journalService.deleteJournalById(journalId);
-        } catch(ResourceNotFoundException exception) {
-            System.out.println(exception.getMessage());
-        }
-        return new ResponseEntity<>(HttpStatus.OK);
+    public void deleteJournalById(@PathVariable Long journalId) {
+        journalService.deleteJournalById(journalId);
     }
 
     @GetMapping("/journals/{journalId}/notes/")
@@ -81,14 +81,8 @@ public class JournalController {
     }
 
     @DeleteMapping("/journals/{journalId}/contributors/{userId}")
-    public ResponseEntity<?> deleteContributorFromJournal(@PathVariable Long journalId, @PathVariable Long userId) {
-        try{
-            journalService.deleteContributorFromJournal(journalId, userId);
-        } catch(IllegalArgumentException exception) {
-            System.out.println(exception.getMessage());
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-        return new ResponseEntity<>(HttpStatus.OK);
+    public void deleteContributorFromJournal(@PathVariable Long journalId, @PathVariable Long userId) {
+        journalService.deleteContributorFromJournal(journalId, userId);
     }
 
 }
