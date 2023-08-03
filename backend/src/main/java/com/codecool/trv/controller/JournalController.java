@@ -4,6 +4,7 @@ import com.codecool.trv.dto.journal.JournalResponse;
 import com.codecool.trv.dto.journal.NewJournalResponse;
 import com.codecool.trv.dto.note.NewNoteRequest;
 import com.codecool.trv.dto.note.NewNoteResponse;
+import com.codecool.trv.dto.note.NoteResponse;
 import com.codecool.trv.dto.user.UserResponse;
 import com.codecool.trv.exception.ResourceNotFoundException;
 import com.codecool.trv.model.Journal;
@@ -55,7 +56,7 @@ public class JournalController {
     }
 
     @GetMapping("/journals/{journalId}/notes/")
-    public List<Note> findAllNotesByJournalId(@PathVariable Long journalId) {
+    public List<NoteResponse> findAllNotesByJournalId(@PathVariable Long journalId) {
         return journalService.findAllNotesByJournalId(journalId);
     }
 

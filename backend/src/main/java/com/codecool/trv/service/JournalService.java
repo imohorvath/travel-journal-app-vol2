@@ -4,9 +4,12 @@ import com.codecool.trv.dto.journal.JournalResponse;
 import com.codecool.trv.dto.journal.NewJournalResponse;
 import com.codecool.trv.dto.note.NewNoteRequest;
 import com.codecool.trv.dto.note.NewNoteResponse;
+import com.codecool.trv.dto.note.NoteResponse;
 import com.codecool.trv.dto.user.UserResponse;
 import com.codecool.trv.exception.ResourceNotFoundException;
 import com.codecool.trv.mapper.JournalMapper;
+import com.codecool.trv.mapper.NoteMapper;
+import com.codecool.trv.mapper.UserMapper;
 import com.codecool.trv.model.Journal;
 import com.codecool.trv.dto.journal.NewJournal;
 import com.codecool.trv.model.Note;
@@ -76,20 +79,20 @@ public class JournalService {
         //TODO
     }
 
-    public void deleteJournalById(Long id) throws ResourceNotFoundException {
-        //TODO check if the user who sends the request,
-        // is the owner of the journal,
+    public void deleteJournalById(Long id) {
+        //TODO check if the user who sends the request, is the owner of the journal,
         // otherwise don't execute that.
-        Journal journalToDelete = findJournalById(id);
-        //noteService.deleteAllNotesByJournalId(id);
-        journalRepository.delete(journalToDelete);
+        if(!journalRepository.existsById(id)) {
+            throw new ResourceNotFoundException("Journal not found.");
+        }
+        journalRepository.deleteById(id);
     }
 
     public void deleteAllNotesByJournalId(Long id) {
         noteService.deleteAllNotesByJournalId(id);
     }
 
-    public List<Note> findAllNotesByJournalId(Long journalId) {
+    public List<NoteResponse> findAllNotesByJournalId(Long journalId) {
         return noteService.findAllNotesByJournalId(journalId);
     }
 
@@ -97,24 +100,16 @@ public class JournalService {
         Journal journal = findJournalById(journalId);
         User creator = userService.findUserById(userId);
 
-        Note note = noteService.addNote(journal, creator, newNoteRequest);
-        journal.addNote(note);
+        Note savedNote = noteService.addNote(journal, creator, newNoteRequest);
+        journal.addNote(savedNote);
 
-        return NewNoteResponse.builder()
-                .id(note.getId())
-                .text(note.getText())
-                .createdAt(note.getCreatedAt())
-                .createdBy(note.getCreatedBy().getUsername())
-                .journalTitle(note.getJournal().getTitle())
-                .updatedBy(note.getUpdatedBy().getUsername())
-                .updatedAt(note.getUpdatedAt())
-                .build();
+        return NoteMapper.mapToNewNoteResponse(savedNote);
     }
 
     public Set<UserResponse> getContributorsById(Long journalId) {
         return findJournalById(journalId).getContributors()
                 .stream()
-                .map(contributor -> new UserResponse(contributor.getId(), contributor.getUsername())).collect(Collectors.toSet());
+                .map(UserMapper::mapToUserResponse).collect(Collectors.toSet());
     }
 
     public UserResponse addContributorToJournal(Long journalId, Long userId) {
@@ -128,7 +123,7 @@ public class JournalService {
             throw new IllegalStateException("User with ID " + userId + " is already a contributor to this journal.");
         }
 
-        return new UserResponse(userToAdd.getId(), userToAdd.getUsername());
+        return UserMapper.mapToUserResponse(userToAdd);
     }
 
     public void deleteContributorFromJournal(Long journalId, Long userId) {

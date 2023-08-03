@@ -4,6 +4,7 @@ package com.codecool.trv.model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.Type;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -14,11 +15,7 @@ import java.util.Set;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "users",
-        uniqueConstraints = {
-                @UniqueConstraint(columnNames = "username"),
-                @UniqueConstraint(columnNames = "email")
-        })
+@Table(name = "users")
 public class User {
 
     @JsonIgnore
@@ -27,7 +24,7 @@ public class User {
     @Column(name = "id")
     private Long id;
 
-    @Column(name = "username")
+    @Column(name = "username", unique = true, nullable = false)
     private String username;
 
     @Column(name = "firstname")
@@ -36,11 +33,14 @@ public class User {
     @Column(name = "lastname")
     private String lastName;
 
-    @Column(name = "email")
+    @Column(name = "email", unique = true, nullable = false)
     private String email;
 
-    @Column(name = "password")
+    @Column(name = "password", nullable = false)
     private String password;
+
+    @Column(name="deactivated")
+    private boolean deactivated;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "owner")
     private final Set<Journal> journals = new HashSet<>();;
@@ -49,8 +49,4 @@ public class User {
     @JsonIgnore
     private final Set<Journal> contributedJournals = new HashSet<>();
 
-    @Override
-    public String toString() {
-        return username + id;
-    }
 }
