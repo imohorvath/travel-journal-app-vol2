@@ -52,6 +52,10 @@ public class NoteService {
         noteRepository.deleteAllByJournal_Id(journalId);
     }
 
+    public void deleteAllNotesByUserId(Long userId) {
+        noteRepository.deleteNotesByCreatedBy_IdOrUpdatedBy_Id(userId, userId);
+    }
+
     public Note addNote(Journal journal, User creator, NewNoteRequest newNoteRequest) {
         return noteRepository.save(NoteMapper.mapToNote(journal, creator, newNoteRequest));
     }
