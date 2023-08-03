@@ -5,11 +5,9 @@ import com.codecool.trv.dto.user.UpdateUserRequest;
 import com.codecool.trv.dto.user.UserResponse;
 import com.codecool.trv.exception.ResourceNotFoundException;
 import com.codecool.trv.mapper.UserMapper;
-import com.codecool.trv.model.Note;
 import com.codecool.trv.model.User;
 import com.codecool.trv.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
@@ -73,7 +71,8 @@ public class UserService {
         return UserMapper.mapToUserResponse(user);
     }
 
-    public void deleteUserById(Long id) {
+    public void deleteUserByIdHard(Long id) {
+        //  TODO we might have to refactor the code by setting here journalService as dependency
         if(!userRepository.existsById(id)) {
             throw new ResourceNotFoundException("User not found");
         }

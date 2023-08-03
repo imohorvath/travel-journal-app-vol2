@@ -75,8 +75,8 @@ public class JournalService {
         return JournalMapper.mapToNewJournalResponse(savedJournal, getContributorsById(savedJournal.getId()));
     }
 
-    public void deleteAllJournalsByUserId(Long id) {
-        //TODO
+    public void deleteAllJournalsByUserId(Long userId) {
+        journalRepository.deleteAllByOwner_Id(userId);
     }
 
     public void deleteJournalById(Long id) {
@@ -127,15 +127,13 @@ public class JournalService {
     }
 
     public void deleteContributorFromJournal(Long journalId, Long userId) {
+        //TODO now if we delete a contributor, the note which were created by him won't be deleted.
+        // do we want to remove all his notes also or not?
         Journal journal = findJournalById(journalId);
         User userToRemove = userService.findUserById(userId);
 
-        try {
-            journal.deleteContributor(userToRemove);
-            journalRepository.save(journal);
-        } catch (IllegalArgumentException e) {
-            throw new IllegalStateException("User with ID " + userId + " is not a contributor to this journal.");
-        }
+        journal.deleteContributor(userToRemove);
+        journalRepository.save(journal);
     }
 
     public List<JournalResponse> findAllJournalsByContributorId(Long userId) {
@@ -146,4 +144,22 @@ public class JournalService {
                 .toList();
     }
 
+    public void deleteUserByIdSoft(Long userId) {
+        //TODO
+    }
+
+    public void deleteUserByIdHard(Long userId) {
+        // delete all journals where the user is the owner
+        deleteAllJournalsByUserId(userId);
+        // find all journals where the user is contributor
+        List<Journal> journals = journalRepository.findAllByContributors_Id(userId);
+        // delete the user from all journals where he is contributor
+        journals.forEach(journal -> journal.deleteContributorById(userId));
+        // delete the user from all journals where he is contributor
+        journalRepository.saveAll(journals);
+        // delete all notes which was created by  or updated by the user
+        noteService.deleteAllNotesByUserId(userId);
+        //delete the user
+        userService.deleteUserByIdHard(userId);
+    }
 }
