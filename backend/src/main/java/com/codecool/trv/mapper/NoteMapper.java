@@ -14,11 +14,11 @@ public class NoteMapper {
                 .id(note.getId())
                 .text(note.getText())
                 .createdAt(note.getCreatedAt())
-                .createdBy(note.getCreatedBy())
+                .createdBy(UserMapper.mapToUserResponse(note.getCreatedBy()))
                 .geoIP(note.getGeoIP())
-                .journal(note.getJournal())
+                .journalId(note.getJournal().getId())
                 .updatedAt(note.getUpdatedAt())
-                .updatedBy(note.getUpdatedBy())
+                .updatedBy(UserMapper.mapToUserResponse(note.getUpdatedBy()))
                 .build();
     }
 
