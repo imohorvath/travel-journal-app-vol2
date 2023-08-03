@@ -6,7 +6,6 @@ import {
   CardActions,
   CardContent,
   Grid,
-  Button,
   Typography,
   Box,
   IconButton,
@@ -14,7 +13,7 @@ import {
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import EditIcon from '@mui/icons-material/Edit';
 
-const NoteCard = ({ note, onSave, onDelete, onUpdate }) => {
+const NoteCard = ({ note, onDelete, onEdit }) => {
   return (
     <Grid item xs={12} key={note.id}>
       <Card>
@@ -67,10 +66,10 @@ const NoteCard = ({ note, onSave, onDelete, onUpdate }) => {
         </CardContent>
 
         <CardActions>
-          <IconButton aria-label="Delete" onClick={() => onDelete}>
+          <IconButton aria-label="Delete" onClick={onEdit}>
             <EditIcon />
           </IconButton>
-          <IconButton aria-label="Delete" onClick={() => onDelete}>
+          <IconButton aria-label="Delete" onClick={onDelete}>
             <DeleteForeverIcon />
           </IconButton>
         </CardActions>

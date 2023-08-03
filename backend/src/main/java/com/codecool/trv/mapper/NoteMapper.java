@@ -27,10 +27,11 @@ public class NoteMapper {
                 .id(note.getId())
                 .text(note.getText())
                 .createdAt(note.getCreatedAt())
-                .createdBy(note.getCreatedBy().getUsername())
-                .journalTitle(note.getJournal().getTitle())
+                .createdBy(UserMapper.mapToUserResponse(note.getCreatedBy()))
+                .geoIP(note.getGeoIP())
+                .journalId(note.getJournal().getId())
                 .updatedAt(note.getUpdatedAt())
-                .updatedBy(note.getUpdatedBy().getUsername())
+                .updatedBy(UserMapper.mapToUserResponse(note.getUpdatedBy()))
                 .build();
     }
 
