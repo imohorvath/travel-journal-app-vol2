@@ -112,6 +112,7 @@ const JournalAlbum = ({
         <Grid container spacing={4}>
           {journalList.map((journal) => (
             <JournalAlbumItem
+              key={journal.id}
               journal={journal}
               imageURLs={imageURLs}
               onOpen={handleRedirection}
@@ -143,6 +144,7 @@ const JournalAlbum = ({
         <Grid container spacing={4}>
           {contributedJournals.map((journal) => (
             <JournalAlbumItem
+              key={journal.id}
               journal={journal}
               imageURLs={imageURLs}
               onOpen={handleRedirection}
