@@ -15,15 +15,16 @@ import {
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import { useNavigate } from "react-router-dom";
 import ConfirmationDialog from "../ConfirmationDialog";
+import { createClient } from "pexels";
 
 const JournalAlbum = ({ journalList, refreshJournalList }) => {
   const [dialogOpen, setDialogOpen] = useState(false);
   const [currentJournal, setCurrentJournal] = useState("");
+  const [imageURLs, setImageURLs] = useState({});
   // const [loading, setLoading] = useState(true);
 
   const navigate = useNavigate();
 
- 
   const handleRedirection = (id) => {
     navigate(`/${id}`);
   };
@@ -68,6 +69,32 @@ const JournalAlbum = ({ journalList, refreshJournalList }) => {
       });
   };
 
+  const getPexelImage = (keyword, journalId) => {
+    const client = createClient(
+      "ObPMaZKwS1wvcaQJAHUkbW9dryeMn2WgxOyIJCGH7NwMo0tRFpgcZgvx"
+    );
+    const query = keyword;
+
+    client.photos
+      .search({ query, per_page: 1 })
+      .then((photo) => {
+        const newImageURLs = {
+          ...imageURLs,
+          [journalId]: photo.photos[0].src.landscape
+        };
+        setImageURLs(newImageURLs);
+      })
+      .catch((error) =>
+        console.log(`An error occurred at fetching from Pexel`)
+      );
+  };
+
+  useEffect(() => {
+    journalList.forEach((journal) => {
+      getPexelImage(journal.title, journal.id);
+    });
+  }, [journalList]);
+
   // if (loading) {
   //     return <Loading />;
   // }
@@ -91,7 +118,7 @@ const JournalAlbum = ({ journalList, refreshJournalList }) => {
                     // 16:9
                     pt: "56.25%",
                   }}
-                  image="https://images.pexels.com/photos/669986/pexels-photo-669986.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+                  image={imageURLs[journal.id] || ""}
                 />
                 <CardContent sx={{ flexGrow: 1 }}>
                   <Typography
