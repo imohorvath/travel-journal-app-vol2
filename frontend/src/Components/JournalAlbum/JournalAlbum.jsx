@@ -9,30 +9,63 @@ import {
   Container,
   Grid,
   Typography,
+  Icon,
+  IconButton,
 } from "@mui/material";
+import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import { useNavigate } from "react-router-dom";
+import ConfirmationDialog from "../ConfirmationDialog";
 
-const JournalAlbum = () => {
-  const [journalList, setJournalList] = useState([]);
- // const [loading, setLoading] = useState(true);
+const JournalAlbum = ({ journalList, refreshJournalList }) => {
+  const [dialogOpen, setDialogOpen] = useState(false);
+  const [currentJournal, setCurrentJournal] = useState("");
+  // const [loading, setLoading] = useState(true);
 
   const navigate = useNavigate();
 
-  useEffect(() => {
-    fetch("/api/v1/users/1/journals")
-      .then((res) => res.json())
-      .then((result) => {
-        console.log(result);
-        setJournalList(result);
-      //  setLoading(false);
-      })
-      .catch((error) =>
-        console.log(`An error occurred at fetching from /api/journal:${error}`)
-      );
-  }, []);
-
+ 
   const handleRedirection = (id) => {
     navigate(`/${id}`);
+  };
+
+  const handleDeleteClicked = (journal) => {
+    console.log("handleDeleteClicked activated");
+    setCurrentJournal(journal);
+    console.log(journal);
+    setDialogOpen(true);
+  };
+
+  const handleDialogClose = () => {
+    console.log("handleDialogClose activated");
+    setCurrentJournal("");
+    console.log(currentJournal);
+    setDialogOpen(false);
+  };
+
+  const handleDeleteConfirmed = () => {
+    console.log("handleDeleteConfirmed activated");
+    console.log(currentJournal);
+    deleteJournal(currentJournal.id);
+    setCurrentJournal("");
+    setDialogOpen(false);
+    console.log(currentJournal);
+  };
+
+  const deleteJournal = (journalId) => {
+    console.log(journalId);
+    fetch(`/api/v1/journals/${journalId}`, {
+      method: "DELETE",
+    })
+      .then((res) => {
+        console.log(res);
+        if (!res.ok) {
+          throw new Error("Network response was not ok.");
+        }
+        refreshJournalList(journalId);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
 
   // if (loading) {
@@ -73,18 +106,38 @@ const JournalAlbum = () => {
                   </Typography>
                   <Typography>{journal.createdAt.split("T")[0]}</Typography>
                 </CardContent>
-                <CardActions>
+                <CardActions
+                  sx={{
+                    display: "flex",
+                    flexDirection: "row",
+                    justifyContent: "space-between",
+                  }}
+                >
                   <Button
                     size="small"
                     onClick={() => handleRedirection(journal.id)}
                   >
-                    Open journal
+                    Open
                   </Button>
+                  <IconButton
+                    aria-label="Delete"
+                    onClick={() => handleDeleteClicked(journal)}
+                  >
+                    <DeleteForeverIcon />
+                  </IconButton>
                 </CardActions>
               </Card>
             </Grid>
           ))}
         </Grid>
+        {dialogOpen && (
+          <ConfirmationDialog
+            open={dialogOpen}
+            onClose={handleDialogClose}
+            itemTitle={currentJournal.title}
+            onSubmit={handleDeleteConfirmed}
+          />
+        )}
       </Container>
     </>
   );
