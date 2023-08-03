@@ -45,25 +45,8 @@ public class UserController {
 
     @PutMapping("/users/{id}")
     public ResponseEntity<?> updateUserById(@PathVariable Long id, @RequestBody UpdateUserRequest updateUserRequest) {
-        UserResponse userResponse;
-        try {
-            userResponse = userService.updateUserById(id, updateUserRequest);
-        } catch(ResourceNotFoundException exception) {
-            return new ResponseEntity<>(exception.getMessage(), HttpStatus.NOT_FOUND);
-        }
+        UserResponse userResponse = userService.updateUserById(id, updateUserRequest);
         return new ResponseEntity<>(userResponse, HttpStatus.CREATED);
-    }
-
-    @DeleteMapping("/users/{id}/soft")
-    public void deleteUserByIdSoft(@PathVariable Long id) {
-        //FIXME check cascadeType
-        //TODO
-        userService.deleteUserById(id);
-    }
-
-    @DeleteMapping("/users/{id}/hard")
-    public void deleteUserByIdHard(@PathVariable Long id) {
-        userService.deleteUserById(id);
     }
 
 }
