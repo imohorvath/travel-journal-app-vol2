@@ -14,12 +14,12 @@ const JournalAlbumIntro = ({ onShowCreate }) => {
       <Box
         sx={{
           bgcolor: "background.paper",
-          pt: 8,
+          pt: 6,
           pb: 6,
         }}
       >
         <Container maxWidth="sm">
-          <Typography
+          {/* <Typography
             component="h3"
             variant="h3"
             align="center"
@@ -27,7 +27,7 @@ const JournalAlbumIntro = ({ onShowCreate }) => {
             gutterBottom
           >
             Your Journals
-          </Typography>
+          </Typography> */}
           <Typography
             variant="h5"
             align="center"

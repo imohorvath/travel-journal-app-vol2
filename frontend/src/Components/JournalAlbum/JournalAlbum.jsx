@@ -1,23 +1,16 @@
 import "./JournalAlbum.css";
 import { useEffect, useState } from "react";
-import {
-  Button,
-  Card,
-  CardActions,
-  CardContent,
-  CardMedia,
-  Container,
-  Grid,
-  Typography,
-  Icon,
-  IconButton,
-} from "@mui/material";
-import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
+import JournalAlbumItem from "../JournalAlbumItem";
+import { Container, Grid, Typography, IconButton } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import ConfirmationDialog from "../ConfirmationDialog";
 import { createClient } from "pexels";
 
-const JournalAlbum = ({ journalList, refreshJournalList }) => {
+const JournalAlbum = ({
+  journalList,
+  contributedJournals,
+  refreshJournalList,
+}) => {
   const [dialogOpen, setDialogOpen] = useState(false);
   const [currentJournal, setCurrentJournal] = useState("");
   const [imageURLs, setImageURLs] = useState([]);
@@ -90,14 +83,15 @@ const JournalAlbum = ({ journalList, refreshJournalList }) => {
       );
   };
 
-
-
   useEffect(() => {
     //TODO collect promises and use Promise.all
     journalList.forEach((journal) => {
       getPexelImage(journal.title, journal.id);
     });
-  }, [journalList]);
+    contributedJournals.forEach((journal) => {
+      getPexelImage(journal.title, journal.id);
+    });
+  }, [journalList, contributedJournals]);
 
   // if (loading) {
   //     return <Loading />;
@@ -105,60 +99,25 @@ const JournalAlbum = ({ journalList, refreshJournalList }) => {
 
   return (
     <>
-      <Container sx={{ py: 8 }} maxWidth="md">
+      <Container sx={{ py: 3 }} maxWidth="md">
+        <Typography
+          component="h4"
+          variant="h4"
+          align="left"
+          color="text.primary"
+          gutterBottom
+        >
+          Your Journals
+        </Typography>
         <Grid container spacing={4}>
           {journalList.map((journal) => (
-            <Grid item key={journal.id} xs={12} sm={6} md={4}>
-              <Card
-                sx={{
-                  height: "100%",
-                  display: "flex",
-                  flexDirection: "column",
-                }}
-              >
-                <CardMedia
-                  component="div"
-                  sx={{
-                    // 16:9
-                    pt: "56.25%",
-                  }}
-                  image={imageURLs.find((item) => item.journalId === journal.id)?.url || ''}
-                />
-                <CardContent sx={{ flexGrow: 1 }}>
-                  <Typography
-                    gutterBottom
-                    variant="h5"
-                    component="h2"
-                    sx={{
-                      fontFamily: "Satisfy",
-                    }}
-                  >
-                    {journal.title}
-                  </Typography>
-                  <Typography>{journal.createdAt.split("T")[0]}</Typography>
-                </CardContent>
-                <CardActions
-                  sx={{
-                    display: "flex",
-                    flexDirection: "row",
-                    justifyContent: "space-between",
-                  }}
-                >
-                  <Button
-                    size="small"
-                    onClick={() => handleRedirection(journal.id)}
-                  >
-                    Open
-                  </Button>
-                  <IconButton
-                    aria-label="Delete"
-                    onClick={() => handleDeleteClicked(journal)}
-                  >
-                    <DeleteForeverIcon />
-                  </IconButton>
-                </CardActions>
-              </Card>
-            </Grid>
+            <JournalAlbumItem
+              journal={journal}
+              imageURLs={imageURLs}
+              onOpen={handleRedirection}
+              onDelete={handleDeleteClicked}
+              isOwnJournal={true}
+            />
           ))}
         </Grid>
         {dialogOpen && (
@@ -169,6 +128,29 @@ const JournalAlbum = ({ journalList, refreshJournalList }) => {
             onSubmit={handleDeleteConfirmed}
           />
         )}
+      </Container>
+
+      <Container sx={{ py: 8 }} maxWidth="md">
+        <Typography
+          component="h4"
+          variant="h4"
+          align="left"
+          color="text.primary"
+          gutterBottom
+        >
+          Contributed Journals
+        </Typography>
+        <Grid container spacing={4}>
+          {contributedJournals.map((journal) => (
+            <JournalAlbumItem
+              journal={journal}
+              imageURLs={imageURLs}
+              onOpen={handleRedirection}
+              onDelete={handleDeleteClicked}
+              isOwnJournal={false}
+            />
+          ))}
+        </Grid>
       </Container>
     </>
   );
