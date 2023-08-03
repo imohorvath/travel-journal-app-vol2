@@ -66,10 +66,10 @@ const NoteCard = ({ note, onDelete, onEdit }) => {
         </CardContent>
 
         <CardActions>
-          <IconButton aria-label="Delete" onClick={() => onEdit}>
+          <IconButton aria-label="Delete" onClick={onEdit}>
             <EditIcon />
           </IconButton>
-          <IconButton aria-label="Delete" onClick={() => onDelete}>
+          <IconButton aria-label="Delete" onClick={onDelete}>
             <DeleteForeverIcon />
           </IconButton>
         </CardActions>
