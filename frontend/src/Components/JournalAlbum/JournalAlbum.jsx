@@ -57,10 +57,11 @@ const JournalAlbum = ({ journalList, refreshJournalList }) => {
       method: "DELETE",
     })
       .then((res) => {
-        res.json();
-        if (res.ok) {
-          refreshJournalList(journalId)
+        console.log(res);
+        if (!res.ok) {
+          throw new Error("Network response was not ok.");
         }
+        refreshJournalList(journalId);
       })
       .catch((error) => {
         console.log(error);
