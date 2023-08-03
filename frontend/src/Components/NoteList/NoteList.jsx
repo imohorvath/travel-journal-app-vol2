@@ -13,13 +13,15 @@ import {
   IconButton,
   Fab,
 } from "@mui/material";
-import AddIcon from '@mui/icons-material/Add';
+import AddIcon from "@mui/icons-material/Add";
 
 import NoteCard from "../NoteCard";
+import PostNewNoteDialog from "../PostNewNoteDialog";
 
 const NoteList = () => {
   const { journalId } = useParams();
   const [noteList, setNoteList] = useState([]);
+  const [openDialog, setOpenDialog] = useState(false);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -41,8 +43,36 @@ const NoteList = () => {
   //     return <Loading />;
   // }
 
-  const handlePostNewNote = () => {
-    console.log("This is handlePostNewNote");
+  const handleOpenDialog = () => {
+    setOpenDialog(true);
+  };
+
+  const handleCloseDialog = () => {
+    setOpenDialog(false);
+  }
+
+  //TODO get userId
+
+  const handlePostNewNote = (newNote) => {
+    setOpenDialog(false);
+
+    fetch(`/api/v1/journals/${journalId}/notes/1`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(newNote),
+    })
+      .then((res) => res.json())
+      .then((result) => {
+        setNoteList([...noteList, result]);
+      })
+      .catch((error) =>
+        console.log(
+          `An error occurred at fetching from /api/v1/journals/${journalId}/notes/:${error}`
+        )
+      );
+    
   };
 
   const handleDeleteNote = (id) => {
@@ -66,13 +96,19 @@ const NoteList = () => {
             />
           ))}
         </Grid>
-        <Fab color="primary" 
-              aria-label="add"
-              onClick={handlePostNewNote}
-              sx={{ position: "fixed", bottom: 30, right: 30, zIndex: 2000 }}
+        <Fab
+          color="primary"
+          aria-label="add"
+          onClick={handleOpenDialog}
+          sx={{ position: "fixed", bottom: 30, right: 30, zIndex: 2000 }}
         >
           <AddIcon />
         </Fab>
+        <PostNewNoteDialog
+          open={openDialog}
+          onClose={handleCloseDialog}
+          onSubmit={handlePostNewNote}
+        />
       </Container>
     </>
   );
