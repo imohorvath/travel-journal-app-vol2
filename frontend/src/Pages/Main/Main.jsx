@@ -18,7 +18,6 @@ const Main = () => {
     fetch("/api/v1/users/1/journals")
       .then((res) => res.json())
       .then((result) => {
-        console.log(result);
         setJournalList(result);
         //  setLoading(false);
       })
