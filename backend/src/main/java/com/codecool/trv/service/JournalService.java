@@ -17,6 +17,7 @@ import com.codecool.trv.model.User;
 import com.codecool.trv.repository.JournalRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.Set;
@@ -96,7 +97,7 @@ public class JournalService {
         return noteService.findAllNotesByJournalId(journalId);
     }
 
-    public NewNoteResponse postNoteToJournalById(Long journalId, Long userId, NewNoteRequest newNoteRequest) {
+    /*public NewNoteResponse postNoteToJournalById(Long journalId, Long userId, NewNoteRequest newNoteRequest) {
         Journal journal = findJournalById(journalId);
         User creator = userService.findUserById(userId);
 
@@ -104,7 +105,16 @@ public class JournalService {
         journal.addNote(savedNote);
 
         return NoteMapper.mapToNewNoteResponse(savedNote);
+    }*/
+
+    public void postNoteToJournalById(Long journalId, Long userId, String noteText, MultipartFile file) {
+        Journal journal = findJournalById(journalId);
+        User creator = userService.findUserById(userId);
+
+        Note savedNote = noteService.addNote(journal, creator, noteText, file);
+        journal.addNote(savedNote);
     }
+
 
     public Set<UserResponse> getContributorsById(Long journalId) {
         return findJournalById(journalId).getContributors()
