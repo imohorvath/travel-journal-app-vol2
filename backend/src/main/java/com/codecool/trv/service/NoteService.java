@@ -1,6 +1,5 @@
 package com.codecool.trv.service;
 
-import com.codecool.trv.dto.note.NewNoteRequest;
 import com.codecool.trv.dto.note.NoteResponse;
 import com.codecool.trv.dto.note.UpdateNoteResponse;
 import com.codecool.trv.exception.ResourceNotFoundException;
@@ -9,8 +8,10 @@ import com.codecool.trv.model.Journal;
 import com.codecool.trv.model.Note;
 import com.codecool.trv.model.User;
 import com.codecool.trv.repository.NoteRepository;
+import com.codecool.trv.validation.ImageValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -18,10 +19,13 @@ import java.util.List;
 public class NoteService {
 
     private final NoteRepository noteRepository;
+    private final NoteImageService noteImageService;
+
 
     @Autowired
-    public NoteService(NoteRepository noteRepository) {
+    public NoteService(NoteRepository noteRepository, NoteImageService noteImageService) {
         this.noteRepository = noteRepository;
+        this.noteImageService = noteImageService;
     }
 
     Note findNoteById(Long noteId) {
@@ -56,7 +60,16 @@ public class NoteService {
         noteRepository.deleteNotesByCreatedBy_IdOrUpdatedBy_Id(userId, userId);
     }
 
-    public Note addNote(Journal journal, User creator, NewNoteRequest newNoteRequest) {
+    /*public Note addNote(Journal journal, User creator, NewNoteRequest newNoteRequest) {
         return noteRepository.save(NoteMapper.mapToNote(journal, creator, newNoteRequest));
+    }*/
+
+    public Note addNote(Journal journal, User creator, String noteText, MultipartFile file) {
+        Note savedNote = noteRepository.save(NoteMapper.mapToNote(journal, creator, noteText));
+
+        noteImageService.save(file, savedNote);
+
+        return savedNote;
     }
+
 }
