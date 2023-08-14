@@ -35,9 +35,9 @@ public class NoteMapper {
                 .build();
     }
 
-    public static Note mapToNote(Journal journal, User creator, NewNoteRequest newNoteRequest) {
+    public static Note mapToNote(Journal journal, User creator, String noteText) {
         return Note.builder()
-                .text(newNoteRequest.text())
+                .text(noteText)
                 .createdBy(creator)
                 .updatedBy(creator)
                 .journal(journal)

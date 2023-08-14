@@ -9,5 +9,3 @@ import java.time.LocalDateTime;
 @Builder
 public record NewNoteResponse(Long id, String text, LocalDateTime createdAt, UserResponse createdBy, GeoIP geoIP, Long journalId, LocalDateTime updatedAt, UserResponse updatedBy) {
 }
-/*public record NewNoteResponse(Long id, String text, LocalDateTime createdAt, String createdBy, String journalTitle, LocalDateTime updatedAt, String updatedBy) {
-}*/
