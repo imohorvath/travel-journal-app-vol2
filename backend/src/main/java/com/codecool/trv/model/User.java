@@ -48,4 +48,7 @@ public class User {
     @JsonIgnore
     private final Set<Journal> contributedJournals = new HashSet<>();
 
+    @ManyToMany
+    private final Set<Role> roles = new HashSet<>();
+
 }
