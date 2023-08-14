@@ -9,7 +9,9 @@ import com.codecool.trv.dto.user.UserResponse;
 import com.codecool.trv.dto.journal.NewJournal;
 import com.codecool.trv.service.JournalService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.Set;
@@ -60,9 +62,15 @@ public class JournalController {
         return journalService.findAllNotesByJournalId(journalId);
     }
 
-    @PostMapping("/journals/{journalId}/notes/{userId}")
+    /*@PostMapping("/journals/{journalId}/notes/{userId}")
     public NewNoteResponse postNoteToJournalById(@PathVariable Long journalId, @PathVariable Long userId, @RequestBody NewNoteRequest newNoteRequest) {
         return journalService.postNoteToJournalById(journalId, userId, newNoteRequest);
+    }*/
+
+    @PostMapping(value = "/journals/{journalId}/notes/{userId}/image",
+                consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public void postNoteToJournalById(@PathVariable Long journalId, @PathVariable Long userId, @RequestParam String text, @RequestParam MultipartFile file) {
+        journalService.postNoteToJournalById(journalId, userId, text, file);
     }
 
     @DeleteMapping("/journals/{journalId}/notes/")
