@@ -1,4 +1,4 @@
-package com.codecool.trv.security;
+package com.codecool.trv.security.model;
 
 import com.codecool.trv.model.User;
 import org.springframework.security.core.GrantedAuthority;
@@ -7,6 +7,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 public class SecurityUser implements UserDetails {
@@ -28,11 +29,7 @@ public class SecurityUser implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return user
-                .getRoles()
-                .stream()
-                .map(role -> new SimpleGrantedAuthority("ROLE_" + role.getName().toString()))
-                .collect(Collectors.toSet());
+        return Set.of(new SimpleGrantedAuthority("ROLE_" + user.getRole()));
     }
 
     @Override
