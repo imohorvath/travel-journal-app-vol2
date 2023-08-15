@@ -1,6 +1,8 @@
-package com.codecool.trv.security;
+package com.codecool.trv.security.service;
 
-import com.codecool.trv.security.token.TokenRepository;
+import com.codecool.trv.security.repository.TokenRepository;
+import com.codecool.trv.security.service.JwtService;
+import com.codecool.trv.security.service.SecurityUserDetailsService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
