@@ -1,8 +1,8 @@
-package com.codecool.trv.security;
+package com.codecool.trv.security.service;
 
 import com.codecool.trv.exception.ResourceNotFoundException;
 import com.codecool.trv.repository.UserRepository;
-import org.springframework.security.core.userdetails.User;
+import com.codecool.trv.security.model.SecurityUser;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -17,10 +17,10 @@ public class SecurityUserDetailsService implements UserDetailsService {
     }
 
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         return userRepository
-                .findUserByUsername(username)
+                .findByEmail(email)
                 .map(SecurityUser::new)
-                .orElseThrow(() -> new ResourceNotFoundException("Username not found: " + username));
+                .orElseThrow(() -> new ResourceNotFoundException("Email not found: " + email));
     }
 }
