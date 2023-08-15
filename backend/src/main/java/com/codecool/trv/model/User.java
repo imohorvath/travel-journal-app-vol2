@@ -50,6 +50,7 @@ public class User {
     @JsonIgnore
     private final Set<Journal> contributedJournals = new HashSet<>();
 
+    @Enumerated(EnumType.STRING)
     private RoleType role;
 
     @OneToMany (mappedBy = "user")
