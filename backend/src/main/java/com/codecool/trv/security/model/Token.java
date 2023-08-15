@@ -1,4 +1,4 @@
-package com.codecool.trv.security.token;
+package com.codecool.trv.security.model;
 
 import com.codecool.trv.model.User;
 import jakarta.persistence.*;
@@ -28,6 +28,6 @@ import lombok.NoArgsConstructor;
         public boolean expired;
 
         @ManyToOne(fetch = FetchType.LAZY)
-        @JoinColumn(name = "id")
+        @JoinColumn(name = "user_id")
         public User user;
 }

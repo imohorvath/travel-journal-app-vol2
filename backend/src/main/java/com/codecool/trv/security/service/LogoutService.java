@@ -1,6 +1,6 @@
-package com.codecool.trv.security;
+package com.codecool.trv.security.service;
 
-import com.codecool.trv.security.token.TokenRepository;
+import com.codecool.trv.security.repository.TokenRepository;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;

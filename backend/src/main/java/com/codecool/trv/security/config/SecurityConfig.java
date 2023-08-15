@@ -1,8 +1,8 @@
-package com.codecool.trv.config;
+package com.codecool.trv.security.config;
 
-import com.codecool.trv.security.JwtAuthFilter;
-import com.codecool.trv.security.RoleType;
-import com.codecool.trv.security.SecurityUserDetailsService;
+import com.codecool.trv.security.service.JwtAuthFilter;
+import com.codecool.trv.security.model.RoleType;
+import com.codecool.trv.security.service.SecurityUserDetailsService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -13,6 +13,7 @@ import org.springframework.security.config.annotation.authentication.configurati
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -28,8 +29,6 @@ import org.springframework.security.web.authentication.logout.LogoutHandler;
 public class SecurityConfig {
 
     private final SecurityUserDetailsService securityUserDetailsService;
-
-    private final AuthenticationProvider authenticationProvider;
     private final JwtAuthFilter jwtAuthFilter;
     private final LogoutHandler logoutHandler;
 
@@ -55,7 +54,7 @@ public class SecurityConfig {
     // more specific exception?
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-                .csrf(csrf -> csrf.disable())
+                .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> {
                     auth.requestMatchers(
                                     "/api/v1/auth/**",
@@ -79,7 +78,7 @@ public class SecurityConfig {
                 session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
         );
 
-        http.authenticationProvider(authenticationProvider)
+        http.authenticationProvider(authenticationProvider())
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
                 .logout(logout -> {
                     logout.logoutUrl("/api/v1/auth/logout")

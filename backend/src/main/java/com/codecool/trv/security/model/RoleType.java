@@ -1,4 +1,4 @@
-package com.codecool.trv.security;
+package com.codecool.trv.security.model;
 
 public enum RoleType {
     ADMIN,
