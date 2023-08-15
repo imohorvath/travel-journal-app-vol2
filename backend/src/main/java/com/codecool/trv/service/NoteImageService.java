@@ -31,10 +31,11 @@ public class NoteImageService {
     }
 
     public void save(MultipartFile file, Note savedNote) {
+        //TODO run the code only if it is an image and not empty
         if (imageValidator.isEmpty(file)) {
             System.out.println("Cannot upload file because file is empty");
         }
-        if(!imageValidator.isImage(file)) {
+        if(!imageValidator.isValidImage(file)) {
             System.out.println("Cannot upload file because file is not an image");
         }
         String fileName = String.format("%s\\%s", IMAGE_FILE_SYSTEM_PATH, savedNote.getId());
