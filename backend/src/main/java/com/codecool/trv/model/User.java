@@ -1,7 +1,8 @@
 package com.codecool.trv.model;
 
 
-import com.codecool.trv.security.token.Token;
+import com.codecool.trv.security.model.RoleType;
+import com.codecool.trv.security.model.Token;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
@@ -49,9 +50,9 @@ public class User {
     @JsonIgnore
     private final Set<Journal> contributedJournals = new HashSet<>();
 
-    @ManyToMany
-    private final Set<Role> roles = new HashSet<>();
+    private RoleType role;
 
     @OneToMany (mappedBy = "user")
     private final Set<Token> tokens = new HashSet<>();
+
 }
