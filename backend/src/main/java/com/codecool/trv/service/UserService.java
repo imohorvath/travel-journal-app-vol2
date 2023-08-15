@@ -43,10 +43,7 @@ public class UserService {
     }
 
     public UserResponse findUserResponseByName(String name) {
-        User user = userRepository.findUserByUsername(name);
-        if(user == null) {
-            throw new ResourceNotFoundException("User not found");
-        }
+        User user = userRepository.findUserByUsername(name).orElseThrow(() -> new ResourceNotFoundException("User not found"));
         return UserMapper.mapToUserResponse(user);
     }
 
