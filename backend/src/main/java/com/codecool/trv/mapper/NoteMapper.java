@@ -5,7 +5,10 @@ import com.codecool.trv.dto.note.NewNoteResponse;
 import com.codecool.trv.dto.note.NoteResponse;
 import com.codecool.trv.model.Journal;
 import com.codecool.trv.model.Note;
+import com.codecool.trv.model.NoteImage;
 import com.codecool.trv.model.User;
+
+import java.util.stream.Collectors;
 
 public class NoteMapper {
 
@@ -32,6 +35,7 @@ public class NoteMapper {
                 .journalId(note.getJournal().getId())
                 .updatedAt(note.getUpdatedAt())
                 .updatedBy(UserMapper.mapToUserResponse(note.getUpdatedBy()))
+                .imageLinks(note.getImageLinks().stream().map(NoteImage::getUrl).collect(Collectors.toSet()))
                 .build();
     }
 
