@@ -51,6 +51,9 @@ const JournalAlbum = ({
   const deleteJournal = (journalId) => {
     console.log(journalId);
     fetch(`/api/v1/journals/${journalId}`, {
+      headers: {
+        "Authorization": "Bearer " + localStorage.getItem("jwt")
+      },
       method: "DELETE",
     })
       .then((res) => {
