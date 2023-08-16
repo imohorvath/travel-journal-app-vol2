@@ -34,7 +34,6 @@ public class JwtAuthFilter extends OncePerRequestFilter {
         final String jwt;
         final String userEmail;
         // No JWT found in the Authorization header, continue with the filter chain
-        filterChain.doFilter(request, response);
         if (authHeader == null ||!authHeader.startsWith("Bearer ")) {
             filterChain.doFilter(request, response);
             return;
