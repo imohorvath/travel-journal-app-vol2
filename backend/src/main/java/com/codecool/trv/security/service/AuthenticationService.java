@@ -5,18 +5,16 @@ import com.codecool.trv.model.User;
 import com.codecool.trv.repository.UserRepository;
 import com.codecool.trv.security.model.*;
 import com.codecool.trv.security.repository.TokenRepository;
-import com.codecool.trv.security.service.JwtService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.NoSuchElementException;
-
 @Service
 @RequiredArgsConstructor
 public class AuthenticationService {
+
     private final UserRepository repository;
     private final TokenRepository tokenRepository;
     private final PasswordEncoder passwordEncoder;
@@ -36,7 +34,7 @@ public class AuthenticationService {
         String jwtToken = jwtService.generateToken(new SecurityUser(user));
         saveUserToken(savedUser, jwtToken);
         return AuthenticationResponse.builder()
-                .accessToken(jwtToken)
+                .jwt(jwtToken)
                 .build();
     }
 
@@ -53,7 +51,7 @@ public class AuthenticationService {
         revokeAllUserTokens(user);
         saveUserToken(user, jwtToken);
         return AuthenticationResponse.builder()
-                .accessToken(jwtToken)
+                .jwt(jwtToken)
                 .build();
     }
 
@@ -61,7 +59,7 @@ public class AuthenticationService {
         var token = Token.builder()
                 .user(user)
                 .token(jwtToken)
-                .tokenType("BEARER")
+                .tokenType("Bearer")
                 .expired(false)
                 .revoked(false)
                 .build();
