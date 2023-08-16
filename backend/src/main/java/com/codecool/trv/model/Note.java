@@ -58,5 +58,10 @@ public class Note {
     private User updatedBy;
 
     @OneToMany(mappedBy = "note")
-    private Set<NoteImage> imageLinks = new HashSet<>();
+    private final Set<NoteImage> imageLinks = new HashSet<>();
+
+    public void addImage(NoteImage savedImage) {
+        imageLinks.add(savedImage);
+    }
+
 }
