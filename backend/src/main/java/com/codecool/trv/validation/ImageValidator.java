@@ -13,7 +13,7 @@ import java.util.Set;
 @Component
 public class ImageValidator {
 
-    private static final Set<String> ALLOWED_EXTENSIONS = Set.of("jpg", "jpeg", "png", "gif", "bmp");
+    private static final Set<String> ALLOWED_EXTENSIONS = Set.of("jpg", "jpeg", "png", "bmp");
 
     /**
      * Checks if the file is empty.
@@ -52,7 +52,6 @@ public class ImageValidator {
      */
     private boolean hasValidExtension(MultipartFile file) {
         String extension = getFileExtension(file.getOriginalFilename());
-        System.out.println(extension);
         return ALLOWED_EXTENSIONS.contains(extension.toLowerCase());
     }
 

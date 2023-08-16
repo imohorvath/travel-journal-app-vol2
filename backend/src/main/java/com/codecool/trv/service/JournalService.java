@@ -106,11 +106,11 @@ public class JournalService {
         return NoteMapper.mapToNewNoteResponse(savedNote);
     }*/
 
-    public NewNoteResponse postNoteToJournalById(Long journalId, Long userId, String noteText, MultipartFile file) {
+    public NewNoteResponse postNoteToJournalById(Long journalId, Long userId, String noteText, MultipartFile[] files) {
         Journal journal = findJournalById(journalId);
         User creator = userService.findUserById(userId);
 
-        Note savedNote = noteService.addNote(journal, creator, noteText, file);
+        Note savedNote = noteService.addNote(journal, creator, noteText, files);
         journal.addNote(savedNote);
 
         return NoteMapper.mapToNewNoteResponse(savedNote);

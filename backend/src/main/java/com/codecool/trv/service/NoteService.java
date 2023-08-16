@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.Arrays;
 import java.util.List;
 
 @Service
@@ -65,15 +66,17 @@ public class NoteService {
         return noteRepository.save(NoteMapper.mapToNote(journal, creator, newNoteRequest));
     }*/
 
-    public Note addNote(Journal journal, User creator, String noteText, MultipartFile file) {
+    public Note addNote(Journal journal, User creator, String noteText, MultipartFile[] files) {
         Note savedNote = noteRepository.save(NoteMapper.mapToNote(journal, creator, noteText));
 
-        try{
-           NoteImage savedImage = noteImageService.save(file, savedNote);
-           savedNote.addImage(savedImage);
-        } catch(Exception exception) {
-            System.out.println(exception.getMessage());
-        }
+        Arrays.asList(files).forEach(multipartFile -> {
+            try{
+                NoteImage savedImage = noteImageService.save(multipartFile, savedNote);
+                savedNote.addImage(savedImage);
+            } catch(Exception exception) {
+                System.out.println(exception.getMessage());
+            }
+        });
 
         return savedNote;
     }
