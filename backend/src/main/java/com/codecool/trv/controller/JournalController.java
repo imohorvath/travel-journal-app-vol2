@@ -29,9 +29,6 @@ public class JournalController {
 
     @GetMapping("/users/{userId}/journals")
     public List<JournalResponse> findAllJournals(@PathVariable Long userId, @CurrentSecurityContext SecurityContext securityContext) {
-        System.out.println(securityContext.getAuthentication().getAuthorities());
-        System.out.println(securityContext.getAuthentication().getName());
-        System.out.println(securityContext.getAuthentication().isAuthenticated());
         return journalService.findAllJournalsByUserId(userId);
     }
 
@@ -42,9 +39,6 @@ public class JournalController {
 
     @PostMapping("/users/{userId}/journals/")
     public NewJournalResponse addNewJournal(@PathVariable Long userId, @RequestBody NewJournal newJournal, @CurrentSecurityContext SecurityContext securityContext) {
-        System.out.println(securityContext.getAuthentication().getAuthorities());
-        System.out.println(securityContext.getAuthentication().getName());
-        System.out.println(securityContext.getAuthentication().isAuthenticated());
         return journalService.addNewJournal(userId, newJournal);
     }
 
