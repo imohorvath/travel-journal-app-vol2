@@ -1,8 +1,6 @@
 package com.codecool.trv.security.service;
 
 import com.codecool.trv.security.repository.TokenRepository;
-import com.codecool.trv.security.service.JwtService;
-import com.codecool.trv.security.service.SecurityUserDetailsService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -43,7 +41,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
         }
 
         jwt = authHeader.substring(7);
-        userEmail = jwtService.extractUsername(jwt);
+        userEmail = jwtService.extractUserEmail(jwt);
 
         //there isn't an existing authentication already
         if (userEmail != null && SecurityContextHolder.getContext().getAuthentication() == null) {
