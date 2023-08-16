@@ -34,6 +34,9 @@ public class AuthenticationService {
         String jwtToken = jwtService.generateToken(new SecurityUser(user));
         saveUserToken(savedUser, jwtToken);
         return AuthenticationResponse.builder()
+                .id(user.getId())
+                .username(user.getUsername())
+                .email(user.getEmail())
                 .jwt(jwtToken)
                 .build();
     }
@@ -51,6 +54,9 @@ public class AuthenticationService {
         revokeAllUserTokens(user);
         saveUserToken(user, jwtToken);
         return AuthenticationResponse.builder()
+                .id(user.getId())
+                .username(user.getUsername())
+                .email(user.getEmail())
                 .jwt(jwtToken)
                 .build();
     }

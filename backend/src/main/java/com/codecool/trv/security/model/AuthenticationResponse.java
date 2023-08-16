@@ -12,6 +12,12 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class AuthenticationResponse {
 
+    private Long id;
+
+    private String username;
+
+    private String email;
+
     private String jwt;
 
 }
