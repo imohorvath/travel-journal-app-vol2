@@ -6,6 +6,7 @@ import com.codecool.trv.exception.ResourceNotFoundException;
 import com.codecool.trv.mapper.NoteMapper;
 import com.codecool.trv.model.Journal;
 import com.codecool.trv.model.Note;
+import com.codecool.trv.model.NoteImage;
 import com.codecool.trv.model.User;
 import com.codecool.trv.repository.NoteRepository;
 import com.codecool.trv.validation.ImageValidator;
@@ -67,7 +68,12 @@ public class NoteService {
     public Note addNote(Journal journal, User creator, String noteText, MultipartFile file) {
         Note savedNote = noteRepository.save(NoteMapper.mapToNote(journal, creator, noteText));
 
-        noteImageService.save(file, savedNote);
+        try{
+           NoteImage savedImage = noteImageService.save(file, savedNote);
+           savedNote.addImage(savedImage);
+        } catch(Exception exception) {
+            System.out.println(exception.getMessage());
+        }
 
         return savedNote;
     }

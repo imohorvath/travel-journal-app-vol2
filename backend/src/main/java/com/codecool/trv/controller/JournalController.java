@@ -2,7 +2,6 @@ package com.codecool.trv.controller;
 
 import com.codecool.trv.dto.journal.JournalResponse;
 import com.codecool.trv.dto.journal.NewJournalResponse;
-import com.codecool.trv.dto.note.NewNoteRequest;
 import com.codecool.trv.dto.note.NewNoteResponse;
 import com.codecool.trv.dto.note.NoteResponse;
 import com.codecool.trv.dto.user.UserResponse;
@@ -69,8 +68,8 @@ public class JournalController {
 
     @PostMapping(value = "/journals/{journalId}/notes/{userId}/image",
                 consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public void postNoteToJournalById(@PathVariable Long journalId, @PathVariable Long userId, @RequestParam String text, @RequestParam MultipartFile file) {
-        journalService.postNoteToJournalById(journalId, userId, text, file);
+    public NewNoteResponse postNoteToJournalById(@PathVariable Long journalId, @PathVariable Long userId, @RequestParam String text, @RequestParam MultipartFile file) {
+        return journalService.postNoteToJournalById(journalId, userId, text, file);
     }
 
     @DeleteMapping("/journals/{journalId}/notes/")

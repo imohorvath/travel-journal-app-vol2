@@ -2,7 +2,6 @@ package com.codecool.trv.service;
 
 import com.codecool.trv.dto.journal.JournalResponse;
 import com.codecool.trv.dto.journal.NewJournalResponse;
-import com.codecool.trv.dto.note.NewNoteRequest;
 import com.codecool.trv.dto.note.NewNoteResponse;
 import com.codecool.trv.dto.note.NoteResponse;
 import com.codecool.trv.dto.user.UserResponse;
@@ -107,14 +106,15 @@ public class JournalService {
         return NoteMapper.mapToNewNoteResponse(savedNote);
     }*/
 
-    public void postNoteToJournalById(Long journalId, Long userId, String noteText, MultipartFile file) {
+    public NewNoteResponse postNoteToJournalById(Long journalId, Long userId, String noteText, MultipartFile file) {
         Journal journal = findJournalById(journalId);
         User creator = userService.findUserById(userId);
 
         Note savedNote = noteService.addNote(journal, creator, noteText, file);
         journal.addNote(savedNote);
-    }
 
+        return NoteMapper.mapToNewNoteResponse(savedNote);
+    }
 
     public Set<UserResponse> getContributorsById(Long journalId) {
         return findJournalById(journalId).getContributors()

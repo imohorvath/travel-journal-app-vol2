@@ -23,28 +23,24 @@ public class NoteImageService {
     private final NoteImageRepository noteImageRepository;
     private final ImageValidator imageValidator;
 
-
     @Autowired
     public NoteImageService(NoteImageRepository noteImageRepository, ImageValidator imageValidator) {
         this.noteImageRepository = noteImageRepository;
         this.imageValidator = imageValidator;
     }
 
-    public void save(MultipartFile file, Note savedNote) {
-        //TODO run the code only if it is an image and not empty
-        if (imageValidator.isEmpty(file)) {
-            System.out.println("Cannot upload file because file is empty");
+    public NoteImage save(MultipartFile file, Note savedNote) {
+
+        if (imageValidator.isEmpty(file) || !imageValidator.isValidImage(file)) {
+            throw new IllegalArgumentException("Cannot upload file.");
         }
-        if(!imageValidator.isValidImage(file)) {
-            System.out.println("Cannot upload file because file is not an image");
-        }
+
         String fileName = String.format("%s\\%s", IMAGE_FILE_SYSTEM_PATH, savedNote.getId());
         Path path = Paths.get(fileName);
 
         try {
             if (!Files.exists(path)) {
                 Files.createDirectory(path);
-                System.out.println("Directory created");
             }
             BufferedOutputStream outputStream =
                     new BufferedOutputStream(
@@ -60,6 +56,7 @@ public class NoteImageService {
 
         String imagePath = String.format("images/notes/%s/%s", savedNote.getId(), file.getOriginalFilename());
         NoteImage noteImageToSave = NoteImage.builder().url(imagePath).note(savedNote).build();
-        noteImageRepository.save(noteImageToSave);
+        NoteImage savedImage = noteImageRepository.save(noteImageToSave);
+        return savedImage;
     }
 }
