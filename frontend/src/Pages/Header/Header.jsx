@@ -35,6 +35,7 @@ const Header = () => {
                 break;
             }
             case "Logout" : {
+                handleLogout();
                 navigate(`/`);
                 setAuth(false);
                 setShowSignIn(true);
@@ -51,6 +52,22 @@ const Header = () => {
 
     const handleLogin = () => {
         setAuth(true);
+    }
+
+    const handleLogout = () => {
+        fetch("/api/v1/auth/logout", {
+            headers: {
+              "Authorization": "Bearer " + localStorage.getItem("jwt")
+            },
+          })
+          .then(res => {
+            if (res.ok) {
+                localStorage.clear();
+            }
+          })
+          .catch((error) =>
+          console.log(`An error occurred during logout:${error}`)
+      );
     }
 
     return (

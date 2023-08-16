@@ -22,7 +22,11 @@ const JournalCreate = ({ onCancel, onSubmit, userId }) => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    fetch("/api/v1/users/")
+    fetch("/api/v1/users/", {
+      headers: {
+        "Authorization": "Bearer " + localStorage.getItem("jwt")
+      },
+    })
       .then((res) => res.json())
       .then((result) => {
         const filtered = result.filter((user) => user.id !== userId);

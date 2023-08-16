@@ -28,7 +28,11 @@ const NoteList = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch(`/api/v1/journals/${journalId}/notes/`)
+    fetch(`/api/v1/journals/${journalId}/notes/`, {
+      headers: {
+        "Authorization": "Bearer " + localStorage.getItem("jwt")
+      },
+    })
       .then((res) => res.json())
       .then((result) => {
         setNoteList(result);
