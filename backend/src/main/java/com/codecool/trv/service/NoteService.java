@@ -62,21 +62,19 @@ public class NoteService {
         noteRepository.deleteNotesByCreatedBy_IdOrUpdatedBy_Id(userId, userId);
     }
 
-    /*public Note addNote(Journal journal, User creator, NewNoteRequest newNoteRequest) {
-        return noteRepository.save(NoteMapper.mapToNote(journal, creator, newNoteRequest));
-    }*/
-
     public Note addNote(Journal journal, User creator, String noteText, MultipartFile[] files) {
         Note savedNote = noteRepository.save(NoteMapper.mapToNote(journal, creator, noteText));
 
-        Arrays.asList(files).forEach(multipartFile -> {
-            try{
-                NoteImage savedImage = noteImageService.save(multipartFile, savedNote);
-                savedNote.addImage(savedImage);
-            } catch(Exception exception) {
-                System.out.println(exception.getMessage());
-            }
-        });
+        if(files != null) {
+            Arrays.asList(files).forEach(multipartFile -> {
+                try{
+                    NoteImage savedImage = noteImageService.save(multipartFile, savedNote);
+                    savedNote.addImage(savedImage);
+                } catch(Exception exception) {
+                    System.out.println(exception.getMessage());
+                }
+            });
+        }
 
         return savedNote;
     }

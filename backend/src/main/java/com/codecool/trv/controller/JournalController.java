@@ -62,14 +62,9 @@ public class JournalController {
         return journalService.findAllNotesByJournalId(journalId);
     }
 
-    /*@PostMapping("/journals/{journalId}/notes/{userId}")
-    public NewNoteResponse postNoteToJournalById(@PathVariable Long journalId, @PathVariable Long userId, @RequestBody NewNoteRequest newNoteRequest) {
-        return journalService.postNoteToJournalById(journalId, userId, newNoteRequest);
-    }*/
-
-    @PostMapping(value = "/journals/{journalId}/notes/{userId}/image",
-                consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public NewNoteResponse postNoteToJournalById(@PathVariable Long journalId, @PathVariable Long userId, @RequestParam String text, @RequestParam MultipartFile[] files) {
+    @PostMapping(value = "/journals/{journalId}/notes/{userId}",
+                consumes = { MediaType.MULTIPART_FORM_DATA_VALUE })
+    public NewNoteResponse postNoteToJournalById(@PathVariable Long journalId, @PathVariable Long userId, @RequestParam String text, @RequestParam(required = false) MultipartFile[] files) {
         return journalService.postNoteToJournalById(journalId, userId, text, files);
     }
 

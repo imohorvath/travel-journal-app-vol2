@@ -96,16 +96,6 @@ public class JournalService {
         return noteService.findAllNotesByJournalId(journalId);
     }
 
-    /*public NewNoteResponse postNoteToJournalById(Long journalId, Long userId, NewNoteRequest newNoteRequest) {
-        Journal journal = findJournalById(journalId);
-        User creator = userService.findUserById(userId);
-
-        Note savedNote = noteService.addNote(journal, creator, newNoteRequest);
-        journal.addNote(savedNote);
-
-        return NoteMapper.mapToNewNoteResponse(savedNote);
-    }*/
-
     public NewNoteResponse postNoteToJournalById(Long journalId, Long userId, String noteText, MultipartFile[] files) {
         Journal journal = findJournalById(journalId);
         User creator = userService.findUserById(userId);
