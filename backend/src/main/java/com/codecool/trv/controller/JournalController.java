@@ -9,6 +9,8 @@ import com.codecool.trv.dto.user.UserResponse;
 import com.codecool.trv.dto.journal.NewJournal;
 import com.codecool.trv.service.JournalService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.CurrentSecurityContext;
+import org.springframework.security.core.context.SecurityContext;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -26,7 +28,7 @@ public class JournalController {
     }
 
     @GetMapping("/users/{userId}/journals")
-    public List<JournalResponse> findAllJournals(@PathVariable Long userId) {
+    public List<JournalResponse> findAllJournals(@PathVariable Long userId, @CurrentSecurityContext SecurityContext securityContext) {
         return journalService.findAllJournalsByUserId(userId);
     }
 
@@ -36,7 +38,7 @@ public class JournalController {
     }
 
     @PostMapping("/users/{userId}/journals/")
-    public NewJournalResponse addNewJournal(@PathVariable Long userId, @RequestBody NewJournal newJournal) {
+    public NewJournalResponse addNewJournal(@PathVariable Long userId, @RequestBody NewJournal newJournal, @CurrentSecurityContext SecurityContext securityContext) {
         return journalService.addNewJournal(userId, newJournal);
     }
 

@@ -23,7 +23,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import org.springframework.security.web.authentication.logout.LogoutHandler;
 
 @Configuration
-@EnableWebSecurity
+@EnableWebSecurity(debug = true)
 @EnableMethodSecurity
 @RequiredArgsConstructor
 public class SecurityConfig {
@@ -60,14 +60,15 @@ public class SecurityConfig {
                                     "/api/v1/auth/**",
                                     "/css/**",
                                     "/js/**",
-                                    "/webjars/**")
+                                    "/webjars/**",
+                                    "/error/**")
                             .permitAll();
 
                     auth.requestMatchers(
                                     "/api/v1/users/**",
                                     "/api/v1/journals/**",
                                     "/api/v1/notes/**")
-                            .hasAnyRole(RoleType.ADMIN.name(), RoleType.USER.name());
+                            .hasAnyRole(RoleType.ADMIN.toString(), RoleType.USER.toString());
 
                     //get, post put delete hasAnyAuthority
 
