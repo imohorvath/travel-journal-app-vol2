@@ -22,6 +22,7 @@ public class NoteMapper {
                 .journalId(note.getJournal().getId())
                 .updatedAt(note.getUpdatedAt())
                 .updatedBy(UserMapper.mapToUserResponse(note.getUpdatedBy()))
+                .imageLinks(note.getImageLinks().stream().map(NoteImage::getUrl).collect(Collectors.toSet()))
                 .build();
     }
 
