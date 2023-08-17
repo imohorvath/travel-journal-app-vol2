@@ -17,7 +17,11 @@ const Main = () => {
   }, []);
 
   const fetchJournals = (userId) => {
-    fetch(`/api/v1/users/${userId}/journals`)
+    fetch(`/api/v1/users/${userId}/journals`, {
+      headers: {
+        "Authorization": "Bearer " + localStorage.getItem("jwt")
+      },
+    })
       .then((res) => res.json())
       .then((result) => {
         setJournalList(result);
@@ -29,7 +33,11 @@ const Main = () => {
   };
 
   const fetchContributedJournals = (userId) => {
-    fetch(`/api/v1/journals/contributors/${userId}`)
+    fetch(`/api/v1/journals/contributors/${userId}`, {
+      headers: {
+        "Authorization": "Bearer " + localStorage.getItem("jwt")
+      },
+    })
       .then((res) => res.json())
       .then((result) => {
         setContributedJounals(result);
@@ -54,6 +62,7 @@ const Main = () => {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
+        "Authorization": "Bearer " + localStorage.getItem("jwt")
       },
       body: JSON.stringify(newJournal),
     })

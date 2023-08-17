@@ -12,25 +12,61 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import Copyright from "../../Components/Copyright/Copyright";
-import {useNavigate, useOutletContext} from "react-router-dom";
+import {useNavigate} from "react-router-dom";
+
 
 import "./Login.css";
+import { useState } from 'react';
 
 const Login = () => {
+    const [errorMsg, setErrorMsg] = useState(null);
 
-    const onLogin = useOutletContext();
     const navigate = useNavigate();
 
     const handleSubmit = (event) => {
         event.preventDefault();
-        const data = new FormData(event.currentTarget);
-        console.log({
-            email: data.get('email'),
-            password: data.get('password'),
-        });
-        onLogin();
+        const formData = new FormData(event.currentTarget);
+        const details = Object.fromEntries(formData.entries());
+        console.log(details);
+        loginUser(details);
         navigate('/main');
     };
+
+    const setLocalStorage = (userDetails) => {
+        localStorage.setItem("id", userDetails.id);
+        localStorage.setItem("username", userDetails.username);
+        localStorage.setItem("email", userDetails.email);
+        localStorage.setItem("jwt", userDetails.jwt);
+    }
+
+    const loginUser = (details) => {
+        fetch("/api/v1/auth/login", {
+            headers: {
+                "Content-type" : "application/json", 
+            },
+            method: "post",
+            body: JSON.stringify(details),
+        })
+        .then((response) => {
+            console.log(response);
+            if (response.status === 200) {
+                return response.json()
+            }
+            else if (response.status === 401 || response.status === 403) {
+              setErrorMsg("Invalid username or password");
+            } else {
+              setErrorMsg(
+                "Something went wrong, try again later or reach out to trevor@coderscampus.com"
+              );
+            }
+          })
+          .then((data) => {
+            if (data) {
+                console.log(data);
+                setLocalStorage(data);
+            }
+          });
+    }
 
     return (
             <Container component="main" maxWidth="xs">

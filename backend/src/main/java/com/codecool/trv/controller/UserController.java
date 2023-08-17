@@ -8,6 +8,8 @@ import com.codecool.trv.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.CurrentSecurityContext;
+import org.springframework.security.core.context.SecurityContext;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -29,8 +31,9 @@ public class UserController {
     }
 
     @GetMapping("/users/{id}")
-    public UserResponse findUserById(@PathVariable Long id) {
+    public UserResponse findUserById(@PathVariable Long id, @CurrentSecurityContext SecurityContext context) {
         return userService.findUserResponseById(id);
+        // decide here who is the user, and access based on roles
     }
 
     @GetMapping("/users/username")
