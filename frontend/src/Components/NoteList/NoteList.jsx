@@ -67,16 +67,11 @@ const NoteList = () => {
     setOpenConfirmDialog(false);
   };
 
-  //TODO get userId
-
-  const handlePostNewNote = (newNote) => {
+  const handlePostNewNote = (formData) => {
     
     fetch(`/api/v1/journals/${journalId}/notes/1`, {
       method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(newNote),
+      body: formData,
     })
       .then((res) => res.json())
       .then((result) => {

@@ -9,14 +9,30 @@ import {
   Typography,
   Box,
   IconButton,
+  ImageList,
+  ImageListItem,
 } from "@mui/material";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
-import EditIcon from '@mui/icons-material/Edit';
+import EditIcon from "@mui/icons-material/Edit";
 
 const NoteCard = ({ note, onDelete, onEdit }) => {
   return (
     <Grid item xs={12} key={note.id}>
       <Card>
+
+        <ImageList variant="masonry" cols={3} gap={8}>
+          {note.imageLinks.map((item, i) => (
+            <ImageListItem key={i}>
+              <img
+                src={`${item}?w=248&fit=crop&auto=format`}
+                srcSet={`${item}?w=248&fit=crop&auto=format&dpr=2 2x`}
+                alt=""
+                loading="eager"
+              />
+            </ImageListItem>
+          ))}
+        </ImageList>
+
         <CardContent>
           <Typography
             gutterBottom
@@ -66,10 +82,19 @@ const NoteCard = ({ note, onDelete, onEdit }) => {
         </CardContent>
 
         <CardActions>
-          <IconButton aria-label="Edit" onClick={() => onEdit(note)} color="primary" fontSize="large">
+          <IconButton
+            aria-label="Edit"
+            onClick={() => onEdit(note)}
+            color="primary"
+            fontSize="large"
+          >
             <EditIcon />
           </IconButton>
-          <IconButton aria-label="Delete" onClick={() => onDelete(note)} fontSize="small">
+          <IconButton
+            aria-label="Delete"
+            onClick={() => onDelete(note)}
+            fontSize="small"
+          >
             <DeleteForeverIcon />
           </IconButton>
         </CardActions>

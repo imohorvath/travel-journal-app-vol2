@@ -2,7 +2,6 @@ package com.codecool.trv.service;
 
 import com.codecool.trv.dto.journal.JournalResponse;
 import com.codecool.trv.dto.journal.NewJournalResponse;
-import com.codecool.trv.dto.note.NewNoteRequest;
 import com.codecool.trv.dto.note.NewNoteResponse;
 import com.codecool.trv.dto.note.NoteResponse;
 import com.codecool.trv.dto.user.UserResponse;
@@ -17,6 +16,7 @@ import com.codecool.trv.model.User;
 import com.codecool.trv.repository.JournalRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.Set;
@@ -96,11 +96,11 @@ public class JournalService {
         return noteService.findAllNotesByJournalId(journalId);
     }
 
-    public NewNoteResponse postNoteToJournalById(Long journalId, Long userId, NewNoteRequest newNoteRequest) {
+    public NewNoteResponse postNoteToJournalById(Long journalId, Long userId, String noteText, MultipartFile[] files) {
         Journal journal = findJournalById(journalId);
         User creator = userService.findUserById(userId);
 
-        Note savedNote = noteService.addNote(journal, creator, newNoteRequest);
+        Note savedNote = noteService.addNote(journal, creator, noteText, files);
         journal.addNote(savedNote);
 
         return NoteMapper.mapToNewNoteResponse(savedNote);

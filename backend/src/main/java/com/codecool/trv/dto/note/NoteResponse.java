@@ -5,9 +5,10 @@ import com.codecool.trv.model.GeoIP;
 import lombok.Builder;
 
 import java.time.LocalDateTime;
+import java.util.Set;
 
 @Builder
-public record NoteResponse(Long id, String text, LocalDateTime createdAt, UserResponse createdBy, GeoIP geoIP, Long journalId, LocalDateTime updatedAt, UserResponse updatedBy) {
+public record NoteResponse(Long id, String text, LocalDateTime createdAt, UserResponse createdBy, GeoIP geoIP, Long journalId, LocalDateTime updatedAt, UserResponse updatedBy, Set<String> imageLinks) {
 }
 
 

@@ -9,6 +9,8 @@ import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDateTime;
+import java.util.HashSet;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -54,5 +56,12 @@ public class Note {
     @JoinColumn(name="updated_by_user_id", referencedColumnName = "id")
     //@LastModifiedBy --- first check how it works
     private User updatedBy;
+
+    @OneToMany(mappedBy = "note")
+    private final Set<NoteImage> imageLinks = new HashSet<>();
+
+    public void addImage(NoteImage savedImage) {
+        imageLinks.add(savedImage);
+    }
 
 }

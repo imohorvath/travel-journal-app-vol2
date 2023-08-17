@@ -2,7 +2,6 @@ package com.codecool.trv.controller;
 
 import com.codecool.trv.dto.journal.JournalResponse;
 import com.codecool.trv.dto.journal.NewJournalResponse;
-import com.codecool.trv.dto.note.NewNoteRequest;
 import com.codecool.trv.dto.note.NewNoteResponse;
 import com.codecool.trv.dto.note.NoteResponse;
 import com.codecool.trv.dto.user.UserResponse;
@@ -11,8 +10,11 @@ import com.codecool.trv.service.JournalService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.CurrentSecurityContext;
 import org.springframework.security.core.context.SecurityContext;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
 
@@ -62,9 +64,10 @@ public class JournalController {
         return journalService.findAllNotesByJournalId(journalId);
     }
 
-    @PostMapping("/journals/{journalId}/notes/{userId}")
-    public NewNoteResponse postNoteToJournalById(@PathVariable Long journalId, @PathVariable Long userId, @RequestBody NewNoteRequest newNoteRequest) {
-        return journalService.postNoteToJournalById(journalId, userId, newNoteRequest);
+    @PostMapping(value = "/journals/{journalId}/notes/{userId}",
+                consumes = { MediaType.MULTIPART_FORM_DATA_VALUE })
+    public NewNoteResponse postNoteToJournalById(@PathVariable Long journalId, @PathVariable Long userId, @RequestParam String text, @RequestParam(required = false) MultipartFile[] files) {
+        return journalService.postNoteToJournalById(journalId, userId, text, files);
     }
 
     @DeleteMapping("/journals/{journalId}/notes/")
