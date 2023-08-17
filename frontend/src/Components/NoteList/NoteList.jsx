@@ -68,9 +68,12 @@ const NoteList = () => {
   };
 
   const handlePostNewNote = (formData) => {
-    
-    fetch(`/api/v1/journals/${journalId}/notes/1`, {
+    console.log(localStorage.getItem("id"));
+    fetch(`/api/v1/journals/${journalId}/notes/${localStorage.getItem("id")}`, {
       method: "POST",
+      headers: {
+        "Authorization": "Bearer " + localStorage.getItem("jwt")
+      },
       body: formData,
     })
       .then((res) => res.json())
@@ -90,6 +93,9 @@ const NoteList = () => {
 
     fetch(`/api/v1/notes/${currentNote.id}`, {
       method: "DELETE",
+      headers: {
+        "Authorization": "Bearer " + localStorage.getItem("jwt")
+      }
     })
       .then((res) => {
         console.log(res);

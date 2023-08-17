@@ -2,19 +2,12 @@ import "./PostNewNoteDialog.css";
 import { useEffect, useState } from "react";
 
 import {
-  Box,
   Button,
-  CardActions,
-  Container,
-  Stack,
-  Typography,
   Dialog,
   DialogTitle,
   DialogActions,
   DialogContent,
-  DialogContentText,
   TextField,
-  Input,
 } from "@mui/material";
 
 const PostNewNoteDialog = ({ open, onClose, onSubmit }) => {
@@ -28,8 +21,8 @@ const PostNewNoteDialog = ({ open, onClose, onSubmit }) => {
     e.preventDefault();
 
     const formData = new FormData();
+    
     formData.append("text", text);
-
     uploadedFiles.forEach(file => formData.append("files", file));
 
     onSubmit(formData);
@@ -40,7 +33,7 @@ const PostNewNoteDialog = ({ open, onClose, onSubmit }) => {
 
   const handleFileUpload = (e) => {
     e.preventDefault();
-    const chosenFiles = Array.prototype.slice.call(e.target.files);
+    const chosenFiles = [...e.target.files];
 
     const uploaded = [...uploadedFiles];
     let limitExceeded = false;
