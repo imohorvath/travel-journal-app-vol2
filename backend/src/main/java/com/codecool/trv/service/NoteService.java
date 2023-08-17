@@ -47,6 +47,7 @@ public class NoteService {
         if(!noteRepository.existsById(noteId)) {
             throw new ResourceNotFoundException("Note not found");
         }
+        noteImageService.deleteNoteImagesByNoteId(noteId);
         noteRepository.deleteById(noteId);
     }
 
