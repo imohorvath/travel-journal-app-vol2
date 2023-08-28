@@ -89,6 +89,7 @@ const Header = () => {
             variant="h4"
             color="custom.contrastText"
             noWrap
+            onClick={()=>navigate("/")}
             sx={{
               flexGrow: 1,
               fontFamily: "Satisfy",
@@ -96,6 +97,17 @@ const Header = () => {
           >
             Travel Journal
           </Typography>
+          {/* {auth && <Typography
+            variant="h4"
+            color="custom.contrastText"
+            noWrap
+            sx={{
+              flexGrow: 1,
+              fontFamily: "Satisfy",
+            }}
+          >
+            Hello {localStorage.getItem("username")}
+          </Typography>} */}
           {!auth &&
             location.pathname !== "/login" &&
             location.pathname !== "/signup" && (
