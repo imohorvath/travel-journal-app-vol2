@@ -6,11 +6,8 @@ import { useNavigate } from "react-router-dom";
 import ConfirmationDialog from "../ConfirmationDialog";
 import { createClient } from "pexels";
 
-const JournalAlbum = ({
-  journalList,
-  contributedJournals,
-  refreshJournalList,
-}) => {
+const JournalAlbum = ({journalList, contributedJournals, refreshJournalList,}) => {
+  
   const [dialogOpen, setDialogOpen] = useState(false);
   const [currentJournal, setCurrentJournal] = useState("");
   const [imageURLs, setImageURLs] = useState([]);

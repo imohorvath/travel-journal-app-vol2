@@ -59,4 +59,8 @@ public class NoteImageService {
         NoteImage savedImage = noteImageRepository.save(noteImageToSave);
         return savedImage;
     }
+
+    public void deleteNoteImagesByNoteId(Long noteId) {
+        noteImageRepository.deleteAllByNote_Id(noteId);
+    }
 }

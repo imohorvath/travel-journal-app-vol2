@@ -12,8 +12,8 @@ const Main = () => {
   const [contributedJounals, setContributedJounals] = useState([]);
 
   useEffect(() => {
-    fetchJournals(1);
-    fetchContributedJournals(1);
+    fetchJournals(localStorage.getItem("id"));
+    fetchContributedJournals(localStorage.getItem("id"));
   }, []);
 
   const fetchJournals = (userId) => {
@@ -40,6 +40,7 @@ const Main = () => {
     })
       .then((res) => res.json())
       .then((result) => {
+        console.log(result);
         setContributedJounals(result);
         //  setLoading(false);
       })
@@ -83,8 +84,6 @@ const Main = () => {
     });
   };
 
-  //TODO userId
-
   return (
     <>
       <JournalAlbumIntro onShowCreate={handleShowJournalCreate} />
@@ -93,7 +92,7 @@ const Main = () => {
           <JournalCreate
             onCancel={handleCloseJournalCreate}
             onSubmit={handleSubmit}
-            userId={1}
+            userId={parseInt(localStorage.getItem("id"))}
           />
         )}
       </Container>

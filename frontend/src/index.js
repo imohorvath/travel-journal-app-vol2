@@ -10,9 +10,11 @@ import Header from "./Pages/Header";
 import Profile from "./Pages/Profile";
 import Main from "./Pages/Main";
 import Journal from "./Pages/Journal";
+import Signup from "./Pages/Signup";
 
 import "./index.css";
 import {createTheme, ThemeProvider} from "@mui/material/styles";
+
 
 const theme = createTheme({
     palette: {
@@ -33,9 +35,6 @@ const theme = createTheme({
     },
 });
 
-  
-  
-
 const router = createBrowserRouter([
     {
         path: "/",
@@ -49,6 +48,10 @@ const router = createBrowserRouter([
             {
                 path: "/login",
                 element: <Login />,
+            },
+            {
+                path: "/signup",
+                element: <Signup />,
             },
             {
                 path: "/main",

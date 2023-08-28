@@ -12,16 +12,25 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import Copyright from "../../Components/Copyright/Copyright";
+import Loading from '../../Components/Loading';
 import {useNavigate} from "react-router-dom";
-
+import { useState, useEffect } from "react";
 
 import "./Login.css";
-import { useState } from 'react';
+
 
 const Login = () => {
     const [errorMsg, setErrorMsg] = useState(null);
-
+    const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
+
+    useEffect(() => {
+        setLoading(true);
+        if(localStorage.length !== 0) {
+            navigate("/main");
+        }
+        setLoading(false);
+    }, [navigate]);
 
     const handleSubmit = (event) => {
         event.preventDefault();
@@ -29,7 +38,6 @@ const Login = () => {
         const details = Object.fromEntries(formData.entries());
         console.log(details);
         loginUser(details);
-        navigate('/main');
     };
 
     const setLocalStorage = (userDetails) => {
@@ -56,7 +64,7 @@ const Login = () => {
               setErrorMsg("Invalid username or password");
             } else {
               setErrorMsg(
-                "Something went wrong, try again later or reach out to trevor@coderscampus.com"
+                "Something went wrong, try again later"
               );
             }
           })
@@ -64,8 +72,17 @@ const Login = () => {
             if (data) {
                 console.log(data);
                 setLocalStorage(data);
+                navigate('/main');
             }
-          });
+        });
+    }
+
+    const handleRedirection = () => {
+        navigate("/signup");
+    }
+
+    if (loading) {
+        return <Loading />;
     }
 
     return (
@@ -125,7 +142,7 @@ const Login = () => {
                                 </Link>
                             </Grid>
                             <Grid item>
-                                <Link href="#" variant="body2">
+                                <Link href="#" variant="body2" onClick={handleRedirection}>
                                     {"Don't have an account? Sign Up"}
                                 </Link>
                             </Grid>
