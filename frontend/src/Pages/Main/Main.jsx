@@ -92,7 +92,7 @@ const Main = () => {
           <JournalCreate
             onCancel={handleCloseJournalCreate}
             onSubmit={handleSubmit}
-            userId={localStorage.getItem("id")}
+            userId={parseInt(localStorage.getItem("id"))}
           />
         )}
       </Container>
