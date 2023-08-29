@@ -24,8 +24,8 @@ const NoteCard = ({ note, onDelete, onEdit }) => {
           {note.imageLinks.map((item, i) => (
             <ImageListItem key={i}>
               <img
-                src={`${item}?w=248&fit=crop&auto=format`}
-                srcSet={`${item}?w=248&fit=crop&auto=format&dpr=2 2x`}
+                src={`/${item}?w=248&fit=crop&auto=format`}
+                srcSet={`/${item}?w=248&fit=crop&auto=format&dpr=2 2x`}
                 alt=""
                 loading="eager"
               />
