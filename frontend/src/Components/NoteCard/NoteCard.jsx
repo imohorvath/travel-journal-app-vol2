@@ -16,6 +16,10 @@ import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import EditIcon from "@mui/icons-material/Edit";
 
 const NoteCard = ({ note, onDelete, onEdit }) => {
+
+  //TODO: remove log
+  console.log("NOTE IMAGELINKS " + note.imageLinks);
+
   return (
     <Grid item xs={12} key={note.id}>
       <Card>
