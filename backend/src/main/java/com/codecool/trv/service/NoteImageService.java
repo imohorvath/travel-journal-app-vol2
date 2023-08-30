@@ -36,6 +36,8 @@ public class NoteImageService {
         }
 
         String fileName = String.format("%s\\%s", IMAGE_FILE_SYSTEM_PATH, savedNote.getId());
+        //TODO: remove sout
+        System.out.println("!!!!!!!!!!!! " + fileName);
         Path path = Paths.get(fileName);
 
         try {
@@ -55,6 +57,8 @@ public class NoteImageService {
         }
 
         String imagePath = String.format("images/notes/%s/%s", savedNote.getId(), file.getOriginalFilename());
+        //TODO: remove sout
+        System.out.println("IMAGE PATH FOR FRONTEND " + imagePath);
         NoteImage noteImageToSave = NoteImage.builder().url(imagePath).note(savedNote).build();
         NoteImage savedImage = noteImageRepository.save(noteImageToSave);
         return savedImage;
