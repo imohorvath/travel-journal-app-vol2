@@ -1,0 +1,47 @@
+version: '3.2'
+
+services:
+  # Backend service  
+  backend:
+    build:
+      context: . # Use an image built from the specified dockerfile in the `backend` directory.
+      dockerfile: Dockerfile
+    ports:
+      - 8080:8080 # Forward the exposed port 8080 on the container to port 8080 on the host machine
+    volumes:
+      - images:/src/main/resources/static/public/images/notes
+    depends_on:
+      - postgresdb
+    environment:
+      - note_image_path=src/main/resources/static/public/images/notes
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgresdb:5432/postgres  # <service_name>:<port>/<POSTGRES_DB> 
+      - SPRING_DATASOURCE_USERNAME=postgres
+      - SPRING_DATASOURCE_PASSWORD=postgres
+      - SPRING_JPA_HIBERNATE_DDL_AUTO=update
+    networks:
+      - backend-network
+    
+  postgresdb:
+    image: postgres:13.1-alpine
+    container_name: postgresdb
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=postgres
+    volumes:
+      - ./data:/var/lib/postgresql/data
+    ports:
+      - 5432:5432
+    networks:
+      - backend-network
+
+networks:
+  backend-network:
+
+volumes:
+  images:
+#    driver: local
+#    driver_opts:
+#      o: bind
+#      type: none
+#      device: /frontend/public/images/notes
