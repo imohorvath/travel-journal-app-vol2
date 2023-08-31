@@ -8,11 +8,12 @@ import com.codecool.trv.model.Note;
 import com.codecool.trv.model.NoteImage;
 import com.codecool.trv.model.User;
 
+import java.util.List;
 import java.util.stream.Collectors;
 
 public class NoteMapper {
 
-    public static NoteResponse mapToNoteResponse(Note note) {
+    public static NoteResponse mapToNoteResponse(Note note, List<String> imageBase64List) {
         return NoteResponse.builder()
                 .id(note.getId())
                 .text(note.getText())
@@ -23,10 +24,11 @@ public class NoteMapper {
                 .updatedAt(note.getUpdatedAt())
                 .updatedBy(UserMapper.mapToUserResponse(note.getUpdatedBy()))
                 .imageLinks(note.getImageLinks().stream().map(NoteImage::getUrl).collect(Collectors.toSet()))
+                .imageBytesList(imageBase64List)
                 .build();
     }
 
-    public static NewNoteResponse mapToNewNoteResponse(Note note) {
+    public static NewNoteResponse mapToNewNoteResponse(Note note, List<String> imageBase64List) {
         return NewNoteResponse.builder()
                 .id(note.getId())
                 .text(note.getText())
@@ -37,6 +39,7 @@ public class NoteMapper {
                 .updatedAt(note.getUpdatedAt())
                 .updatedBy(UserMapper.mapToUserResponse(note.getUpdatedBy()))
                 .imageLinks(note.getImageLinks().stream().map(NoteImage::getUrl).collect(Collectors.toSet()))
+                .imageBytesList(imageBase64List)
                 .build();
     }
 

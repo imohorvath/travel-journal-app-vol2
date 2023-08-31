@@ -9,11 +9,11 @@ services:
     ports:
       - 8080:8080 # Forward the exposed port 8080 on the container to port 8080 on the host machine
     volumes:
-      - images:/src/main/resources/static/public/images/notes
+      - images:/images/notes
     depends_on:
       - postgresdb
     environment:
-      - note_image_path=src/main/resources/static/public/images/notes
+      - note_image_path=/images/notes
       - SPRING_DATASOURCE_URL=jdbc:postgresql://postgresdb:5432/postgres  # <service_name>:<port>/<POSTGRES_DB> 
       - SPRING_DATASOURCE_USERNAME=postgres
       - SPRING_DATASOURCE_PASSWORD=postgres
