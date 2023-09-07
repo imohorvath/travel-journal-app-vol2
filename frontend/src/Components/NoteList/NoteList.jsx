@@ -49,6 +49,10 @@ const NoteList = () => {
   //     return <Loading />;
   // }
 
+  useEffect(() => {
+    console.log(noteList);
+  }, [noteList]);
+
   const handleOpenPostDialog = () => {
     setOpenPostDialog(true);
   };

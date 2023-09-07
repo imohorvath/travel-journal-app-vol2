@@ -19,7 +19,7 @@ const JournalAlbum = ({journalList, contributedJournals, refreshJournalList,}) =
   const navigate = useNavigate();
 
   const handleRedirection = (id) => {
-    navigate(`/${id}`);
+    navigate(`/journals/${id}`);
   };
 
   const handleDeleteClicked = (journal) => {

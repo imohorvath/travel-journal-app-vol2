@@ -103,7 +103,8 @@ public class JournalService {
         Note savedNote = noteService.addNote(journal, creator, noteText, files);
         journal.addNote(savedNote);
 
-        return NoteMapper.mapToNewNoteResponse(savedNote);
+        List<String> imageBase64List  = noteService.getImageBase64ListByNoteId(savedNote.getId());
+        return NoteMapper.mapToNewNoteResponse(savedNote, imageBase64List);
     }
 
     public Set<UserResponse> getContributorsById(Long journalId) {

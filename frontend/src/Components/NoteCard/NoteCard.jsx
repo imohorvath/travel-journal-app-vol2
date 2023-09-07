@@ -16,6 +16,10 @@ import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import EditIcon from "@mui/icons-material/Edit";
 
 const NoteCard = ({ note, onDelete, onEdit }) => {
+
+  //TODO: remove log
+  console.log("NOTE IMAGELINKS " + note.imageLinks);
+
   return (
     <Grid item xs={12} key={note.id}>
       <Card>
@@ -24,8 +28,8 @@ const NoteCard = ({ note, onDelete, onEdit }) => {
           {note.imageLinks.map((item, i) => (
             <ImageListItem key={i}>
               <img
-                src={`${item}?w=248&fit=crop&auto=format`}
-                srcSet={`${item}?w=248&fit=crop&auto=format&dpr=2 2x`}
+                src={`/${item}?w=248&fit=crop&auto=format`}
+                srcSet={`/${item}?w=248&fit=crop&auto=format&dpr=2 2x`}
                 alt=""
                 loading="eager"
               />
