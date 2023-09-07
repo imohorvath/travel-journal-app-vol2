@@ -9,7 +9,6 @@ import com.codecool.trv.model.Note;
 import com.codecool.trv.model.NoteImage;
 import com.codecool.trv.model.User;
 import com.codecool.trv.repository.NoteRepository;
-import com.codecool.trv.validation.ImageValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -91,41 +90,22 @@ public class NoteService {
         return savedNote;
     }
 
-    public List<byte[]> getImageBytesListByNoteId(Long noteId) {
-        Note note = findNoteById(noteId);
-        List<byte[]> imageBytesList = new ArrayList<>();
-
-        if (note != null) {
-            imageBytesList = note.getImageLinks().stream()
-                    .map(image -> {
-                        try {
-                            return noteImageService.loadImageBytes(noteId, image.getUrl());
-                        } catch (IOException e) {
-                            return null;
-                        }
-                    })
-                    .collect(Collectors.toList());
-        }
-
-        return imageBytesList;
-    }
-
     public List<String> getImageBase64ListByNoteId(Long noteId) {
         Note note = findNoteById(noteId);
         List<String> imageBase64List = new ArrayList<>();
 
         if (note != null) {
             imageBase64List = note.getImageLinks().stream()
-                    .map(image -> {
+                    .map(imageLink -> {
                         try {
-                            return Base64.getEncoder().encodeToString(noteImageService.loadImageBytes(noteId, image.getUrl()));
+                            String filename = imageLink.getUrl().substring(imageLink.getUrl().lastIndexOf("/") + 1);
+                            return Base64.getEncoder().encodeToString(noteImageService.loadImageBytes(noteId, filename));
                         } catch (IOException e) {
                             return null;
                         }
                     })
                     .collect(Collectors.toList());
         }
-
         return imageBase64List;
     }
 
