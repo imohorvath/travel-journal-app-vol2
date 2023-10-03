@@ -1,6 +1,5 @@
 package com.codecool.trv.validation;
 
-import org.apache.commons.imaging.FormatCompliance;
 import org.apache.commons.imaging.ImageFormat;
 import org.apache.commons.imaging.ImageFormats;
 import org.apache.commons.imaging.Imaging;

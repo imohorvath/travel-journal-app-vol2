@@ -44,7 +44,7 @@ public class User {
     private boolean deactivated;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "owner")
-    private final Set<Journal> journals = new HashSet<>();;
+    private final Set<Journal> journals = new HashSet<>();
 
     @ManyToMany(mappedBy = "contributors")
     @JsonIgnore
