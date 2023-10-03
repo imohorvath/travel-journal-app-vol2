@@ -23,7 +23,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import org.springframework.security.web.authentication.logout.LogoutHandler;
 
 @Configuration
-@EnableWebSecurity(debug = true)
+@EnableWebSecurity()
 @EnableMethodSecurity
 @RequiredArgsConstructor
 public class SecurityConfig {
@@ -92,11 +92,11 @@ public class SecurityConfig {
 
         http.authenticationProvider(authenticationProvider())
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
-                .logout(logout -> {
+                .logout(logout ->
                     logout.logoutUrl("/api/v1/auth/logout")
                             .addLogoutHandler(logoutHandler)
-                            .logoutSuccessHandler((request, response, authentication) -> SecurityContextHolder.clearContext());
-                });
+                            .logoutSuccessHandler((request, response, authentication) -> SecurityContextHolder.clearContext())
+                );
 
         return http.build();
 
