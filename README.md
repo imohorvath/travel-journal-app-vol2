@@ -44,13 +44,13 @@
 Open bash terminal and navigate to the directory where you want to download the application.
 
 ```bash
-git clone https://github.com/CodecoolGlobal/el-proyecte-grande-sprint-1-java-imohorvath.git
+git clone https://github.com/imohorvath/travel-journal-app-vol2.git
 ```
 
 #### 2.  Navigate to the Application Directory:
 
 ```bash
-cd el-proyecte-grande-sprint-1-java-imohorvath
+cd travel-journal-app-vol2
 ```
 
 #### 3. Run the Application with Docker:
@@ -110,7 +110,7 @@ In order to sign in with a different account you should log out with the current
 
 ## Authors
 
-👩‍🦰 [imohorvath](https://github.com/imohorvath) 👱‍♀️ [noemi-varga](https://github.com/noemi-varga)
+👩‍🦰 [imohorvath](https://github.com/imohorvath)
 
 ## Road Map
 
