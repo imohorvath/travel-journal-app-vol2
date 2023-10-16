@@ -110,7 +110,7 @@ In order to sign in with a different account you should log out with the current
 
 ## Authors
 
-👩‍🦰 [imohorvath](https://github.com/imohorvath)
+👩‍🦰 Imola Horváth [![Github][Github]][Github-url] [![LinkedIn][LinkedIn]][LinkedIn-url]
 
 ## Road Map
 
@@ -133,6 +133,8 @@ In order to sign in with a different account you should log out with the current
 [MUI]: https://img.shields.io/badge/MUI-%230081CB.svg?style=for-the-badge&logo=mui&logoColor=white
 [Docker]: https://img.shields.io/badge/docker-%230db7ed.svg?style=plastic&logo=docker&logoColor=white
 [Git]: https://img.shields.io/badge/git-%23F05033.svg?style=plastic&logo=git&logoColor=white
+[LinkedIn]: https://img.shields.io/badge/LinkedIn-0077B5?style=plastic&logo=linkedin&logoColor=white
+[Github]: https://img.shields.io/badge/GitHub-100000?style=plastic&logo=github&logoColor=white
 
 <!-- Project url -->
 [Java-url]: https://docs.oracle.com/en/java/javase/17/ 
@@ -144,3 +146,5 @@ In order to sign in with a different account you should log out with the current
 [MUI-url]: https://mui.com/
 [Docker-url]: https://docs.docker.com/get-docker/
 [Git-url]: https://git-scm.com/downloads
+[LinkedIn-url]: www.linkedin.com/in/passion4it-imolahorvath
+[Github-url]: https://github.com/imohorvath
